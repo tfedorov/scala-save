@@ -10,4 +10,4 @@ plugins.sbt
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.9.3")
 
 HelloWorld.scala
-println(Source.fromResource("META-INF/MANIFEST.MF").mkString("\n"))
+println(Source.fromResource("META-INF/MANIFEST.MF").getLines.mkString("\n"))
