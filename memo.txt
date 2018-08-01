@@ -1,0 +1,13 @@
+build.sbt
+
+enablePlugins(GitVersioning)
+packageOptions := Seq(sbt.Package.ManifestAttributes(
+  ("Git-head-commit", git.gitHeadCommit.value.toString),
+  ("Package-time", new java.text.SimpleDateFormat("EEE dd-MMM-yyyy HH:mm Z").format(new java.util.Date()))
+))
+
+plugins.sbt
+addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.9.3")
+
+HelloWorld.scala
+println(Source.fromResource("META-INF/MANIFEST.MF").mkString("\n"))
