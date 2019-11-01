@@ -7,13 +7,16 @@ import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 
 object SimpleHttpServer {
 
+  private val PORT = 8000
+
   def main(args: Array[String]) {
-    val server = HttpServer.create(new InetSocketAddress(8000), 0)
+    val server = HttpServer.create(new InetSocketAddress(PORT), 0)
     server.createContext("/", new RootHandler())
     server.setExecutor(null)
 
     server.start()
 
+    println(s"Server is up on http://localhost:$PORT")
     println("Hit any key to exit...")
 
     System.in.read()
@@ -29,7 +32,7 @@ class RootHandler extends HttpHandler {
     sendResponse(t)
   }
 
-  private def displayPayload(body: InputStream): Unit ={
+  private def displayPayload(body: InputStream): Unit = {
     println()
     println("******************** REQUEST START ********************")
     println()
