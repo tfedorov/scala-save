@@ -5,6 +5,8 @@ import java.net.InetSocketAddress
 
 import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 
+import scala.io.Source
+
 object SimpleHttpServer {
 
   private val PORT = 8000
@@ -33,13 +35,13 @@ class RootHandler extends HttpHandler {
   }
 
   private def displayPayload(body: InputStream): Unit = {
-    println()
-    println("******************** REQUEST START ********************")
-    println()
+    //println()
+    //println("******************** REQUEST START ********************")
+    //println()
     copyStream(body, System.out)
-    println()
-    println("********************* REQUEST END *********************")
-    println()
+    //println()
+    //println("********************* REQUEST END *********************")
+    //println()
   }
 
   private def copyStream(in: InputStream, out: OutputStream) {
@@ -50,7 +52,9 @@ class RootHandler extends HttpHandler {
   }
 
   private def sendResponse(t: HttpExchange) {
-    val response = "Ack!"
+    val manifest = Source.fromResource("META-INF/MANIFEST.MF").getLines.mkString("\n")
+
+    val response = if (manifest.isEmpty) "Can't read MANIFEST" else manifest
     t.sendResponseHeaders(200, response.length())
     val os = t.getResponseBody
     os.write(response.getBytes)

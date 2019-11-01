@@ -7,8 +7,6 @@ version := "0.1"
 
 scalaVersion := "2.12.3"
 
-
-
 lazy val manifestSettings = Seq(
   packageOptions in(Compile, packageBin) +=
     Package.ManifestAttributes(
