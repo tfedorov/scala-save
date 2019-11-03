@@ -1,5 +1,7 @@
 package com.tfedorov.utils
 
+import java.io.FileNotFoundException
+
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers._
 
@@ -7,32 +9,33 @@ import scala.util._
 
 class FileUtilsSpec extends FlatSpec {
 
-  ".readFile" should "reads file content as string" in {
+  ".readAllFile" should "reads file content as string" in {
 
-    val result = FileUtils.readFile("./src/test/resources/File2Read.txt")
+    val result = FileUtils.readAllFile("./src/test/resources/File2Read.txt")
 
     result should be(Success("7 bytes"))
   }
 
   it should "returns fail on not existed file" in {
 
-    val result = FileUtils.readFile("./src/test/resources/NotExist.txt")
+    val result = FileUtils.readAllFile("./src/test/resources/NotExist.txt")
 
-    //result should be(Failure(new java.io.FileNotFoundException(".\\src\\test\\resources\\NotExist.txt (The system cannot find the file specified)")))
     result.isFailure should be(true)
+    result.failed.get.getClass should be(classOf[FileNotFoundException])
+    result.failed.get.getMessage should be(".\\src\\test\\resources\\NotExist.txt (The system cannot find the file specified)")
   }
 
   ".readBytes" should "reads file's bytes" in {
 
     val result = FileUtils.readBytes("./src/test/resources/File2Read.txt")
 
-    result.length should be(7)
+    result.get should be(Array(55, 32, 98, 121, 116, 101, 115))
   }
 
   it should "fails on not existed file" in {
-    intercept[java.nio.file.NoSuchFileException] {
-      FileUtils.readBytes("./src/test/resources/NotExist.txt")
-    }
+    val result = FileUtils.readBytes("./src/test/resources/NotExist.txt")
+
+    result.isFailure should be(true)
   }
 
   ".listOfFiles" should "reads files name in directory" in {
@@ -56,6 +59,19 @@ class FileUtilsSpec extends FlatSpec {
     result.contains("scala-save") should be(true)
   }
 
+  ".exist" should "checks existed file" in {
+
+    val result = FileUtils.exist("./src/test/resources/File2Read.txt")
+
+    result should be(true)
+  }
+
+  it should "checks not existed file" in {
+
+    val result = FileUtils.exist("./src/test/resources/NotExist.txt")
+
+    result should be(false)
+  }
 }
 
 

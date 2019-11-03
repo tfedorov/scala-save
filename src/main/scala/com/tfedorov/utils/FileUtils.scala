@@ -4,7 +4,7 @@ import java.io.{File, PrintWriter}
 import java.nio.charset.{Charset, CodingErrorAction}
 import java.nio.file.{Files, Paths}
 
-import scala.io.Source
+import scala.io.{BufferedSource, Source}
 import scala.util.Try
 
 object FileUtils {
@@ -12,22 +12,38 @@ object FileUtils {
   private[this] val DecoderUTF = Charset.forName("UTF-8").newDecoder()
   DecoderUTF.onMalformedInput(CodingErrorAction.IGNORE)
 
-  @deprecated
-  def readFile(file: File): Try[String] = readFileLines(file).map[String](_.mkString("\n"))
+  private case class _ClosableLines(private var lines: Iterator[String], private val source: BufferedSource) {
 
-  @deprecated
-  def readFile(path: String): Try[String] = readFileLines(path).map[String](_.mkString("\n"))
+    def processAndClose[R](processFunc: Iterator[String] => R): R = {
+      try {
+        processFunc(lines)
+      }
+      finally {
+        source.close()
+      }
+    }
+  }
 
-  def readBytes(path: String): Array[Byte] = Files.readAllBytes(Paths.get(path))
+  private def makeTextFunc(lines: Iterator[String]) = lines.mkString("\n")
 
-  def readBytes(file: File): Array[Byte] = Files.readAllBytes(file.toPath)
+  def readAllFile(file: File): Try[String] =
+    readFileLines(file).map(closable => closable.processAndClose(makeTextFunc))
+
+  def readAllFile(path: String): Try[String] =
+    readFileLines(path).map(closable => closable.processAndClose(makeTextFunc))
+
+  def readBytes(path: String): Try[Array[Byte]] = Try {
+    Files.readAllBytes(Paths.get(path))
+  }
+
+  def readBytes(file: File): Try[Array[Byte]] =
+    Try {
+      Files.readAllBytes(file.toPath)
+    }
 
   def resourceFullPath(path: String): String = this.getClass.getClassLoader.getResource(path).getPath
 
-  def readResource(path: String): Try[String] = readFile(resourceFullPath(path))
-
-  @deprecated
-  def readResourceLines(path: String): Iterator[String] = Source.fromFile(resourceFullPath(path)).getLines
+  def readResource(path: String): Try[String] = readAllFile(resourceFullPath(path))
 
   def notExist(path: String): Boolean = !exist(path)
 
@@ -35,16 +51,18 @@ object FileUtils {
 
   def fullPath(path: String): String = new java.io.File(path).getAbsolutePath
 
-  @deprecated
-  def readFileLines(path: String): Try[Iterator[String]] =
+  private def readFileLines(path: String): Try[_ClosableLines] =
     Try {
-      Source.fromFile(path)("UTF-8").getLines
+      val source: BufferedSource = Source.fromFile(path)("UTF-8")
+      val iterator = source.getLines
+      _ClosableLines(iterator, source)
     }
 
-  @deprecated
-  def readFileLines(file: File): Try[Iterator[String]] =
+  private def readFileLines(file: File): Try[_ClosableLines] =
     Try {
-      Source.fromFile(file)("UTF-8").getLines
+      val source: BufferedSource = Source.fromFile(file)("UTF-8")
+      val iterator = source.getLines
+      _ClosableLines(iterator, source)
     }
 
   def writeFile(path: String, content: String): PrintWriter = {
