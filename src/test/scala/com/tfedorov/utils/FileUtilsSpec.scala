@@ -52,9 +52,16 @@ class FileUtilsSpec extends FlatSpec {
     filesPath should be(Seq("./src/test/resources/NotExistDir"))
   }
 
-  ".fullPath" should "read files" in {
+  ".fullPath" should "reads existed files" in {
 
     val result: String = FileUtils.fullPath(".")
+
+    result.contains("scala-save") should be(true)
+  }
+
+  it should "reads not existed files" in {
+
+    val result: String = FileUtils.fullPath("./src/test/resources/NotExistDir")
 
     result.contains("scala-save") should be(true)
   }
