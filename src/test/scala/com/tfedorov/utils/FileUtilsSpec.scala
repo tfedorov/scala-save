@@ -4,6 +4,7 @@ import java.io.FileNotFoundException
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers._
+import org.scalatest.tagobjects.Disk
 
 import scala.util._
 
@@ -38,32 +39,25 @@ class FileUtilsSpec extends FlatSpec {
     result.isFailure should be(true)
   }
 
-  ".listOfFiles" should "reads files name in directory" in {
+  ".fileNames" should "returns files name in directory" in {
 
-    val filesPath: Seq[String] = FileUtils.listOfFiles("./src/test/resources")
+    val filesPath: Seq[String] = FileUtils.fileNames("./src/test/resources")
+
+    filesPath.size should be(1)
+  }
+
+  it should "returns file name for file" in {
+
+    val filesPath: Seq[String] = FileUtils.fileNames("./src/test/resources/File2Read.txt")
 
     filesPath.size should be(1)
   }
 
   it should "fails on not existed file" in {
 
-    val filesPath: Seq[String] = FileUtils.listOfFiles("./src/test/resources/NotExistDir")
+    val filesPath: Seq[String] = FileUtils.fileNames("./src/test/resources/NotExistDir")
 
     filesPath should be(Seq("./src/test/resources/NotExistDir"))
-  }
-
-  ".fullPath" should "reads existed files" in {
-
-    val result: String = FileUtils.fullPath(".")
-
-    result.contains("scala-save") should be(true)
-  }
-
-  it should "reads not existed files" in {
-
-    val result: String = FileUtils.fullPath("./src/test/resources/NotExistDir")
-
-    result.contains("scala-save") should be(true)
   }
 
   ".exist" should "checks existed file" in {
@@ -78,6 +72,48 @@ class FileUtilsSpec extends FlatSpec {
     val result = FileUtils.exist("./src/test/resources/NotExist.txt")
 
     result should be(false)
+  }
+
+  ".shortName" should "returns existed names" in {
+
+    val result = FileUtils.shortName("./src/test/resources/File2Read.txt")
+
+    result should be(Some("File2Read.txt"))
+  }
+
+  it should "returns NOT existed names" in {
+
+    val result = FileUtils.shortName("./src/test/resources/NotExist.txt")
+
+    result should be(None)
+  }
+
+  it should "returns dir names" in {
+
+    val result = FileUtils.shortName(".")
+
+    result should be(Some("scala-save"))
+  }
+
+  ".fullName" should "returns NOT existed names" in {
+
+    val result = FileUtils.fullName("./src/test/resources/NotExist.txt")
+
+    result should be(None)
+  }
+
+  ignore should "returns existed names" taggedAs Disk in {
+
+    val result = FileUtils.fullName("./src/test/resources/File2Read.txt")
+
+    result should be(Some("C:\\work\\workspace\\private\\scala-save\\src\\test\\resources\\File2Read.txt"))
+  }
+
+  ignore should "returns dir names" taggedAs Disk in {
+
+    val result = FileUtils.fullName(".")
+
+    result should be(Some("C:\\work\\workspace\\private\\scala-save"))
   }
 }
 

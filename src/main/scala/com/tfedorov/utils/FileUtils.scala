@@ -36,10 +36,9 @@ object FileUtils {
     Files.readAllBytes(Paths.get(path))
   }
 
-  def readBytes(file: File): Try[Array[Byte]] =
-    Try {
-      Files.readAllBytes(file.toPath)
-    }
+  def readBytes(file: File): Try[Array[Byte]] = Try {
+    Files.readAllBytes(file.toPath)
+  }
 
   def resourceFullPath(path: String): String = this.getClass.getClassLoader.getResource(path).getPath
 
@@ -48,8 +47,6 @@ object FileUtils {
   def notExist(path: String): Boolean = !exist(path)
 
   def exist(path: String): Boolean = new java.io.File(path).exists
-
-  def fullPath(path: String): String = new java.io.File(path).getAbsolutePath
 
   private def readFileLines(path: String): Try[_ClosableLines] =
     Try {
@@ -72,7 +69,16 @@ object FileUtils {
     }
   }
 
-  def shortName(filePath: String): String = new File(filePath).getName
+  def shortName(filePath: String): Option[String] = {
+    fullName(filePath).map(fullNamePath => new File(fullNamePath).getName)
+  }
+
+
+  def fullName(filePath: String): Option[String] = {
+    if (notExist(filePath))
+      return None
+    Some(new File(filePath).getCanonicalPath)
+  }
 
   def concatPath(basePath: String, file: String): String = {
     new File(basePath, file).getPath
@@ -89,10 +95,10 @@ object FileUtils {
 
   def listOfResourceFiles(resourceDir: String): Seq[String] = {
     val dirAbsolute = resourceFullPath(resourceDir)
-    listOfFiles(dirAbsolute)
+    fileNames(dirAbsolute)
   }
 
-  def listOfFiles(sourceFileOrDir: String): Seq[String] = {
+  def fileNames(sourceFileOrDir: String): Seq[String] = {
 
     if (!isDir(sourceFileOrDir))
       return Seq(sourceFileOrDir)
