@@ -2,4 +2,4 @@
 /project/target/
 /.idea
 /project/project/target/config-classes/
-
+/src/test/resources/writeFileDirectory/desiredFile.txt
