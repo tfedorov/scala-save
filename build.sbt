@@ -8,7 +8,8 @@ version := "0.1"
 scalaVersion := "2.12.3"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.5" % Test
+  "org.scalatest" %% "scalatest" % "3.0.5" % Test,
+  "com.github.pathikrit" %% "better-files" % "3.8.0" % Test
 )
 
 lazy val manifestSettings = Seq(

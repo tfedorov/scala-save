@@ -116,7 +116,7 @@ class FileUtilsSpec extends FlatSpec {
     result should be(Some("C:/work/workspace/private/scala-save"))
   }
 
-  ".writeFile" should "write specific file" in {
+  ".writeFile" should "writes specific file" in {
 
     FileUtils.writeFile("./src/test/resources/writeFileDirectory/desiredFile.txt", "desired content")
 
