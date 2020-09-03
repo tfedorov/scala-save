@@ -9,7 +9,9 @@ scalaVersion := "2.12.3"
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.5" % Test,
-  "com.github.pathikrit" %% "better-files" % "3.8.0" % Test
+  "com.github.pathikrit" %% "better-files" % "3.8.0" % Test,
+  "org.junit.jupiter" % "junit-jupiter-api" % "5.7.0-RC1" % Test
+
 )
 
 lazy val manifestSettings = Seq(

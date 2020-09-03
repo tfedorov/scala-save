@@ -23,7 +23,7 @@ class FileUtilsSpec extends FlatSpec {
 
     result.isFailure should be(true)
     result.failed.get.getClass should be(classOf[FileNotFoundException])
-    result.failed.get.getMessage should be(".\\src\\test\\resources\\NotExist.txt (The system cannot find the file specified)")
+    result.failed.get.getMessage should be("./src/test/resources/NotExist.txt (No such file or directory)")
   }
 
   ".readBytes" should "reads file's bytes" in {
