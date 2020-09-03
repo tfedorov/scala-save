@@ -32,6 +32,20 @@ class VarianceTest {
     assertEquals("'Cuckoo-ri-coo'", getTweet(chicken))
   }
 
+  /*
+A central question that comes up when mixing OO with polymorphism is:
+ if T’ is a subclass of T, is Container[T’] considered a subclass of Container[T]?
++===============+================================+================+
+|       -       |            Meaning             | Scala notation |
++===============+================================+================+
+| covariant     | C[T’] is a subclass of C[T]    | [+T]           |
++---------------+--------------------------------+----------------+
+| contravariant | C[T] is a subclass of C[T’]    | [-T]           |
++---------------+--------------------------------+----------------+
+| invariant     | C[T] and C[T’] are not related | [T]            |
++---------------+--------------------------------+----------------+
+   */
+
   @Test
   def contravariantHierarchy(): Unit = {
 
