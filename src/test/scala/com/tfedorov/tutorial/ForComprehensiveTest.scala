@@ -1,4 +1,4 @@
-package com.tfedorov
+package com.tfedorov.tutorial
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
