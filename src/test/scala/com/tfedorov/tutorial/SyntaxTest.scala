@@ -67,7 +67,6 @@ class SyntaxTest {
     def twiceValue(input: Container): Int = input.inner * 2
 
     //val actualResult = containers.map(el => twiceValue(el))
-    //val actualResult = containers.map(el => twiceValue(el))
     //val actualResult = containers.map(twiceValue(_))
     //val actualResult = containers.map(twiceValue _)
     val actualResult = containers.map(twiceValue)
