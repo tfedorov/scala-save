@@ -101,4 +101,5 @@ class TypeClassPattern {
     assertEquals("int 30", 30.show)
   }
 
+
 }
