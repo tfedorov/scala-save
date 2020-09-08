@@ -38,29 +38,29 @@ class TypeClassJson {
     assertEquals(Json.Num(1234), resNum)
   }
 
-  trait Jsonable[T] {
-    def serialize(t: T): Json
-  }
-
-  object Jsonable {
-
-    implicit object StringJsonable extends Jsonable[String] {
-      def serialize(t: String) = Json.Str(t)
-    }
-
-    implicit object DoubleJsonable extends Jsonable[Double] {
-      def serialize(t: Double) = Json.Num(t)
-    }
-
-    implicit object IntJsonable extends Jsonable[Int] {
-      def serialize(t: Int) = Json.Num(t.toDouble)
-    }
-
-  }
 
   @Test
   def typeClassImplicit(): Unit = {
 
+    trait Jsonable[T] {
+      def serialize(t: T): Json
+    }
+
+    object Jsonable {
+
+      implicit object StringJsonable extends Jsonable[String] {
+        def serialize(t: String): Json = Json.Str(t)
+      }
+
+      implicit object DoubleJsonable extends Jsonable[Double] {
+        def serialize(t: Double): Json = Json.Num(t)
+      }
+
+      implicit object IntJsonable extends Jsonable[Int] {
+        def serialize(t: Int): Json = Json.Num(t.toDouble)
+      }
+
+    }
     def convertToJson[T](x: T)(implicit converter: Jsonable[T]): Json = {
       converter.serialize(x)
     }
@@ -92,13 +92,32 @@ class TypeClassJson {
     //  implicitly[Jsonable[T]].serialize(x)
     //}
 
-    def convertToJson[T](x: T)(implicit converter: Jsonable[T]): Json = {
-      converter.serialize(x)
+    trait Jsonable[T] {
+      def serialize(t: T): Json
     }
+
+    object Jsonable {
+
+      implicit object StringJsonable extends Jsonable[String] {
+        def serialize(t: String): Json = Json.Str(t)
+      }
+
+      implicit object DoubleJsonable extends Jsonable[Double] {
+        def serialize(t: Double): Json = Json.Num(t)
+      }
+
+      implicit object IntJsonable extends Jsonable[Int] {
+        def serialize(t: Int): Json = Json.Num(t.toDouble)
+      }
+
+    }
+
+    def convertToJson[T](x: T)(implicit converter: Jsonable[T]): Json = converter.serialize(x)
 
     def convertMultipleItemsToJson[T: Jsonable](t: Array[T]): Array[Json] = t.map(convertToJson(_))
 
     val actualStrResult: Array[Json] = convertMultipleItemsToJson(Array("Hello", "world"))
+    //val actualStrResultExp: Array[Json] = convertMultipleItemsToJson(Array("Hello", "world"))(Jsonable.StringJsonable)
     val actualIntResult: Array[Json] = convertMultipleItemsToJson(Array(1, 2))
 
     assertEquals(Json.Str("Hello") :: Json.Str("world") :: Nil, actualStrResult.toList)
@@ -114,44 +133,56 @@ class TypeClassJson {
 
       case class Num(value: Double) extends Json
 
-      case class List(items: Json*) extends Json
+      case class List(items: Seq[Json]) extends Json
 
       // ... many more definitions
     }
     trait Jsonable[T] {
       def serialize(t: T): Json
     }
+
     object Jsonable {
 
       implicit object StringJsonable extends Jsonable[String] {
-        def serialize(t: String) = Json.Str(t)
+        def serialize(t: String): Json = Json.Str(t)
       }
 
       implicit object DoubleJsonable extends Jsonable[Double] {
-        def serialize(t: Double) = Json.Num(t)
+        def serialize(t: Double): Json = Json.Num(t)
       }
 
       implicit object IntJsonable extends Jsonable[Int] {
-        def serialize(t: Int) = Json.Num(t.toDouble)
+        def serialize(t: Int): Json = Json.Num(t.toDouble)
       }
 
-      implicit def SeqJsonable[T: Jsonable]: Jsonable[Seq[T]] = new Jsonable[Seq[T]] {
-        def serialize(t: Seq[T]): Json = {
-          Json.List(t.map(implicitly[Jsonable[T]].serialize): _*)
+      implicit object SeqJsonable extends Jsonable[Seq[_]] {
+        override def serialize(t: Seq[_]): Json = Json.List(t.map {
+          _ match {
+            case t: Int => IntJsonable.serialize(t)
+            case d: Double => DoubleJsonable.serialize(d)
+            case s: String => StringJsonable.serialize(s)
+          }
         }
+        )
       }
+
     }
-    def convertToJson(x: Any): Json = {
+
+    def convertToJsonSoph[T](x: T)(implicit converter: Jsonable[T]): Json = {
       x match {
         case s: String => Json.Str(s)
         case d: Double => Json.Num(d)
         case i: Int => Json.Num(i.toDouble)
-        //case s: Seq[AnyVal] => Json.List(s:_*)
-        // maybe more cases for float, short, etc.
-      }
-    }
-    val actualResult = convertToJson(List(1, "home", 3))
+        case s: Seq[_] => Jsonable.SeqJsonable.serialize(s)
 
-    assertEquals(Json.List(Json.Num(1), Json.Str("home"), Json.Num(3)), actualResult)
+      }
+
+      // maybe more cases for float, short, etc.
+    }
+
+    val actualResult = convertToJsonSoph(Seq(1, "home", 3.0))
+
+    assertEquals(Json.List(List(Json.Num(1.0), Json.Str("home"), Json.Num(3.0))), actualResult)
+
   }
 }
