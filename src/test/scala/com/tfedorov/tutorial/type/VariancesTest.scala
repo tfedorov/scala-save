@@ -1,9 +1,9 @@
-package com.tfedorov.tutorial
+package com.tfedorov.tutorial.`type`
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class TypeTest {
+class VariancesTest {
 
   abstract sealed class Animal {
     def sound: String
