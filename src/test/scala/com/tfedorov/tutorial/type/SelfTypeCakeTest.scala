@@ -3,7 +3,7 @@ package com.tfedorov.tutorial.`type`
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class SelfTypeAnnotationTest {
+class SelfTypeCakeTest {
 
   @Test
   def typeAnnotationTest(): Unit = {
@@ -20,8 +20,7 @@ class SelfTypeAnnotationTest {
       override def username: String = s"agent Smith"
     }
 
-    val unSecureMessenger = new Messenger with Bot
-    val agentMessage = unSecureMessenger.chat("Hello, Mr. Anderson")
+    val agentMessage = (new Messenger with Bot).chat("Hello, Mr. Anderson")
 
     class SecureMessenger(val username_ : String) extends Messenger with User {
       def username = s"real $username_"
