@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class SelfTypeAnnotationTest {
 
   @Test
-  def typeParameterVersion(): Unit = {
+  def typeAnnotationTest(): Unit = {
     trait User {
       def username: String
     }
@@ -16,12 +16,11 @@ class SelfTypeAnnotationTest {
       def chat(message: String): String = s"$username: $message"
     }
 
-    trait Agent extends User {
+    trait Bot extends User {
       override def username: String = s"agent Smith"
     }
 
-    class UnSecureMessenger extends Messenger with Agent
-    val unSecureMessenger = new UnSecureMessenger
+    val unSecureMessenger = new Messenger with Bot
     val agentMessage = unSecureMessenger.chat("Hello, Mr. Anderson")
 
     class SecureMessenger(val username_ : String) extends Messenger with User {
@@ -40,47 +39,6 @@ class SelfTypeAnnotationTest {
 
   @Test
   def cakePatternTest(): Unit = {
-
-    trait Component {
-      def value: String
-    }
-
-    trait Cake {
-      def bake: String
-    }
-    trait LayeredCake extends Cake {
-      this: Component =>
-
-      override def bake: String = "[layer - " + value + " | layer - waffle | layer - " + value + "]"
-    }
-
-    trait MixedCake extends Cake {
-      this: Component =>
-
-      override def bake: String = "[mixed " + value + " all in one]"
-    }
-
-    trait Cheese extends Component {
-      override def value: String = "cheese"
-    }
-
-    trait Berries extends Component {
-      override def value: String = "berry"
-    }
-
-    val cake1 = new LayeredCake() with Cheese
-    val cake2 = new MixedCake() with Cheese
-    val cake3 = new LayeredCake() with Berries
-    val cake4 = new MixedCake() with Berries
-
-    assertEquals("[layer - cheese | layer - waffle | layer - cheese]", cake1.bake)
-    assertEquals("[mixed cheese all in one]", cake2.bake)
-    assertEquals("[layer - berry | layer - waffle | layer - berry]", cake3.bake)
-    assertEquals("[mixed berry all in one]", cake4.bake)
-  }
-
-  @Test
-  def sefTypeChainTest(): Unit = {
 
     trait ComponentBottom {
       def comp1Value: String
@@ -139,6 +97,7 @@ class SelfTypeAnnotationTest {
     val mixedBacking = new Baking with CherryTop with ChocolateMiddle with CakeBottom
     /*
         trait MixCake extends CherryTop with ChocolateMiddle with CakeBottom
+        // Components are also nailed
         class MixBaking extends MixCake {
           def bake(): String = s"prepare [$comp1Value|$comp2Value|$comp3Value]"
         }
