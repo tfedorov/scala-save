@@ -76,37 +76,4 @@ A central question that comes up when mixing OO with polymorphism is:
 
   }
 
-  @Test
-  def boundry(): Unit = {
-    //def cacophony[T](things: Seq[T]) = things map (_.sound)
-    //error: value sound is not a member of type parameter T
-    //       def cacophony[T](things: Seq[T]) = things map (_.sound)
-    def biophony[T <: Animal](things: Seq[T]): Seq[String] = things map (_.sound)
-
-    val actual = biophony(Seq(new Rooster, new Bird))
-
-    assertEquals("'Cuckoo-ri-coo'" :: "'Zwin-zwin'" :: Nil, actual)
-  }
-
-  @Test
-  def quantification(): Unit = {
-    def drop1Wildcard(l: List[_]) = l.tail
-
-    def drop1Type(l: List[T forSome {type T}]) = l.tail
-
-
-    val tailWild = drop1Wildcard("'Cuckoo-ri-coo'" :: "'Zwin-zwin'" :: Nil)
-    val tailType = drop1Type("'Cuckoo-ri-coo'" :: "'Zwin-zwin'" :: Nil)
-
-    assertEquals(classOf[String], tailWild.head.getClass)
-    assertEquals(classOf[String], tailType.head.getClass)
-
-    //headString(tail)
-    //Error:(101, 16) type mismatch;
-    //found   : List[_$2] where type _$2
-    // required: List[String]
-    //headString(tail)
-
-
-  }
 }

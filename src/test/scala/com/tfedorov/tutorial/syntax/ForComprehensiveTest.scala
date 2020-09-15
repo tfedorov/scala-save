@@ -7,6 +7,17 @@ import scala.collection.immutable
 
 class ForComprehensiveTest {
 
+  /*
+  A for-comprehension is syntactic sugar for map, flatMap and filter operations on collections.
+
+    The general form is for (s) yield e
+    • s is a sequence of generators and filters
+    • p <- e is a generator
+    • if f is a filter
+    • If there are several generators (equivalent of a nested loop), the last generator varies faster than the first
+    • You can use { s } instead of ( s ) if you want to use multiple lines without requiring semicolons
+    • e is an element of the resulting collection
+   */
   @Test
   def unionFlattenTest(): Unit = {
     val abc = "A" :: "B" :: "C" :: Nil

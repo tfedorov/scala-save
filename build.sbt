@@ -6,11 +6,16 @@ name := "scala-save"
 version := "0.1"
 
 scalaVersion := "2.12.3"
-
+val catsVersion = "1.0.1"
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.5" % Test,
   "com.github.pathikrit" %% "better-files" % "3.8.0" % Test,
-  "org.junit.jupiter" % "junit-jupiter-api" % "5.7.0-RC1" % Test
+  "org.junit.jupiter" % "junit-jupiter-api" % "5.7.0-RC1" % Test,
+
+  "org.typelevel" %% "cats-core" % catsVersion % Test,
+  "org.typelevel" %% "cats-free" % catsVersion % Test,
+  "org.typelevel" %% "cats-mtl-core" % "0.2.1" % Test
+
 
 )
 

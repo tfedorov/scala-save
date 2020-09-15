@@ -106,4 +106,21 @@ class SelfTypeCakeTest {
     assertEquals("prepare [Cake bottom  | Berry      | Cream top]", beriesCakeBacking.bake())
     assertEquals("prepare [Cake bottom  | Chocolate  | Cherry top]", mixedBacking.bake())
   }
+
+
+  @Test
+  def compoundTypeTest(): Unit = {
+    trait Cloneable extends java.lang.Cloneable {
+      override def clone(): Cloneable = {
+        super.clone().asInstanceOf[Cloneable]
+      }
+    }
+    trait Resetable {
+      def reset: Unit
+    }
+
+    def cloneAndReset(obj: Cloneable with Resetable): Cloneable = {
+      obj.clone()
+    }
+  }
 }
