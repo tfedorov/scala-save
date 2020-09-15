@@ -14,8 +14,8 @@ libraryDependencies ++= Seq(
 
   "org.typelevel" %% "cats-core" % catsVersion % Test,
   "org.typelevel" %% "cats-free" % catsVersion % Test,
-  "org.typelevel" %% "cats-mtl-core" % "0.2.1" % Test
-
+  "org.typelevel" %% "cats-mtl-core" % "0.2.1" % Test,
+  "org.typelevel" %% "simulacrum" % "1.0.0" % Test
 
 )
 

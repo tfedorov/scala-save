@@ -1,6 +1,6 @@
 package com.tfedorov.tutorial.syntax
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
 class SugarExampleTest {
@@ -88,6 +88,24 @@ class SugarExampleTest {
   }
 
   @Test
+  def curriedMethodBody(): Unit = {
+
+    def checker[A](value: A)(f: A => Boolean): Boolean = f(value)
+
+    val yesNoChecker: String => Boolean = checker(_)({
+      case "yes" => true
+      case "no" => false
+    })
+    val actualResultYes = yesNoChecker("yes")
+    val actualResultNo = yesNoChecker("no")
+
+    assertTrue(actualResultYes)
+    assertFalse(actualResultNo)
+    //scala.MatchError: maybe
+    //assertFalse(yesNoChecker("maybe"))
+  }
+
+  @Test
   def curriedFuncList(): Unit = {
     val containers = Container(2) :: Container(3) :: Nil
 
@@ -159,4 +177,6 @@ class SugarExampleTest {
 
     assertEquals(133, actualResult)
   }
+
+
 }

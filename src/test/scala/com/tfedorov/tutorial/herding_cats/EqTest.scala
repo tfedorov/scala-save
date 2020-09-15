@@ -1,11 +1,12 @@
 package com.tfedorov.tutorial.herding_cats
 
-import cats.PartialOrder
 import cats.implicits._
+import cats.{Eq, PartialOrder}
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
 class EqTest {
+
   @Test
   def equalEqualEqual(): Unit = {
 
@@ -15,6 +16,32 @@ class EqTest {
     val actualResult: Boolean = 6 === 6
 
     assertTrue(actualResult)
+  }
+
+  @Test
+  def equalEqualEqualClass(): Unit = {
+    trait Animal {
+      def latinName: String
+    }
+    case class Mamal(name: String, override val latinName: String) extends Animal
+    case class Fish(name: String, override val latinName: String) extends Animal
+    // If no : Animal - fail
+    val lion: Animal = Mamal("King", "Panthera leo")
+    val fish = Fish("Bussy", "Red leo")
+    val bear = Fish("Vinie Pooh", "bear")
+
+    implicit val trafficLightEq: Eq[Animal] =
+      new Eq[Animal] {
+        def eqv(a1: Animal, a2: Animal): Boolean = a1.latinName.reverse.substring(0, 2).equalsIgnoreCase(a2.latinName.reverse.substring(0, 2))
+      }
+
+    //trafficLightEq.eqv(lion, fish)
+    // Internal implementation magic
+    //Error: Cannot extract subject of operator (tree = new cats.syntax.EqOps[Animal](lion)(trafficLightEq))
+    //new cats.syntax.EqOps(lion) === fish
+
+    assertTrue(lion === fish)
+    assertFalse(lion === bear)
   }
 
   @Test
