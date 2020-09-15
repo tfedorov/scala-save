@@ -1,6 +1,6 @@
 package com.tfedorov.tutorial.`type`
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
 class SelfTypeCakeTest {
@@ -107,7 +107,6 @@ class SelfTypeCakeTest {
     assertEquals("prepare [Cake bottom  | Chocolate  | Cherry top]", mixedBacking.bake())
   }
 
-
   @Test
   def compoundTypeTest(): Unit = {
     trait Cloneable extends java.lang.Cloneable {
@@ -116,11 +115,19 @@ class SelfTypeCakeTest {
       }
     }
     trait Resetable {
-      def reset: Unit
+      def reset(): Unit = println("reset")
     }
 
     def cloneAndReset(obj: Cloneable with Resetable): Cloneable = {
+      obj.reset()
       obj.clone()
     }
+
+    val target = new Cloneable() with Resetable
+
+    val actualResult = cloneAndReset(target)
+
+    assertTrue(actualResult.isInstanceOf[Cloneable])
+    assertTrue(actualResult.isInstanceOf[Resetable])
   }
 }

@@ -70,7 +70,8 @@ class SumTest {
     }
 
     //def sum[M[A] : FoldLeft, A: Monoid](xs: M[A])(implicit m: Monoid[A], fl: FoldLeft[M]): A = {
-    def sum[M[A], A](xs: M[A])(implicit m: Monoid[A], fl: FoldLeft[M]): A = {
+    //higher-kinded type
+    def sum[M[A], B](xs: M[B])(implicit m: Monoid[B], fl: FoldLeft[M]): B = {
       fl.foldLeft(xs, m.mzero, m.mappend)
     }
 

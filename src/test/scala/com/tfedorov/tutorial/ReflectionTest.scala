@@ -2,8 +2,8 @@ package com.tfedorov.tutorial
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.scalatest.Ignore
 
+import scala.collection.generic.CanBuildFrom
 import scala.collection.immutable
 import scala.reflect.runtime.universe
 
@@ -34,10 +34,8 @@ class ReflectionTest {
     assertEquals(ru.typeOf[String], actualResult)
   }
 
-  @Ignore
   @Test
   def createEmptyElement(): Unit = {
-    import scala.reflect.runtime._
     import scala.reflect.runtime.universe._
 
 
@@ -45,21 +43,17 @@ class ReflectionTest {
       val tt = typeTag[T]
 
       //runtime instead of it
-      def getEmptyElement: T = {
-        val members: universe.MemberScope = tt.tpe.members
-        val iterator = members.filter(m => m.isMethod && m.asMethod.isConstructor).iterator.toList
-        val constructor = iterator.head.asMethod
-
-        currentMirror
-          .reflectClass(tt.tpe.typeSymbol.asClass)
-          // error is here
-          .reflectConstructor(constructor)().asInstanceOf[T]
+      def getEmptyElement(implicit cbf: CanBuildFrom[_, _, T]): T = {
+        cbf().result()
       }
     }
 
-    val actualResult = new Typer[String]().getEmptyElement
+    val actualResultStr = new Typer[String]().getEmptyElement
+    val actualResultList = new Typer[List[_]]().getEmptyElement
 
-    assertEquals(new String(), actualResult)
+    assertEquals(new String(), actualResultStr)
+    assertEquals(List.empty, actualResultList)
+
   }
 
   @Test
