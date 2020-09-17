@@ -141,4 +141,12 @@ class FunctionsTest {
     assertEquals("test21", (oneF _ compose twoF _) ("test"))
   }
 
+  @Test
+  def composeF2(): Unit = {
+    val composed: String => String = ((_: String) + "1") compose ((_: String) + "2")
+
+    val actual = composed("test")
+
+    assertEquals("test21", actual)
+  }
 }

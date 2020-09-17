@@ -120,6 +120,17 @@ class SugarExampleTest {
   }
 
   @Test
+  def function(): Unit = {
+    //val input: Int => Int =_ * 3
+    //val input = (_: Int) * 3
+    //val actualResult = input(3)
+
+    val actualResult = ((_: Int) * 3) (3)
+
+    assertEquals(9, actualResult)
+  }
+
+  @Test
   def fFuncList(): Unit = {
     val data = 2 :: 3 :: Nil
 

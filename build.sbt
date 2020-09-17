@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "simulacrum" % "1.0.0" % Test
 
 )
-
+scalacOptions += "-Ypartial-unification"
 lazy val manifestSettings = Seq(
   packageOptions in(Compile, packageBin) +=
     Package.ManifestAttributes(
