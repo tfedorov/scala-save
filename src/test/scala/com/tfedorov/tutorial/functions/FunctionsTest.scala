@@ -149,4 +149,26 @@ class FunctionsTest {
 
     assertEquals("test21", actual)
   }
+
+  @Test
+  def curriedF1(): Unit = {
+    val curriedFunc: String => String => String = (a: String) => a + " " + _
+
+    val actual: String => String = curriedFunc("Hello")
+    val actualResult: String = actual("World")
+
+    assertEquals("Hello World", actualResult)
+  }
+
+  @Test
+  def curriedF2(): Unit = {
+    val func2: (String, String) => String = (a: String, b: String) => a + " " + b
+    val curriedFunc: String => String => String = func2.curried
+
+    val actual: String => String = curriedFunc("Hello")
+    val actualResult: String = actual("World")
+
+    assertEquals("Hello World", actualResult)
+  }
+
 }

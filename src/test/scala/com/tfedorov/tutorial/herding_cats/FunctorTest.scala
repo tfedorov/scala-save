@@ -1,7 +1,5 @@
 package com.tfedorov.tutorial.herding_cats
 
-
-import cats.Functor
 import cats.implicits._
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
@@ -75,10 +73,58 @@ class FunctorTest {
 
   @Test
   def lift(): Unit = {
-    val lifted = Functor[List].lift((_: Int) * 2)
+    val inputFunc = (_: Int) * 2
 
+    //val lifted: List[Int] => List[Int] = _ map inputFunc
+    import cats.Functor
+    val lifted: List[Int] => List[Int] = Functor[List].lift(inputFunc)
     val actualResult = lifted(List(1, 2, 3))
 
     assertEquals(List(2, 4, 6), actualResult)
+  }
+
+  @Test
+  def liftVoid(): Unit = {
+
+    val actualResult = List(1, 2, 3).void
+
+    assertEquals(List((), (), ()), actualResult)
+  }
+
+  @Test
+  def fproduct(): Unit = {
+    val input = List(1, 2, 3)
+
+    val actualResult = input fproduct ((_: Int) * 3)
+
+    assertEquals(List((1, 3), (2, 6), (3, 9)), actualResult)
+  }
+
+  @Test
+  def as(): Unit = {
+    val input = List(1, 2, 3)
+
+    val actualResult = input as "x"
+
+    assertEquals("x" :: "x" :: "x" :: Nil, actualResult)
+  }
+
+  @Test
+  def functorLaw1(): Unit = {
+    val input: Either[String, Int] = Right(1)
+
+    val actualResult = input map identity
+
+    assertEquals(input, actualResult)
+  }
+
+  @Test
+  def functorLaw2(): Unit = {
+    val input: Either[String, Int] = Right(1)
+    val f = (_: Int) * 3
+    val g = (_: Int) + 1
+
+
+    assertEquals(input.map(f.map(g)), input.map(f).map(g))
   }
 }

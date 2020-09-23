@@ -189,5 +189,14 @@ class SugarExampleTest {
     assertEquals(133, actualResult)
   }
 
+  @Test
+  def typeValTest(): Unit = {
+    case class Cats(breed: String, sound: String)
 
+    Cats("Cheshire", "meow")
+    val cat1@Cats(actualBreed, actualSound) = Cats("Cheshire", "meow")
+
+    assertEquals("Cheshire", actualBreed)
+    assertEquals("meow", actualSound)
+  }
 }
