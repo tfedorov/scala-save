@@ -5,6 +5,13 @@ import org.junit.jupiter.api.Test
 
 class HigherKindedType {
 
+  /*
+  Scala can abstract over “higher kinded” types.
+  For example, suppose that you needed to use several types of containers for several types of data.
+  You might define a Container interface that might be implemented by means of several container types: an Option, a List, etc.
+  You want to define an interface for using values in these containers without nailing down the values’ type.
+
+   */
   @Test
   def higherKindedParamless(): Unit = {
     trait Functor[F[_]] {
@@ -22,7 +29,7 @@ class HigherKindedType {
 
   @Test
   def higherKindedPs(): Unit = {
-    trait Converter[F[A], A] {
+    trait Converter[F[_], A] {
       def convert[B](fa: F[A])(f: A => B): F[B]
     }
     val converterList = new Converter[List, Int] {

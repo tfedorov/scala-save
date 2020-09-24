@@ -4,7 +4,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class AbstractTypeMemberTest {
-
+  /*
+   Abstract types, such as traits and abstract classes, can in turn have abstract type members.
+   This means that the concrete implementations define the actual types.
+   */
   @Test
   def typeParameterVersion(): Unit = {
     trait FixtureSuite[P1, TMP] {

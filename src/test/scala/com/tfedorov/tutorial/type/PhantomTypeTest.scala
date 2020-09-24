@@ -3,8 +3,9 @@ package com.tfedorov.tutorial.`type`
 import org.junit.jupiter.api.Test
 
 class PhantomTypeTest {
-
-  //"Types that are not instantiate, ever".
+  /*
+  Types that are not instantiate, ever.
+   */
   @Test
   def phantomTest(): Unit = {
     sealed trait ServiceState

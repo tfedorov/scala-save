@@ -3,8 +3,6 @@ package com.tfedorov.tutorial.`type`
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
-import scala.collection.immutable
-
 class ContextBoundTest {
   /*
     A context bound describes an implicit value, instead of view bound's implicit conversion.
@@ -52,14 +50,30 @@ class ContextBoundTest {
   def contextBoundChainAfter(): Unit = {
     class ContextBound1[A](val value1: A)
     class ContextBound2[B](val value2: B)
-
-    def methodWithCB[M: ContextBound1 : ContextBound2](another: M): Boolean = implicitly[ContextBound1[M]].value1.equals(another) || implicitly[ContextBound2[M]].value2.equals(another)
-
+    def exist[M: ContextBound1 : ContextBound2](another: M): Boolean = implicitly[ContextBound1[M]].value1.equals(another) || implicitly[ContextBound2[M]].value2.equals(another)
     implicit val impl: ContextBound1[String] = new ContextBound1[String]("orange")
     implicit val implFloat: ContextBound2[String] = new ContextBound2[String]("apple")
 
-    assertTrue(methodWithCB("orange"))
-    assertTrue(methodWithCB("apple"))
-    assertFalse(methodWithCB("lemon"))
+    val actualResult = exist("orange")
+
+    assertTrue(actualResult)
+    assertTrue(exist("apple"))
+    assertFalse(exist("lemon"))
+  }
+
+  @Test
+  def contextBoundChainBefore(): Unit = {
+    class ContextBound1[A](val value1: A)
+    class ContextBound2[B](val value2: B)
+    def exist[M](another: M)(implicit evidence1: ContextBound1[M],
+                             evidence2: ContextBound2[M]): Boolean = evidence1.value1.equals(another) || evidence2.value2.equals(another)
+    implicit val impl1: ContextBound1[String] = new ContextBound1[String]("orange")
+    implicit val impl2: ContextBound2[String] = new ContextBound2[String]("apple")
+
+    val actualResult = exist("orange")
+
+    assertTrue(actualResult)
+    assertTrue(exist("apple"))
+    assertFalse(exist("lemon"))
   }
 }
