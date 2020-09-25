@@ -1,6 +1,5 @@
 package com.tfedorov.tutorial.scala_with_cats
 
-import cats.Functor
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
@@ -38,83 +37,6 @@ class FunctorTest {
   }
 
   @Test
-  def customFunctor(): Unit = {
-    import scala.language.higherKinds
-    sealed trait ButterflyStep
-
-    case class Egg() extends ButterflyStep {
-      def hatchFromEgg() = new Caterpillar
-    }
-    case class Caterpillar() extends ButterflyStep {
-      def toMakeADoll() = new Doll
-    }
-    case class Doll() extends ButterflyStep {
-      def hatchFromDoll() = new Butterfly
-    }
-    case class Butterfly() extends ButterflyStep {
-      def layEggs() = new Egg
-    }
-
-    case class Transformer[T](step: T)
-
-    implicit val _functor = new Functor[Transformer] {
-      override def map[A, B](fa: Transformer[A])(f: A => B): Transformer[B] = Transformer[B](f(fa.step))
-    }
-    /*
-        val ph0: Transformer[Egg] = Transformer(Egg())
-        val ph1: Transformer[Caterpillar] = Functor[Transformer].map(ph0)(_.hatchFromEgg())
-        val ph2: Transformer[Doll] = Functor[Transformer].map(ph1)(_.toMakeADoll())
-        val ph3: Transformer[Butterfly] = Functor[Transformer].map(ph2)(_.hatchFromDoll())
-        val ph4: Transformer[Egg] = Functor[Transformer].map(ph3)(_.layEggs())
-        assertEquals(expected, ph4)
-
-     */
-    val input = Transformer(new Butterfly)
-    val f: Transformer[Butterfly] => Transformer[Egg] = Functor[Transformer].lift[Butterfly, Egg](_.layEggs())
-    val actualResult = f(input)
-
-    val expected = Transformer(new Egg)
-    assertEquals(expected, actualResult)
-    Functor[Transformer].map(input)(_.layEggs())
-  }
-
-  @Test
-  def compositionLawCustom(): Unit = {
-    import scala.language.higherKinds
-    sealed trait ButterflyStep
-
-    case class Egg() extends ButterflyStep {
-      def hatchFromEgg() = new Caterpillar
-    }
-    case class Caterpillar() extends ButterflyStep {
-      def toMakeADoll() = new Doll
-    }
-    case class Doll() extends ButterflyStep {
-      def hatchFromDoll() = new Butterfly
-    }
-    case class Butterfly() extends ButterflyStep {
-      def layEggs() = new Egg
-    }
-
-    case class Transformer[T](step: T)
-
-    implicit val _functor = new Functor[Transformer] {
-      override def map[A, B](fa: Transformer[A])(f: A => B): Transformer[B] = Transformer[B](f(fa.step))
-    }
-
-    val input = Transformer(Egg())
-    val f: Egg => Caterpillar = (_: Egg).hatchFromEgg()
-    val g: Caterpillar => Doll = (_: Caterpillar).toMakeADoll()
-    val actual1: Transformer[Doll] = Functor[Transformer].map(input)(f.andThen(g))
-    val functorF: Transformer[Caterpillar] = Functor[Transformer].map(input)(f)
-    val actual2: Transformer[Doll] = Functor[Transformer].map(functorF)(g)
-
-    assertTrue(actual1 == actual2)
-    assertEquals(Transformer(Doll()), actual1)
-    assertEquals(Transformer(Doll()), actual2)
-  }
-
-  @Test
   def compositionLaw(): Unit = {
     val f = (a: Int) => a * 2
     val g = (a: Int) => a.toString
@@ -123,5 +45,95 @@ class FunctorTest {
 
     assertTrue(Option(1).map(f).map(g) == Option(1).map(fg))
     assertTrue(List(1, 2, 3).map(f).map(g) == List(1, 2, 3).map(fg))
+  }
+
+  @Test
+  def functorSyntax(): Unit = {
+    import cats.instances.all._
+    import cats.syntax.functor._
+    //import cats.Functor.ToFunctorOps
+
+    val func1: Int => Int = (a: Int) => a + 1
+    val func2 = (a: Int) => a * 2
+    val func3 = (a: Int) => a + "!"
+    //val func4: Function1[Int, String] = toFunctorOps(toFunctorOps(func1)(catsStdMonadForFunction1).map(func2))(catsStdMonadForFunction1).map(func3)
+    val func4 = func1.map(func2).map(func3)
+    val actualResult = func4(123)
+
+    assertEquals("248!", actualResult)
+  }
+
+  @Test
+  def functorSyntax2(): Unit = {
+    import cats.Functor
+    import cats.instances.all._
+    import cats.syntax.functor._
+
+    def foo(int: Int): Int = int + 1
+
+    // def doMath[F[Int]](start: F[Int])(implicit functor: Functor[F]): F[Int] = toFunctorOps(start)(functor).map((n: Int) => n.*(2).+(1))
+    def doMath[F[Int]](start: F[Int])(implicit functor: Functor[F]): F[Int] = start.map(n => n * 2 + 1)
+
+    val actualResult1 = doMath(Option(20))
+    val actualResult2 = doMath(List(1, 2, 3))
+
+    assertEquals(Some(41), actualResult1)
+    assertEquals(List(3, 5, 7), actualResult2)
+  }
+
+  @Test
+  def branchingOutFunctors(): Unit = {
+    sealed trait Tree[+A]
+    final case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+    final case class Leaf[A](value: A) extends Tree[A]
+
+    val input: Tree[Int] = Branch(Branch(Leaf(1), Leaf(2)), Leaf(3))
+    import cats.Functor
+    import cats.syntax.functor._
+    implicit val _functor: Functor[Tree] = new Functor[Tree] {
+      override def map[A, B](tree: Tree[A])(func: A => B): Tree[B] = {
+        tree match {
+          case Leaf(value) => Leaf(func(value))
+          case Branch(left, right) => Branch(map(left)(func), map(right)(func))
+        }
+      }
+    }
+
+    val actualResult = input.map(el => (el + 2).toString)
+
+
+    assertEquals(Branch(Branch(Leaf("3"), Leaf("4")), Leaf("5")), actualResult)
+  }
+
+  @Test
+  def branchingOutFunctorsVariacne(): Unit = {
+    sealed trait Tree[+A]
+    final case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+    final case class Leaf[A](value: A) extends Tree[A]
+
+    object Tree {
+      def branch[A](left: Tree[A], right: Tree[A]): Tree[A] =
+        Branch(left, right)
+
+      def leaf[A](value: A): Tree[A] =
+        Leaf(value)
+    }
+    import cats.Functor
+    import cats.syntax.functor._
+    implicit val _functor: Functor[Tree] = new Functor[Tree] {
+      override def map[A, B](tree: Tree[A])(func: A => B): Tree[B] = {
+        tree match {
+          case Leaf(value) => Leaf(func(value))
+          case Branch(left, right) => Branch(map(left)(func), map(right)(func))
+        }
+      }
+    }
+
+    //val actualResultLeaf: Tree[Int] = toFunctorOps(Tree.leaf(100))(_functor).map(iF => iF * 2)
+    val actualResultLeaf = Tree.leaf(100).map(_ * 2)
+    val actualResultBranch = Tree.branch(Tree.leaf(10), Tree.leaf(20)).map(_ * 2)
+
+    assertEquals(Leaf(200), actualResultLeaf)
+    assertEquals(Branch(Leaf(20), Leaf(40)), actualResultBranch)
   }
 }
