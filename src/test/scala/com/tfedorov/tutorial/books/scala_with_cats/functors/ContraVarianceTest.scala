@@ -1,9 +1,9 @@
-package com.tfedorov.tutorial.scala_with_cats
+package com.tfedorov.tutorial.books.scala_with_cats.functors
 
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
-class VarianceFunctorTest {
+class ContraVarianceTest {
 
   @Test
   def contravariant(): Unit = {
@@ -92,7 +92,7 @@ class VarianceFunctorTest {
 
     final case class Box[A](value: A)
 
-    implicit def boxPrintable[A](implicit p: Printable[A]) =
+    implicit def boxPrintable[A](implicit p: Printable[A]): Printable[Box[A]] =
       new Printable[Box[A]] {
         def format(box: Box[A]): String =
           p.format(box.value)
@@ -151,4 +151,59 @@ class VarianceFunctorTest {
     assertFalse(actualResult)
     assertTrue(figureComp.compare("Rook", "Horse"))
   }
+
+  @Test
+  def contravariantShow: Unit = {
+    case class Money(amount: Int)
+    case class Salary(moneySize: Money)
+
+    import cats._
+    import cats.implicits._
+    implicit val showMoney: Show[Money] = Show.show[Money]("$" + _.amount)
+    implicit val showSalary: Show[Salary] = showMoney.contramap[Salary](_.moneySize)
+    //val salary: Salary = Salary(Money(1000))
+    //val actualResult: String = cats.implicits.toShow[Salary](target = salary)(tc = showSalary).show
+    val actualResult: String = Salary(Money(1000)).show
+
+    assertEquals("$1000", actualResult)
+  }
+
+  @Test
+  def contravariantOrdering: Unit = {
+    case class Money(amount: Int)
+    case class Salary(moneySize: Money)
+    implicit val _moneyOrdering: Ordering[Money] = Ordering.by[Money, Int](_.amount)
+    val contrFunc: Salary => Money = (_: Salary).moneySize
+    implicit val _salOrdering: Ordering[Salary] = _moneyOrdering.on[Salary](f = contrFunc)
+
+    //val ord: Money => Ordered[Money] = Ordered.orderingToOrdered[Money](_)(ord = _moneyOrdering)
+    //val actualResult = Ordered.orderingToOrdered[Money](x = Money(100))(ord = moneyOrdering).<(Money(200))
+    //val actualResult = Ordered.orderingToOrdered[Salary](x = Salary(Money(100)))(ord = _salOrdering).<(Salary(Money(200)))
+    import scala.math.Ordered._
+    val actualResult = Salary(Money(100)) < Salary(Money(200))
+
+    assertTrue(actualResult)
+  }
+
+  @Test
+  def contravariantCats: Unit = {
+    import cats.instances.string._
+    import cats.{Contravariant, Show}
+    val showString = Show[String]
+    case class Money(amount: Int)
+    case class Salary(moneySize: Money)
+    val showMoney: Show[Money] = Contravariant[Show].contramap(showString)((m: Money) => "Money amount = " + m.amount)
+    val showSalary: Show[Salary] = Contravariant[Show].contramap(showMoney)((m: Salary) => m.moneySize)
+    val showSalary2: Show[Salary] = Contravariant[Show].contramap(showString)((m: Salary) => "Salary amount = " + m.moneySize)
+
+    val actualResult1 = showMoney.show(Money(10))
+    val actualResult2 = showSalary.show(Salary(Money(10)))
+    val actualResult3 = showSalary2.show(Salary(Money(10)))
+
+    assertEquals("Money amount = 10", actualResult1)
+    assertEquals("Money amount = 10", actualResult2)
+    assertEquals("Salary amount = Money(10)", actualResult3)
+  }
+
+
 }

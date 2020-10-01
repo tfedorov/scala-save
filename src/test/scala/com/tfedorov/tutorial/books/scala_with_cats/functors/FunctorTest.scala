@@ -1,9 +1,15 @@
-package com.tfedorov.tutorial.scala_with_cats
+package com.tfedorov.tutorial.books.scala_with_cats.functors
 
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
 class FunctorTest {
+
+  /*
+  Functors for collecঞons are extremely important, as they transform each element independently of the rest.
+   This allows us to parallelise or distribute
+   transformaঞons on large collecঞons, a technique leveraged heavily in “mapreduce” frameworks
+   */
 
   @Test
   def examplesFunctors(): Unit = {
@@ -106,7 +112,7 @@ class FunctorTest {
   }
 
   @Test
-  def branchingOutFunctorsVariacne(): Unit = {
+  def branchingOutFunctorsVariance(): Unit = {
     sealed trait Tree[+A]
     final case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
     final case class Leaf[A](value: A) extends Tree[A]

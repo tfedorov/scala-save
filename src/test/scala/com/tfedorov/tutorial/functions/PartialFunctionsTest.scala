@@ -28,6 +28,20 @@ class PartialFunctionsTest {
   }
 
   @Test
+  def partialFunctionListPart(): Unit = {
+    val oneF: PartialFunction[Int, String] = new PartialFunction[Int, String]() {
+      override def isDefinedAt(x: Int): Boolean = x == 1
+
+      override def apply(v1: Int): String =  "one"
+    }
+    val list = 1 :: 2 :: 1 :: 3 :: Nil
+
+    val actual = list.collect(oneF)
+
+    assertEquals("one" :: "one" :: Nil, actual)
+  }
+
+  @Test
   def partialFunctionList2(): Unit = {
     val oneF: PartialFunction[Int, String] = {
       case 1 => "one"

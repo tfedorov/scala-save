@@ -1,4 +1,4 @@
-package com.tfedorov.tutorial.herding_cats
+package com.tfedorov.tutorial.books.herding_cats
 
 import cats._
 import cats.implicits._
