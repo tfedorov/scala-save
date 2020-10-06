@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class FunctionsTest {
 
   @Test
-  def objectFunc1Example(): Unit = {
+  def objectFunc1(): Unit = {
     object addOne extends Function1[Int, Int] {
       override def apply(v1: Int): Int = v1 + 1
     }
@@ -15,7 +15,7 @@ class FunctionsTest {
   }
 
   @Test
-  def syntaxFunc1Example(): Unit = {
+  def objectFunc1ExtendsSyntax(): Unit = {
     object addOne extends (Int => Int) {
       override def apply(v1: Int): Int = v1 + 1
     }
@@ -24,59 +24,12 @@ class FunctionsTest {
   }
 
   @Test
-  def syntaxFunc2Example(): Unit = {
+  def objectFunc2ExtendsSyntax(): Unit = {
     object multipleString extends ((String, Int) => String) {
       override def apply(v1: String, v2: Int): String = v1 * v2
     }
 
     assertEquals("ababab", multipleString("ab", 3))
-  }
-
-  @Test
-  def funcPatternMatching(): Unit = {
-    //val func: Double => Double = math.exp
-    //val func = math.exp(_)
-    val func = math exp _
-
-    val actualValue = func match {
-      //case f: Function1[Double, Double] => f(10)
-      case f: (Double => Double) => f(3)
-      case _ => Double.MinValue
-    }
-
-    assertEquals(20.085536923187668, actualValue)
-  }
-
-  @Test
-  def funcPatternMatchingNamed(): Unit = {
-    class AddTwo extends (Double => Double) {
-      def apply(m: Double): Double = m + 2
-    }
-
-    val plus2: Double => Double = new AddTwo()
-
-    val actualValue = plus2 match {
-      case f: AddTwo => f(2)
-      case f: (Double => Double) => f(25)
-      case _ => Int.MinValue
-    }
-    assertEquals(4.0, actualValue)
-  }
-
-  @Test
-  def funcPatternMatchingNamed2(): Unit = {
-    class AddTwo extends (Double => Double) {
-      def apply(m: Double): Double = m + 2
-    }
-
-    val sqrtAlias: Double => Double = math.sqrt
-
-    val actualValue = sqrtAlias match {
-      case fAdd2: AddTwo => fAdd2(2)
-      case fDouble: (Double => Double) => fDouble(25)
-      case _ => Int.MinValue
-    }
-    assertEquals(5.0, actualValue)
   }
 
   @Test
@@ -102,6 +55,9 @@ class FunctionsTest {
     val composed: String => String = oneF _ andThen twoF _
 
      */
+
+    // in case of: val oneF: String => String
+    //val composed: String => String = oneF.andThen(twoF)
     val composed: String => String = oneF _ andThen twoF
 
     val actual = composed("test")
@@ -142,7 +98,7 @@ class FunctionsTest {
   }
 
   @Test
-  def composeF2(): Unit = {
+  def composeFSugared(): Unit = {
     val composed: String => String = ((_: String) + "1") compose ((_: String) + "2")
 
     val actual = composed("test")
@@ -151,24 +107,55 @@ class FunctionsTest {
   }
 
   @Test
-  def curriedF1(): Unit = {
-    val curriedFunc: String => String => String = (a: String) => a + " " + _
+  def composeFChangedType(): Unit = {
+    val plus5F: Int => Int = (before: Int) => before + 5
 
-    val actual: String => String = curriedFunc("Hello")
-    val actualResult: String = actual("World")
+    val isPositiveF: Int => Boolean = (before: Int) => before >= 0
 
-    assertEquals("Hello World", actualResult)
+    val actualF: Int => Boolean = plus5F.andThen(isPositiveF)
+    val actualResult1 = actualF(-5)
+    val actualResult2 = actualF(-4)
+
+    assertTrue(actualResult1)
+    assertTrue(actualResult2)
+  }
+
+
+  @Test
+  def funcPatternMatching(): Unit = {
+    //val func: Double => Double = math.exp
+    //val func = math.exp(_)
+    val func: Double => Double = math exp _
+
+    val actualValue: Double = func match {
+      //case f: Function1[Double, Double] => f(10)
+      case f: (Double => Double) => f(3)
+      case _ => Double.MinValue
+    }
+
+    assertEquals(20.085536923187668, actualValue)
   }
 
   @Test
-  def curriedF2(): Unit = {
-    val func2: (String, String) => String = (a: String, b: String) => a + " " + b
-    val curriedFunc: String => String => String = func2.curried
+  def funcPatternMatchingNamed(): Unit = {
+    class AddTwo extends (Double => Double) {
+      def apply(m: Double): Double = m + 2
+    }
 
-    val actual: String => String = curriedFunc("Hello")
-    val actualResult: String = actual("World")
+    val plus2: Double => Double = new AddTwo()
+    val sqrtAlias: Double => Double = math.sqrt
 
-    assertEquals("Hello World", actualResult)
+    def matchF(inputF: Double => Double) = inputF match {
+      case fAdd2: AddTwo => fAdd2(2)
+      case fAnother: (Double => Double) => fAnother(25)
+      case _ => Int.MinValue.toDouble
+    }
+
+    val actualValue1 = matchF(plus2)
+    val actualValue2 = matchF(sqrtAlias)
+
+    assertEquals(4.0, actualValue1)
+    assertEquals(5.0, actualValue2)
   }
 
 }
