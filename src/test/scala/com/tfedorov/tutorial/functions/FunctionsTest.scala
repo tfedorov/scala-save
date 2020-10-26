@@ -37,34 +37,45 @@ class FunctionsTest {
     def oneF(before: String): String = before + "1"
 
     def twoF(before: String): String = before + "2"
+/*
+    // in case of: val oneF: String => String
+    //ERROR//val andThened: String => String = oneF.andThen(twoF)
 
-    /*
-    val composed: String => String = {
+    val andThened: String => String = {
       val f1: String => String = oneF
       f1.andThen(twoF(_))
     }
 
+    val andThened: String => String = oneF _ andThen(el => twoF(el))
+    val andThened: String => String = oneF _ andThen(twoF(_))
+    val andThened: String => String = oneF _ andThen(twoF _)
+    val andThened: String => String = oneF _ andThen twoF _
 
-    val composed: String => String = {
-      val f1: String => String = oneF
-      f1.andThen(twoF)
-    }
-    val composed: String => String = oneF _ andThen(el => twoF(el))
-    val composed: String => String = oneF _ andThen(twoF(_))
-    val composed: String => String = oneF _ andThen(twoF _)
-    val composed: String => String = oneF _ andThen twoF _
+*/
 
-     */
+    val andThened = oneF _ andThen twoF
 
-    // in case of: val oneF: String => String
-    //val composed: String => String = oneF.andThen(twoF)
-    val composed: String => String = oneF _ andThen twoF
-
-    val actual = composed("test")
-
-    assertEquals("test12", actual)
+    assertEquals("test12", andThened("test"))
     assertEquals("test12", twoF(oneF("test")))
-    assertEquals("test12", (oneF _ andThen twoF _) ("test"))
+    assertEquals("test12", (oneF _ andThen twoF) ("test"))
+  }
+
+  @Test
+  def andThenVal(): Unit = {
+    val oneF: String => String = _ + "1"
+    val twoF: String => String = _ + "2"
+
+    val andThened = oneF.andThen(twoF)
+
+    assertEquals("test12", andThened("test"))
+  }
+
+  @Test
+  def andThenSugared(): Unit = {
+
+    val andThened: String => String = ((_: String) + "1") compose ((_: String) + "2")
+
+    assertEquals("test21", andThened("test"))
   }
 
   @Test

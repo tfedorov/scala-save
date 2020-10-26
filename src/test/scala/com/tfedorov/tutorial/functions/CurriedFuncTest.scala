@@ -10,20 +10,21 @@ class CurriedFuncTest {
   @Test
   def curriedF3(): Unit = {
     val curriedFunc: String => String => String = (a: String) => a + " " + _
+    val minusParam: String => String = curriedFunc("Hello")
 
-    val actual: String => String = curriedFunc("Hello")
-    val actualResult: String = actual("World")
+    val actualResult: String = minusParam("World")
 
     assertEquals("Hello World", actualResult)
   }
 
   @Test
-  def curriedF3Curried(): Unit = {
+  def curriedParams(): Unit = {
     val func2: (String, String) => String = (s1: String, s2: String) => s1 + " " + s2
     val curriedFunc: String => String => String = func2.curried
+    //val minusParam: String => String = func2("Hello",_)
+    val minusParam: String => String = curriedFunc("Hello")
 
-    val actual: String => String = curriedFunc("Hello")
-    val actualResult: String = actual("World")
+    val actualResult: String = minusParam("World")
 
     assertEquals("Hello World", actualResult)
   }

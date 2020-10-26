@@ -18,6 +18,7 @@ class ForComprehensiveTest {
     • You can use { s } instead of ( s ) if you want to use multiple lines without requiring semicolons
     • e is an element of the resulting collection
    */
+
   @Test
   def unionFlattenTest(): Unit = {
     val abc = "A" :: "B" :: "C" :: Nil
@@ -29,6 +30,7 @@ class ForComprehensiveTest {
     }
       yield (a, d)
 
+    //List((A,D), (A,E), (A,F), (B,D), (B,E), (B,F), (C,D), (C,E), (C,F))
     val expected = abc.flatMap(abcEl => deF.map(defEl => (abcEl, defEl)))
     assertEquals(expected, actualResult)
   }
@@ -60,7 +62,8 @@ class ForComprehensiveTest {
     }
       yield a * d
 
+    //List(AA, AAA, BB, BBB, CC, CCC)
     val expected = abc.flatMap((abcEl: String) => multiper.map((mEl: Int) => abcEl * mEl))
-    assertEquals(expected, actualResult)
+    assertEquals("expected", actualResult)
   }
 }

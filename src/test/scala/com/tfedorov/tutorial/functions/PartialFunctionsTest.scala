@@ -72,7 +72,7 @@ class PartialFunctionsTest {
 
   @Test
   def filterUse(): Unit = {
-    val list = 1 :: 2 :: Nil
+    val list = 1 :: 2 :: /*3 ::*/ Nil
     val oneF: PartialFunction[Int, String] = {
       case 1 => "one"
     }
