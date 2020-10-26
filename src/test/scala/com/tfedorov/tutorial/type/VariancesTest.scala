@@ -38,7 +38,6 @@ A central question that comes up when mixing OO with polymorphism is:
     val chicken = new Rooster()
 
     //val getTweet: Function1[Bird, String] = (a: Animal) => a.sound
-    //val getTweet: Bird => String = _.sound
     val animalF: Animal => String = (a: Animal) => a.sound
     val getTweet: Bird => String = animalF
 
