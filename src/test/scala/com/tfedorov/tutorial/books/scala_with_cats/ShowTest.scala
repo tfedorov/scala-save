@@ -1,6 +1,7 @@
 package com.tfedorov.tutorial.books.scala_with_cats
 
 import cats.Show
+import cats.kernel.Semigroup
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -34,5 +35,17 @@ class ShowTest {
     val actualResult = Cats("meow").show
 
     assertEquals("Cat says 'meow'", actualResult)
+  }
+
+  @Test
+  def customShow2(): Unit = {
+    import cats.implicits._
+
+    println(Semigroup[Int].combine(1, 2))
+    println(Semigroup[List[Int]].combine(List(1, 2, 3), List(4, 5, 6)))
+    println(Semigroup[Option[Int]].combine(Option(1), Option(2)))
+    println(Semigroup[Option[Int]].combine(Option(1), None))
+    println(Semigroup[Int => Int].combine(_ + 1, _ * 10).apply(6))
+    println(Map("foo" -> Map("bar" -> 5)).combine(Map("foo" -> Map("bar" -> 6), "baz" -> Map())))
   }
 }
