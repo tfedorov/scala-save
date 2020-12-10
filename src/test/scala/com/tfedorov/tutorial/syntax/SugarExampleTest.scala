@@ -50,10 +50,10 @@ class SugarExampleTest {
   def typeValTest(): Unit = {
     case class Cats(breed: String, sound: String)
 
-    Cats("Cheshire", "meow")
     val cat1@Cats(actualBreed, actualSound) = Cats("Cheshire", "meow")
 
     assertEquals("Cheshire", actualBreed)
     assertEquals("meow", actualSound)
+    assertEquals(cat1, Cats("Cheshire", "meow"))
   }
 }
