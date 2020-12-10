@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.Test
 
 import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.language.postfixOps
 
 class CurriedFuncTest {
 
@@ -18,7 +19,7 @@ class CurriedFuncTest {
   }
 
   @Test
-  def curriedParams(): Unit = {
+  def curriedMethod(): Unit = {
     val func2: (String, String) => String = (s1: String, s2: String) => s1 + " " + s2
     val curriedFunc: String => String => String = func2.curried
     //val minusParam: String => String = func2("Hello",_)
@@ -31,15 +32,15 @@ class CurriedFuncTest {
 
   @Test
   def curriedF3InF2(): Unit = {
-    val func3: String => Int => Boolean = (s1: String) => s1.toInt > _
-    val curriedFunc: Int => Boolean = func3("1")
+    val func3Param: String => Int => Boolean = (s1: String) => s1.toInt > _
+    val lessThenOneFunc: Int => Boolean = func3Param("1")
 
-    val actual1 = func3("1")(0)
-    val actual2 = func3("-2")(0)
+    val actual1: Boolean = func3Param("1")(0)
+    val actual2: Boolean = func3Param("-2")(0)
 
     assertTrue(actual1)
     assertFalse(actual2)
-    assertEquals(actual1, curriedFunc(0))
+    assertFalse(lessThenOneFunc(0))
   }
 
   @Test

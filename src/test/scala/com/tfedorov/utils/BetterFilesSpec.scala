@@ -93,7 +93,7 @@ class BetterFilesSpec extends FlatSpec {
     val actualPath: String = existedFile.path.toString
 
     actualPath should be(
-      "C:\\work\\workspace\\private\\scala-save\\src\\test\\resources\\singleFileFolder\\File2Read.txt")
+      "/Users/tfedorov/IdeaProjects/scala-save/src/test/resources/singleFileFolder/File2Read.txt")
   }
 
   it should "returns NOT existed names" in {
@@ -101,7 +101,7 @@ class BetterFilesSpec extends FlatSpec {
 
     val actualPath: String = existedFile.path.toString
 
-    actualPath should be("C:\\work\\workspace\\private\\scala-save\\src\\test\\resources\\NotExist.txt")
+    actualPath should be("/Users/tfedorov/IdeaProjects/scala-save/src/test/resources/NotExist.txt")
   }
 
   ".writeFile" should "writes specific file" in {

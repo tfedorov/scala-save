@@ -156,7 +156,7 @@ class FunctionsTest {
     val plus2: Double => Double = new AddTwo()
     val sqrtAlias: Double => Double = math.sqrt
 
-    def matchF(inputF: Double => Double) = inputF match {
+    def matchF(inputF: Double => Double): Double = inputF match {
       case fAdd2: AddTwo => fAdd2(2)
       case fAnother: (Double => Double) => fAnother(25)
       case _ => Int.MinValue.toDouble

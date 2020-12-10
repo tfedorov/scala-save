@@ -12,9 +12,9 @@ class HigherOrderFunctionsTest {
       (key: String, value: String) => s"$begin -H '$key: $value' $domainName"
     }
 
-    def getBuilder = curlBuilder(isGet = true, "www.example.com")
+    def getBuilderF = curlBuilder(isGet = true, "www.example.com")
 
-    val actualResult = getBuilder("Content-type", "application/json")
+    val actualResult = getBuilderF("Content-type", "application/json")
 
     assertEquals("curl -XGET  -H 'Content-type: application/json' www.example.com", actualResult)
   }
@@ -27,16 +27,16 @@ class HigherOrderFunctionsTest {
       result
     }
 
-    def getBuilder = curlBuilder(isGet = false, "www.example.com")
+    def postBuilderF = curlBuilder(isGet = false, "www.example.com")
 
-    val actualResult = getBuilder("Content-type", "application/json")
+    val actualResult = postBuilderF("Content-type", "application/json")
 
     assertEquals("curl -XPOST -d'' -H 'Content-type: application/json' www.example.com", actualResult)
   }
 
   @Test
-  def testMultiple(): Unit = {
-    def textBuilder(compose: Seq[(Int, String) => String]): ((Int, String) => String) = {
+  def testSeqOfFunctions(): Unit = {
+    def textBuilder(compose: Seq[(Int, String) => String]): (Int, String) => String = {
       compose.tail.foldLeft(compose.head) { (aggF, elF) =>
         (key: Int, value: String) => aggF(key, value) + ";" + elF(key, value)
       }
@@ -59,12 +59,17 @@ class HigherOrderFunctionsTest {
 
   @Test
   def testMultipleAndThen(): Unit = {
-    def textBuilder(compose: Seq[String => String]): ((String, Int) => String) = {
-      compose.tail.foldLeft(compose.head) { (aggF, elF) => ???
-        // (key: Int, value: String) => aggF(key, value) + ";" + elF(key, value)
-      }
-      ???
+    def functionComposer(compose: Seq[String => String]): String => String = {
+      compose.foldLeft(identity[String](_))((aggF, elF) => aggF.andThen(elF))
     }
 
+    val functions = ((_: String).toUpperCase) :: new (String => String) {
+      override def apply(v1: String): String = v1.reverse
+    } :: Nil
+    val builtF = functionComposer(functions)
+
+    val actualResult = builtF("abc")
+
+    assertEquals("CBA", actualResult)
   }
 }
