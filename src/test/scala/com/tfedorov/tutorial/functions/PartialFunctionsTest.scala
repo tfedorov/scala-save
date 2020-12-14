@@ -89,10 +89,72 @@ class PartialFunctionsTest {
   def mapPartialFunc2(): Unit = {
     val list = 1 :: /*2 :: 3 ::*/ Nil
 
-    val actual = list.map(p => p match {
+    val actual = list.map {
       case 1 => "one"
-    })
+    }
 
     assertEquals("one" :: Nil, actual)
+  }
+
+  @Test
+  def orElseFCompose(): Unit = {
+    val input: Seq[Char] = 'A' to 'Z'
+    val vovelF: PartialFunction[Char, Int] = {
+      case vovel if "AEIOU".contains(vovel) => -1
+    }
+
+    val actualResult = input.sortBy(vovelF orElse { case _ => 1 })
+    val actualResult2 = input.map(vovelF orElse { case _ => 1 })
+
+    assertEquals(Seq('A', 'E', 'I', 'O', 'U', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'), actualResult)
+    assertEquals(Vector(-1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, 1, 1, -1, 1, 1, 1, 1, 1, -1, 1, 1, 1, 1, 1), actualResult2)
+  }
+
+  @Test
+  def orElseAppyFCompose(): Unit = {
+    val input: Seq[Char] = 'A' to 'Z'
+
+    val vovelF: PartialFunction[Char, Int] = {
+      case vovel if "aeiou".contains(vovel) => -1
+    }
+
+    val isCF: PartialFunction[Char, Int] = {
+      case _ => 1
+    }
+
+    val changedF: Char => Int = (ch: Char) => vovelF.applyOrElse(ch.toLower, isCF(_))
+    val actualResult = input.sortBy(changedF)
+
+    assertEquals(Seq('A', 'E', 'I', 'O', 'U', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'), actualResult)
+
+  }
+
+  @Test
+  def lift(): Unit = {
+    val vovelF: PartialFunction[Char, Int] = {
+      case vovel if "aeiou".contains(vovel) => -1
+    }
+
+    val actualResult = vovelF.lift('B')
+    val actualResult2 = vovelF.lift('a')
+
+    assertEquals(None, actualResult)
+    assertEquals(Some(-1), actualResult2)
+  }
+
+  @Test
+  def runWith(): Unit = {
+    val vovelF: PartialFunction[Char, Int] = {
+      case vovel if "aeiou".contains(vovel) => -1
+    }
+
+    var sideEffect = ""
+    val actualResult = ('a' to 'f').map(vovelF.runWith { el =>
+      sideEffect += el
+      el
+    })
+
+    assertEquals(Vector(true, false, false, false, true, false), actualResult)
+    assertEquals("-1-1", sideEffect)
   }
 }
