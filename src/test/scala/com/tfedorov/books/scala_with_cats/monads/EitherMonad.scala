@@ -1,4 +1,4 @@
-package com.tfedorov.tutorial.books.scala_with_cats.monads
+package com.tfedorov.books.scala_with_cats.monads
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

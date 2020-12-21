@@ -1,4 +1,4 @@
-package com.tfedorov.tutorial.books.scala_with_cats.functors
+package com.tfedorov.books.scala_with_cats.functors
 
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test

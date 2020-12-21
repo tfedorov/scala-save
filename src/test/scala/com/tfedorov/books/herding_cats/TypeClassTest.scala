@@ -1,4 +1,4 @@
-package com.tfedorov.tutorial.books.herding_cats
+package com.tfedorov.books.herding_cats
 
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test

@@ -1,4 +1,4 @@
-package com.tfedorov.tutorial.books.scala_with_cats
+package com.tfedorov.books.scala_with_cats
 
 import cats.Show
 import cats.kernel.Semigroup
