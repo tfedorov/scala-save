@@ -59,7 +59,7 @@ class GoogleTest {
   implicit def seq2Xor(inside: Seq[Int]): XorList = XorList(inside)
 
   @Test
-  def getTest(): Unit = {
+  def bothTest12(): Unit = {
     var list: Seq[Int] = Nil
     list = list.add(1)
     list = list.add(5)
@@ -72,7 +72,7 @@ class GoogleTest {
   }
 
   @Test
-  def getTest2(): Unit = {
+  def bothTest35(): Unit = {
     var list: Seq[Int] = Nil
     list = list.add(3)
     list = list.add(15)
@@ -85,7 +85,7 @@ class GoogleTest {
   }
 
   @Test
-  def getTest3(): Unit = {
+  def bothTestNone(): Unit = {
     var list: Seq[Int] = Nil
     list = list.add(3)
     list = list.add(15)
