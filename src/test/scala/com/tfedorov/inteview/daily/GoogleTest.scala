@@ -13,10 +13,16 @@ and dereference_pointer functions that converts between nodes and memory address
  */
 class GoogleTest {
 
-  case class XorElement(value: Int, index: Int)(implicit list: XORList) {
+  case class XorElement(value: Int, maybeLeft: Option[Int], maybeRight: Option[Int]) {
 
-    private def operation(valueBefore: Int, valueAfter: Int): Int = {
+    private def xorBitOp(lr: (Char, Char)): Char = lr match {
+      case ('0', '0') => '0'
+      case ('0', '1') => '1'
+      case ('1', '0') => '1'
+      case ('1', '1') => '0'
+    }
 
+    private def xorIntOp(valueBefore: Int, valueAfter: Int): Int = {
       val before: String = valueBefore.toBinaryString.reverse
       val after: String = valueAfter.toBinaryString.reverse
 
@@ -26,47 +32,38 @@ class GoogleTest {
       val afterNorm: Array[Char] = after.toCharArray.padTo(maxNumber, '0')
 
       val zipped: Array[(Char, Char)] = beforeNorm.zip(afterNorm)
-      val calc = zipped.map { case (l, r) =>
-        (l, r) match {
-          case ('0', '0') => '0'
-          case ('0', '1') => '1'
-          case ('1', '0') => '1'
-          case ('1', '1') => '0'
-        }
-      }
+      val calc = zipped.map(xorBitOp)
       Integer.parseInt(calc.reverse.mkString, 2)
     }
 
-    def both: Option[Int] = {
-      for (l <- list(index - 1);
-           r <- list(index + 1))
-        yield operation(l.value, r.value)
+    def both: Option[Int] =
+      for (l <- maybeLeft;
+           r <- maybeRight)
+        yield xorIntOp(l, r)
+  }
+
+  case class XorList(_insideSeq: Seq[Int]) {
+    def add(value: Int): Seq[Int] = _insideSeq :+ value
+
+    def get(value: Int): Option[XorElement] = {
+      _insideSeq.indexOf(value) match {
+        case -1 => None
+        case _ if _insideSeq.length == 1 => Some(XorElement(value, None, None))
+        case 0 => Some(XorElement(value, None, Some(_insideSeq(1))))
+        case lastEl if lastEl == _insideSeq.length => Some(XorElement(value, Some(_insideSeq(lastEl - 1)), None))
+        case middleEl => Some(XorElement(value, Some(_insideSeq(middleEl - 1)), Some(_insideSeq(middleEl + 1))))
+      }
     }
   }
 
-  class XORList(var _insideList: Seq[XorElement]) {
-
-    def apply(index: Int): Option[XorElement] = {
-      if (!_insideList.indices.contains(index))
-        return None
-      Some(_insideList(index))
-    }
-
-    def add(el: Int)(implicit list: XORList): Unit = {
-      _insideList ++= XorElement(el, _insideList.length) :: Nil
-    }
-
-    def get(el: Int): Option[XorElement] = {
-      _insideList.find(_.value == el)
-    }
-  }
+  implicit def seq2Xor(inside: Seq[Int]): XorList = XorList(inside)
 
   @Test
   def getTest(): Unit = {
-    implicit val list = new XORList(Nil)
-    list.add(1)
-    list.add(5)
-    list.add(2)
+    var list: Seq[Int] = Nil
+    list = list.add(1)
+    list = list.add(5)
+    list = list.add(2)
 
     val actualResult = list.get(5).flatMap(_.both)
 
@@ -76,10 +73,10 @@ class GoogleTest {
 
   @Test
   def getTest2(): Unit = {
-    implicit val list = new XORList(Nil)
-    list.add(3)
-    list.add(15)
-    list.add(5)
+    var list: Seq[Int] = Nil
+    list = list.add(3)
+    list = list.add(15)
+    list = list.add(5)
 
     val actualResult = list.get(15).flatMap(_.both)
 
@@ -89,10 +86,10 @@ class GoogleTest {
 
   @Test
   def getTest3(): Unit = {
-    implicit val list = new XORList(Nil)
-    list.add(3)
-    list.add(15)
-    list.add(5)
+    var list: Seq[Int] = Nil
+    list = list.add(3)
+    list = list.add(15)
+    list = list.add(5)
 
     val actualResult = list.get(3).flatMap(_.both)
 
