@@ -2,6 +2,9 @@ package com.tfedorov.inteview.daily
 
 import scala.collection.SortedMap
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+
 /*
 This problem was asked by Facebook.
 
@@ -13,8 +16,6 @@ You can assume that the messages are decodable. For example, '001' is not allowe
  */
 class FacebookTest {
 
-  import org.junit.jupiter.api.Assertions.assertEquals
-  import org.junit.jupiter.api.Test
 
   val mapping = SortedMap(('a' to 'z').zipWithIndex.map(t => (t._1, t._2 + 1)): _*)
 
@@ -37,6 +38,7 @@ class FacebookTest {
     val expectedResult = 3
     assertEquals(expectedResult, actualResult)
   }
+
   @Test
   def mapintTest3(): Unit = {
     val input = "1213124"
@@ -55,10 +57,13 @@ class FacebookTest {
   private def findResult(foundedEnc: String, searchedDec: String)(implicit text: String): Seq[String] = {
     if (searchedDec.length >= text.length)
       return Seq.empty
+
+    if (!text.startsWith(searchedDec))
+      return Seq.empty
     var result: Seq[String] = Nil
-    for {cand: (Char, Int) <- mapping} {
-      val candidateDecoded = searchedDec + cand._2.toString
-      val candidateEnc = foundedEnc + cand._1
+    for {candidate: (Char, Int) <- mapping} {
+      val candidateDecoded = searchedDec + candidate._2.toString
+      val candidateEnc = foundedEnc + candidate._1
       if (text.equalsIgnoreCase(candidateDecoded))
         result = result :+ candidateEnc
       result ++= findResult(candidateEnc, candidateDecoded)
