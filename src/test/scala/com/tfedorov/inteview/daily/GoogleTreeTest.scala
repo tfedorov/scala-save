@@ -46,7 +46,7 @@ class GoogleTreeTest {
   }
 
   @Test
-  def treeTest(): Unit = {
+  def treeTaksTest(): Unit = {
     val right = ValueNode(0, Some(ValueNode(1, Some(ValueNode(1)), Some(ValueNode(1)))), Some(ValueNode(0)))
     val input = ValueNode(0, Some(ValueNode(1)), Some(right))
 
@@ -56,8 +56,9 @@ class GoogleTreeTest {
     assertEquals(expectedResult, actualResult)
   }
 
+    //https://crazycoderzz.wordpress.com/count-the-number-of-unival-subtrees-in-a-binary-tree/
   @Test
-  def treeAllTest(): Unit = {
+  def tree5Test(): Unit = {
     val left = ValueNode(1, left = Some(ValueNode(6)), right = Some(ValueNode(6)))
     val right = ValueNode(5, left = None, right = Some(ValueNode(5)))
     val input = ValueNode(5, Some(left), Some(right))
@@ -65,6 +66,18 @@ class GoogleTreeTest {
     val actualResult = calcUnival(input)
 
     val expectedResult = 4
+    assertEquals(expectedResult, actualResult)
+  }
+
+  @Test
+  def tree5AllTest(): Unit = {
+    val left = ValueNode(5, left = Some(ValueNode(5)), right = Some(ValueNode(5)))
+    val right = ValueNode(5, left = None, right = Some(ValueNode(5)))
+    val input = ValueNode(5, Some(left), Some(right))
+
+    val actualResult = calcUnival(input)
+
+    val expectedResult = 6
     assertEquals(expectedResult, actualResult)
   }
 }
