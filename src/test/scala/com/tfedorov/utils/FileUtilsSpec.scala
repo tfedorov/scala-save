@@ -123,6 +123,15 @@ class FileUtilsSpec extends FlatSpec {
     val expected = FileUtils.readAllFile("./src/test/resources/writeFileDirectory/desiredFile.txt")
     expected should be(Success("desired content"))
   }
+
+
+  ".randomTempFile" should "returns name" in {
+
+    val result = FileUtils.randomTempFile()
+
+    result should startWith(System.getenv("java.io.tmpdir"))
+  }
+
 }
 
 

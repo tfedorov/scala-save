@@ -1,11 +1,12 @@
 package com.tfedorov.utils
 
 import java.io.{File, PrintWriter}
+import java.lang.System._
 import java.nio.charset.{Charset, CodingErrorAction}
 import java.nio.file.{Files, Paths}
-
+import java.util.Date
 import scala.io.{BufferedSource, Source}
-import scala.util.Try
+import scala.util.{Random, Try}
 
 object FileUtils {
 
@@ -91,6 +92,14 @@ object FileUtils {
 
   def fileName(path: String): String = {
     new File(path).getName
+  }
+
+  def randomTempFile(): String = {
+    val fileName = Random.alphanumeric.take(8).mkString
+    var tmpFolder = getProperty("java.io.tmpdir")
+    if (!tmpFolder.endsWith(File.separator))
+      tmpFolder += File.separator
+    tmpFolder + fileName
   }
 
   def listOfResourceFiles(resourceDir: String): Seq[String] = {

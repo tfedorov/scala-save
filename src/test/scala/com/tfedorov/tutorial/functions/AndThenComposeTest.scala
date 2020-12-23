@@ -21,7 +21,7 @@ class AndThenComposeTest {
 
     assertEquals("test12", andThenedF("test"))
     assertEquals("test12", twoF(oneF("test")))
-    assertEquals("test12", (oneF andThen twoF) ("test"))
+    assertEquals("test12", (oneF _ andThen twoF) ("test"))
   }
 
   @Test

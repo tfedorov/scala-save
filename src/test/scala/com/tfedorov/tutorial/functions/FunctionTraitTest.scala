@@ -40,7 +40,7 @@ class FunctionTraitTest {
 
     val actualValue: Double = func match {
       //case f: Function1[Double, Double] => f(10)
-      case f: Double => Double => f(3)
+      case f: (Double => Double) => f(3)
       case _ => Double.MinValue
     }
 
@@ -58,7 +58,7 @@ class FunctionTraitTest {
 
     def matchF(inputF: Double => Double): Double = inputF match {
       case fAdd2: AddTwo => fAdd2(2)
-      case fAnother: Double => Double => fAnother(25)
+      case fAnother: (Double => Double) => fAnother(25)
       case _ => Int.MinValue.toDouble
     }
 
