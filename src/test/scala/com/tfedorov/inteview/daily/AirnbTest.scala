@@ -16,41 +16,40 @@ class AirnbTest {
   import org.junit.jupiter.api.Assertions.assertEquals
   import org.junit.jupiter.api.Test
 
-  def search(cand: Seq[Int], leave: Seq[Int])(implicit expectedResult: Int): Seq[Int] = {
 
-    if (cand.sum == expectedResult)
-      return cand
-    if (leave.isEmpty)
+  def search(procCandidates: Seq[Int], forCheck: Seq[Int])(implicit expectedResult: Int): Seq[Int] = {
+
+    if (procCandidates.sum == expectedResult)
+      return procCandidates
+
+    if (forCheck.isEmpty)
       return Nil
 
-    var result = Seq.empty[Int]
-    leave.zipWithIndex.foreach { case (nextSearched, ind) =>
-      val leaveWithot = leave.take(ind) ++ leave.drop(ind + 1)
-      val resNext = search(cand :+ nextSearched, leaveWithot)
-      if (resNext.sum == expectedResult)
-        result = resNext
-    }
-    result
-  }
+    var smallestResult = Seq.empty[Int]
 
-  def nonAjastSum(input: Seq[Int], result: Int): Seq[Int] = {
-    search(Nil, input)(result)
+    forCheck.zipWithIndex.foreach { case (nextCandidate, ind) =>
+      val forCheckNoCandidate = forCheck.take(ind) ++ forCheck.drop(ind + 1)
+      val candidateResult = search(procCandidates :+ nextCandidate, forCheckNoCandidate)
+      if (candidateResult.sum == expectedResult && (smallestResult.isEmpty || smallestResult.size > candidateResult.size))
+        smallestResult = candidateResult
+    }
+    smallestResult
   }
 
   @Test
   def adjacentTest(): Unit = {
 
     val input = Seq(2, 4, 6, 2, 5)
-    val actualResult: Seq[Int] = nonAjastSum(input, 13)
+    val actualResult: Seq[Int] = search(Nil, input)(13)
 
-    assertEquals(5 :: 2 :: 6 :: Nil, actualResult)
+    assertEquals(2 :: 6 :: 5 :: Nil, actualResult)
   }
 
   @Test
   def adjacentTest5115(): Unit = {
 
     val input = Seq(5, 1, 1, 5)
-    val actualResult: Seq[Int] = nonAjastSum(input, 10)
+    val actualResult: Seq[Int] = search(Nil, input)(10)
 
     assertEquals(5 :: 5 :: Nil, actualResult)
   }

@@ -113,4 +113,23 @@ class ListAppendsTest {
 
     assertEquals("List(1, 2)6", actualResult)
   }
+
+  @Test
+  def deleteElementById(): Unit = {
+    val input: List[Int] = List(2, 3, 4, 5, 4)
+
+    val actualResult = input.take(2) ++ input.drop(3)
+
+    assertEquals(2 :: 3 :: 5 :: 4 :: Nil, actualResult)
+  }
+
+  @Test
+  def deleteElement(): Unit = {
+    val input: List[Int] = List(2, 3, 4, 5, 4)
+
+    val actualId = input.indexOf(4)
+    val actualResult = input.take(actualId) ++ input.drop(actualId + 1)
+
+    assertEquals(2 :: 3 :: 5 :: 4 :: Nil, actualResult)
+  }
 }
