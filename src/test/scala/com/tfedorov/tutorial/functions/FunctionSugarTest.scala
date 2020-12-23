@@ -3,7 +3,31 @@ package com.tfedorov.tutorial.functions
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.Test
 
+import scala.language.postfixOps
+
 class FunctionSugarTest {
+
+  @Test
+  def valF(): Unit = {
+    //    val input = new (Int => Int) {
+    //      override def apply(v1: Int): Int = v1 * 3
+    //    }
+    //val input: Int => Int = _ * 3
+    val input: Int => Int = (par: Int) => par * 3
+
+    val actualResult = input(3)
+
+    assertEquals(9, actualResult)
+  }
+
+  @Test
+  def valFSugar(): Unit = {
+
+    val actualResult = ((_: Int) * 3) (3)
+
+    assertEquals(9, actualResult)
+  }
+
 
   case class Container(inner: Int) {
 
@@ -36,15 +60,7 @@ class FunctionSugarTest {
   def infixNotation(): Unit = {
     val container = Container(2)
 
-    val actualResult = container add (4)
-
-    assertEquals(6, actualResult)
-  }
-
-  @Test
-  def infixNotationNoParentheses(): Unit = {
-    val container = Container(2)
-
+    //val actualResult = container add (4)
     val actualResult = container add 4
 
     assertEquals(6, actualResult)
@@ -120,20 +136,6 @@ class FunctionSugarTest {
     assertEquals(6 :: 9 :: Nil, actualResult)
   }
 
-  @Test
-  def functionOneParam(): Unit = {
-    //val input: Int => Int =_ * 3
-    //val input = (_: Int) * 3
-    //val actualResult = input(3)
-    /*
-    val actualResult = (new (Int => Int) {
-      override def apply(v1: Int): Int = v1 * 3
-    }) (3)
-    */
-    val actualResult = ((_: Int) * 3) (3)
-
-    assertEquals(9, actualResult)
-  }
 
   @Test
   def fFuncList(): Unit = {
