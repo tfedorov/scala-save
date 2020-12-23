@@ -1,6 +1,6 @@
 package com.tfedorov.tutorial
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.Test
 
 import scala.collection.generic.CanBuildFrom
@@ -10,10 +10,23 @@ import scala.reflect.runtime.universe
 class ReflectionTest {
 
   @Test
+  def reflectGenericParamTest(): Unit = {
+    def displayGeneric[T](arg: T)(implicit m: reflect.Manifest[T]): String = s"${arg.toString} : ${m.toString}"
+
+    val actualResultStr = displayGeneric("text")
+    val actualResultInt = displayGeneric(42)
+    val actualResultFun = displayGeneric((_: String).toUpperCase)
+
+    assertEquals("text : java.lang.String", actualResultStr)
+    assertEquals("42 : Int", actualResultInt)
+    assertTrue(actualResultFun.endsWith("scala.Function1[java.lang.String, java.lang.String]"))
+  }
+
+  @Test
   def typeErasuresManifests(): Unit = {
     class MakeFoo[A](implicit manifest: Manifest[A]) {
       //Runtime instead of it
-      def make: A = manifest.erasure.newInstance.asInstanceOf[A]
+      def make: A = manifest.runtimeClass.newInstance.asInstanceOf[A]
     }
 
     val actualResult = new MakeFoo[String].make
@@ -35,17 +48,36 @@ class ReflectionTest {
   }
 
   @Test
+  def createEmptyElementManifest(): Unit = {
+    def arr[T](implicit m: Manifest[T]): Seq[T] = {
+
+      if (m.toString().equals("Float"))
+        return Seq(0L).asInstanceOf[Seq[T]]
+
+      if (m.toString().equals("Int"))
+        return Seq(0).asInstanceOf[Seq[T]]
+
+      if (m.toString().equals("java.lang.String"))
+        return Seq("").asInstanceOf[Seq[T]]
+
+      Seq.empty[T]
+    }
+
+    val actualResultFloat = arr[Float]
+    val actualResultInt = arr[Int]
+    val actualResultStr = arr[String]
+    assertEquals(0L :: Nil, actualResultFloat)
+    assertEquals(0 :: Nil, actualResultInt)
+    assertEquals("" :: Nil, actualResultStr)
+  }
+
+  @Test
   def createEmptyElement(): Unit = {
     import scala.reflect.runtime.universe._
 
-
     class Typer[T: TypeTag] {
-      val tt = typeTag[T]
-
       //runtime instead of it
-      def getEmptyElement(implicit cbf: CanBuildFrom[_, _, T]): T = {
-        cbf().result()
-      }
+      def getEmptyElement(implicit cbf: CanBuildFrom[_, _, T]): T = cbf().result()
     }
 
     val actualResultStr = new Typer[String]().getEmptyElement
@@ -53,7 +85,6 @@ class ReflectionTest {
 
     assertEquals(new String(), actualResultStr)
     assertEquals(List.empty, actualResultList)
-
   }
 
   @Test
