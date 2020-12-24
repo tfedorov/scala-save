@@ -1,9 +1,23 @@
 package com.tfedorov.tutorial.functions
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
 class HigherOrderFunctionsTest {
+
+  @Test
+  def testParamFunction(): Unit = {
+    var iAmCalled = false
+
+    //def innerF(f: Function0[_]): Unit = f()
+    def innerF(f: () => Any): Unit = f()
+
+    innerF(() => {
+      iAmCalled = true
+    })
+
+    assertTrue(iAmCalled)
+  }
 
   @Test
   def testReturnFunction(): Unit = {

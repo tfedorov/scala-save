@@ -5,6 +5,16 @@ import org.junit.jupiter.api.Test
 
 import scala.collection.SortedSet
 
+/*
+Given a list of numbers and a number k, return whether any two numbers from the list add up to k.
+
+For example, given [10, 15, 3, 7] and k of 17, return true since 10 + 7 is 17.
+
+Bonus: Can you do this in one pass?
+
+ */
+
+//https://dev.to/awwsmm/scala-daily-coding-problem-001-fi2
 class Taks1 {
 
   private def recCheck(input: Seq[Int], neededSum: Int): Boolean = {
@@ -22,7 +32,6 @@ class Taks1 {
 
   private def combCheck(inputChecked: Seq[Int], neededSum: Int): Boolean = inputChecked.combinations(2).exists(_.sum == neededSum)
 
-  //https://dev.to/awwsmm/scala-daily-coding-problem-001-fi2
   @Test
   def task1Test(): Unit = {
 
