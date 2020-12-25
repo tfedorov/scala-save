@@ -2,7 +2,7 @@ package com.tfedorov.tutorial.`type`
 
 import org.junit.jupiter.api.Test
 
-class Initializations {
+class EagerLazyValTest {
 
   @Test
   def eagerVal(): Unit = {
