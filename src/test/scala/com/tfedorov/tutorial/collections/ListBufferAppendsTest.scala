@@ -47,7 +47,7 @@ class ListBufferAppendsTest {
   }
 
   @Test
-  def append2Element(): Unit = {
+  def prependElement(): Unit = {
 
     val actualResult = 0 +: ListBuffer(1, 2)
 
@@ -74,7 +74,9 @@ class ListBufferAppendsTest {
     val input: ListBuffer[Int] = ListBuffer(1, 2)
 
     val actualResult: String = input + "6"
+    val actualResultExpl: String = any2stringadd(input) + "6"
 
+    assertEquals("ListBuffer(1, 2)6", actualResult)
     assertEquals("ListBuffer(1, 2)6", actualResult)
   }
 

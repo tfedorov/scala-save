@@ -109,9 +109,15 @@ class ListAppendsTest {
   def appendString(): Unit = {
     val input: List[Int] = List(1, 2)
 
-    val actualResult: String = input + "6"
+    val actualResultImp: String = input + "6"
+    //But not
+    //val actualResultImp: String = input + 6
+    val actualResultExpl: String = any2stringadd(input) + "6"
+    //But not
+    //val actualResultExpl: String = any2stringadd(input) + 6
 
-    assertEquals("List(1, 2)6", actualResult)
+    assertEquals("List(1, 2)6", actualResultImp)
+    assertEquals("List(1, 2)6", actualResultExpl)
   }
 
   @Test
