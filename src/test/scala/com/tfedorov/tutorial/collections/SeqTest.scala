@@ -192,6 +192,8 @@ class SeqTest {
       }
     }
     val actualResult = input.sorted(explicitOrd)
+    //Next code use default ordering
+    //val actualResult = input.sorted
 
     assertEquals(Seq(10, 8, 6, 4, 2, 9, 7, 5, 3, 1), actualResult)
   }
@@ -200,10 +202,17 @@ class SeqTest {
   def sortBy(): Unit = {
     val input: Seq[Char] = 'A' to 'Z'
 
-    val actualResult = input.sortBy((a: Char) => a match {
+    val intOrdering = Ordering.Int
+    //def sortBy[B](f: A => B)(implicit ord: Ordering[B])
+    val actualResult = input.sortBy[Int] {
       case vovel if "AEIOU".contains(vovel) => -1
       case _ => 1
-    })
+    }(intOrdering)
+    //Same as
+    //val actualResult = input.sortBy[Int] {
+    //  case vovel if "AEIOU".contains(vovel) => -1
+    //  case _ => 1
+    //}
 
     assertEquals(Seq('A', 'E', 'I', 'O', 'U', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'), actualResult)
   }
