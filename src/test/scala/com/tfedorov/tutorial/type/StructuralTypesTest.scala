@@ -19,42 +19,15 @@ class StructuralTypesTest {
       def walk(): String = "Cat walking"
     }
 
-    class Dog {
-      def walk(): String = "Dog walking"
-    }
-
     val walkerStruct = new StrucType()
 
     val actualCat = walkerStruct.whoIsWalking(new Cat())
-    val actualDog = walkerStruct.whoIsWalking(new Dog())
+    val actualAny = walkerStruct.whoIsWalking(new {
+      def walk() = "Any walking"
+    });
 
     assertEquals("Struct: Cat walking", actualCat)
-    assertEquals("Struct: Dog walking", actualDog)
-  }
-
-  @Test
-  def exampleStructuralw(): Unit = {
-    class StrucType {
-      def whoIsWalking(c: {def walk(): String}): String = "Struct: " + c.walk
-    }
-
-    class Cat {
-      def walk(): String = "Cat walking"
-
-      def anotherMethod(par: String) = "string"
-    }
-
-    class Dog {
-      def walk(): String = "Dog walking"
-    }
-
-    val walkerStruct = new StrucType()
-
-    val actualCat = walkerStruct.whoIsWalking(new Cat())
-    val actualDog = walkerStruct.whoIsWalking(new Dog())
-
-    assertEquals("Struct: Cat walking", actualCat)
-    assertEquals("Struct: Dog walking", actualDog)
+    assertEquals("Struct: Any walking", actualAny)
   }
 
 }

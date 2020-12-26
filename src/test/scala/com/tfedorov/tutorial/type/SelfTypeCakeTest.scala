@@ -11,7 +11,7 @@ class SelfTypeCakeTest {
       def username: String
     }
 
-    trait Messenger {
+    class Messenger {
       this: User => // reassign this
       def chat(message: String): String = s"$username: $message"
     }
