@@ -14,6 +14,16 @@ class SetAppendsTest {
   }
 
   @Test
+  def appendVar(): Unit = {
+
+    var actualResult = Set(2, 3)
+
+    actualResult += 4
+
+    assertEquals(Set(2, 3, 4), actualResult)
+  }
+
+  @Test
   def appendAll(): Unit = {
 
     val actualResult1 = Set(2, 3) ++ Set(1, 4)
@@ -24,9 +34,18 @@ class SetAppendsTest {
   }
 
   @Test
-  def remoweEle(): Unit = {
+  def removeElement(): Unit = {
 
     val actualResult = Set(1, 2, 3) - 1
+
+    assertEquals(Set(2, 3), actualResult)
+  }
+
+  @Test
+  def removeVarElement(): Unit = {
+    var actualResult = Set(1, 2, 3)
+
+    actualResult -= 1
 
     assertEquals(Set(2, 3), actualResult)
   }

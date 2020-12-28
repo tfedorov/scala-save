@@ -24,40 +24,42 @@ you could climb any number from a set of positive integers X? For example, if X 
 class AmazonTest {
 
   @tailrec
-  private def selectAll(acc: Set[Seq[Int]])(implicit stepNumbers: Int): Set[Seq[Int]] = {
+  private def recSearch(acc: Set[Seq[Int]])(implicit stepNumbers: Int, climbs: Seq[Int]): Set[Seq[Int]] = {
     val iterationRes = acc.foldLeft(Set.empty[Seq[Int]]) { (accumulated: Set[Seq[Int]], element: Seq[Int]) =>
       var result = accumulated
       val summa = element.sum
 
-      if (summa <= stepNumbers)
+      climbs.foreach((step: Int) =>
+        if (summa + step <= stepNumbers) {
+          result -= element
+          result += (element :+ step)
+        }
+      )
+      if (summa >= stepNumbers)
         result = result + element
 
-      if (summa + 1 <= stepNumbers) {
-        result -= element
-        result = accumulated + (element :+ 1)
-      }
-
-      if (summa + 2 <= stepNumbers) {
-        result -= element
-        result = result + (element :+ 2)
-      }
       result
     }
 
     if (iterationRes.forall(comb => comb.sum >= stepNumbers))
       return iterationRes
 
-    selectAll(iterationRes)
+    recSearch(iterationRes)
   }
 
-  def stes(stepNumbers: Int): Set[Seq[Int]] = {
-    selectAll(Set(Seq(1), Seq(2)))(stepNumbers: Int)
+  def search12(stepNumbers: Int): Set[Seq[Int]] = {
+    searchSeq(stepNumbers, Seq(1, 2))
+  }
+
+  def searchSeq(stepNumbers: Int, climbSteps: Seq[Int]): Set[Seq[Int]] = {
+    val flatten: Seq[Seq[Int]] = climbSteps.map(Seq(_))
+    recSearch(flatten.toSet)(stepNumbers, climbSteps)
   }
 
   @Test
   def amazonTaskTest(): Unit = {
 
-    val actualResult = stes(4)
+    val actualResult = search12(4)
 
     val expectedResult = Set(
       Seq(1, 1, 1, 1),
@@ -70,9 +72,9 @@ class AmazonTest {
   }
 
   @Test
-  def amazonExtraTest(): Unit = {
+  def amazonChangedTest(): Unit = {
 
-    val actualResult = stes(5)
+    val actualResult = search12(5)
 
     val expectedResult = Set(
       Seq(1, 1, 1, 1, 1),
@@ -84,6 +86,21 @@ class AmazonTest {
       Seq(2, 2, 1),
       Seq(2, 1, 2)
     )
+
+    assertEquals(expectedResult.toSeq.sortWith(_.length >= _.length), actualResult.toSeq.sortWith(_.length >= _.length))
+  }
+
+  @Test
+  def amazonExtraTest(): Unit = {
+
+    val actualResult = searchSeq(5, 1 :: 3 :: 5 :: Nil)
+
+    val expectedResult = Set(
+      List(1, 1, 1, 1, 1),
+      List(1, 1, 3),
+      List(1, 3, 1),
+      List(3, 1, 1),
+      List(5))
 
     assertEquals(expectedResult.toSeq.sortWith(_.length >= _.length), actualResult.toSeq.sortWith(_.length >= _.length))
   }
