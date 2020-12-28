@@ -29,12 +29,12 @@ class AmazonTest {
       var result = accumulated
       val summa = element.sum
 
-      climbs.foreach((step: Int) =>
+      climbs.foreach { (step: Int) =>
         if (summa + step <= stepNumbers) {
           result -= element
           result += (element :+ step)
         }
-      )
+      }
       if (summa >= stepNumbers)
         result = result + element
 
