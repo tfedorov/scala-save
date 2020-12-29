@@ -13,17 +13,17 @@ For example, given s = "abcba" and k = 2, the longest substring with k distinct 
  */
 class AmazonDupStringTest {
 
-  def search(input: String, distincNum: Int): String = {
+  def search(input: String, distincNum: Int): Option[String] = {
     val noDistinctLetters: Map[Char, Int] = input.groupBy(ch => ch).mapValues(_.length).filter(_._2 > 1)
 
     (distincNum to input.length).reverse.foreach { num =>
       input.sliding(num).foreach { candidate =>
-        val districtsLetter = candidate.toSeq.filter(ch => noDistinctLetters.contains(ch))
-        if (districtsLetter.distinct.length == 1 && districtsLetter.size == distincNum)
-          return candidate
+        val districtsLetter = candidate.filter(noDistinctLetters.contains)
+        if (districtsLetter.distinct.length == 1 && districtsLetter.length == distincNum)
+          return Some(candidate)
       }
     }
-    ""
+    None
   }
 
   @Test
@@ -32,7 +32,7 @@ class AmazonDupStringTest {
 
     val actualResult = search(input, 2)
 
-    val expectedResult = "bcb"
+    val expectedResult = Some("bcb")
     assertEquals(expectedResult, actualResult)
   }
 
