@@ -39,60 +39,68 @@ file in the abstracted file system. If there is no file in the system, return 0.
  */
 class GoogleDirs {
 
-  class File(var path: Seq[String], val descr: String, val leave2Process: String)
+  private case class PathMeta(level: Int, value: String)
 
-  def findAllParents(file: File): File = {
-    if (file.leave2Process.length <= 2)
-      return file
-    if (file.descr.equalsIgnoreCase("""\n"""))
-      return file
-    val parentDescrValue = file.descr.init.init
-    val parentDescrI = findLastIndex(file.leave2Process, parentDescrValue).get
-    val beforeDescr = file.leave2Process.take(parentDescrI)
-    val afterDecr = file.leave2Process.drop(parentDescrI)
-    val parentValue = if (parentDescrI > 0)
-      afterDecr.drop(parentDescrValue.length).replace("""\n""", "").replace("""\t""", "")
-    else
-      file.leave2Process.take(file.leave2Process.indexOf(parentDescrValue))
-    val result = new File(parentValue +: file.path, parentDescrValue, beforeDescr)
-    findAllParents(result)
+  private def buildAllPathes(agg: Seq[String], descr: Seq[PathMeta]): Seq[String] = {
+    if (descr.length == 1)
+      return agg :+ descr.head.value
+
+    val candidate = descr.last
+    var result = candidate.value
+    descr.init.foldRight(candidate.level) { (element, i) =>
+      if (element.level < i) {
+        result = element.value + "/" + result
+        element.level
+      } else
+        i
+    }
+    val newAgg = agg :+ result
+
+    buildAllPathes(newAgg, descr.init)
   }
 
-  def findLastIndex(input: String, descr: String): Option[Int] = {
-    if (input.length <= 2)
-      return None
-    val index = input.lastIndexOf(descr)
-    if (index < 0)
-      return Some(0)
+  private def largestPath(workingText: String): String = {
+    val allLevels: Seq[PathMeta] = buildLevelsPathes(workingText)
+    val allPathes: Seq[String] = buildAllPathes(Nil, allLevels)
 
-    val descrCandidate = input.substring(index + descr.length, index + descr.length + 2)
-    if (!"""\n""".equalsIgnoreCase(descrCandidate) && !"""\t""".equalsIgnoreCase(descrCandidate))
-      return Some(index)
-    val shorted = input.take(index)
-    findLastIndex(shorted, descr)
+    allPathes.sortWith(_.length > _.length).head
   }
 
-  def findForFile(path: Seq[String], input: String): String = {
-    val lastI = input.lastIndexOf("""\t""")
-    if (lastI < 0)
-      return path.sortWith(_.length > _.length).head
-    val filePath = input.drop(lastI + 2)
-    val beforeFilePath = input.take(lastI + 2)
-    val fileDescrIn = beforeFilePath.lastIndexOf("""\n""")
-    val fileDescr = beforeFilePath.drop(fileDescrIn)
-    val pathBeforeDescr = beforeFilePath.take(fileDescrIn)
-    val file = findAllParents(new File(filePath :: Nil, fileDescr, pathBeforeDescr))
-
-    val foundedFilePath = file.path.mkString("/")
-    findForFile(path :+ foundedFilePath, pathBeforeDescr)
+  private def buildLevelsPathes(workingText: String): Seq[PathMeta] = {
+    var result: Seq[PathMeta] = Nil
+    val rootEndI = workingText.indexOf("""\n""")
+    val root = workingText.take(rootEndI)
+    result = result :+ PathMeta(1, root)
+    var leaveText = workingText.drop(rootEndI + 2)
+    while (leaveText.nonEmpty) {
+      val nextElIndex = leaveText.indexOf("""\n""")
+      val (nextElChunk, level) = if (nextElIndex < 0) {
+        // +1 because last element doesn't have '\n' at the end
+        (leaveText, slashNumber(leaveText) + 1)
+      } else {
+        val elementInMiddle = leaveText.take(nextElIndex + 2)
+        (elementInMiddle, slashNumber(elementInMiddle))
+      }
+      val nextElValue = trimN(nextElChunk.substring((level - 1) * 2))
+      result = result :+ PathMeta(level, nextElValue)
+      leaveText = leaveText.drop(nextElChunk.length)
+    }
+    result
   }
 
+  private def slashNumber(text: String): Int = text.count(_.equals('\\'))
+
+  private def trimN(input: String): String = {
+    if (input.endsWith("""\n"""))
+      return input.substring(0, input.length - """\n""".length)
+    input
+  }
 
   @Test
   def example2Test(): Unit = {
     val input = """dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext"""
 
-    val actualResult = findForFile(Nil, input)
+    val actualResult = largestPath(input)
 
     val expectedResult = "dir/subdir2/subsubdir2/file2.ext"
     assertEquals(expectedResult, actualResult)
@@ -100,11 +108,21 @@ class GoogleDirs {
 
   @Test
   def example1Test(): Unit = {
-    val input = "dir\\n\\tsubdir1\\n\\tsubdir2\\n\\t\\tfile.ext"
+    val input = """dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext"""
 
-    val actualResult = findForFile(Nil, input)
+    val actualResult = largestPath(input)
 
     val expectedResult = "dir/subdir2/file.ext"
+    assertEquals(expectedResult, actualResult)
+  }
+
+  @Test
+  def exampleCustomTest(): Unit = {
+    val input = """dir\n\tsubdir1\n\t\tsubsubdir1\n\t\t\tfile2.ext\n\tsubdir2\n\t\tfile1.ext\n\t\tsubsubdir2\n\t"""
+
+    val actualResult = largestPath(input)
+
+    val expectedResult = "dir/subdir1/subsubdir1/file2.ext"
     assertEquals(expectedResult, actualResult)
   }
 }
