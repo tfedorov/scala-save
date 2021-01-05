@@ -82,7 +82,8 @@ class GoogleDirs {
         (elementInMiddle, slashNumber(elementInMiddle))
       }
       val nextElValue = trimN(nextElChunk.substring((level - 1) * 2))
-      result = result :+ PathMeta(level, nextElValue)
+      val meta = PathMeta(level, nextElValue)
+      result = result :+ meta
       leaveText = leaveText.drop(nextElChunk.length)
     }
     result
