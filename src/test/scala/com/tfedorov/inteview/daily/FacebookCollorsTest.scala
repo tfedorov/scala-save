@@ -39,7 +39,6 @@ class FacebookCollorsTest {
             building4 => building1 :: building2 :: building3 :: building4 :: Nil))))
     combinations.toSeq
   }
-
   @Test
   def taskTest(): Unit = {
     //val colors = Seq("red", "green", "blue", "orange")
