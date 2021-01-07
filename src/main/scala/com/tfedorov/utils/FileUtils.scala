@@ -4,7 +4,8 @@ import java.io.{File, PrintWriter}
 import java.lang.System._
 import java.nio.charset.{Charset, CodingErrorAction}
 import java.nio.file.{Files, Paths}
-import java.util.Date
+import java.util.jar.{JarFile, Manifest}
+import scala.collection.JavaConverters._
 import scala.io.{BufferedSource, Source}
 import scala.util.{Random, Try}
 
@@ -120,4 +121,20 @@ object FileUtils {
     file.exists && file.isDirectory
   }
 
+  def readManifest(jarFragment: String): Option[String] = {
+    val manifests = Thread.currentThread.getContextClassLoader.getResources(JarFile.MANIFEST_NAME).asScala.toSeq
+    val foundedJars = manifests.filter(_.getPath.contains(jarFragment))
+    if (foundedJars.isEmpty)
+      return None
+
+    val manifestContent = new StringBuilder()
+    foundedJars.foreach { url =>
+      val manifest = new Manifest(url.openStream())
+      manifestContent.append("File:" + url.getPath + "\n")
+      manifest.getMainAttributes.asScala.foreach { atribute =>
+        manifestContent.append(atribute._1 + "," + atribute._2 + "\n")
+      }
+    }
+    Some(manifestContent.mkString)
+  }
 }

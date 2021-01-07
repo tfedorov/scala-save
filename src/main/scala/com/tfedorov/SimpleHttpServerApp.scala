@@ -1,10 +1,9 @@
 package com.tfedorov
 
-import java.net.InetSocketAddress
-
 import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
+import com.tfedorov.utils.FileUtils
 
-import scala.io.Source
+import java.net.InetSocketAddress
 import scala.util.Try
 
 object SimpleHttpServerApp extends App {
@@ -43,10 +42,11 @@ object SimpleHttpServerApp extends App {
       os.close()
     }
 
+
     private def readResponse(): String = {
+
       val maybeManifest = Try {
-        val manifest = Source.fromResource("META-INF/MANIFEST.MF").getLines.mkString("\n")
-        if (manifest.isEmpty) "Can't read MANIFEST" else manifest
+        FileUtils.readManifest("assembly").getOrElse("no assembly MANIFEST"))
       }
       if (maybeManifest.isSuccess)
         maybeManifest.get

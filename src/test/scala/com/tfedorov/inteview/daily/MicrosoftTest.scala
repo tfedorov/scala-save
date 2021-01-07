@@ -53,7 +53,7 @@ class MicrosoftTest {
 
   @Test
   def dictDefault2Test(): Unit = {
-    val dict = Seq("bed", "bath", "bedbath", "and", "beyond")
+    val dict = Seq("bed", "batllh", "bedbath", "and", "beyond")
     val sentence = "bedbathandbeyond"
 
     val actualResult: Seq[Seq[String]] = findVariants(dict, sentence)
