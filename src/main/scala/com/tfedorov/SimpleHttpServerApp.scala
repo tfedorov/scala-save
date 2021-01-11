@@ -46,7 +46,7 @@ object SimpleHttpServerApp extends App {
     private def readResponse(): String = {
 
       val maybeManifest = Try {
-        FileUtils.readManifest("assembly").getOrElse("no assembly MANIFEST"))
+        FileUtils.readManifest("assembly").getOrElse("no assembly MANIFEST")
       }
       if (maybeManifest.isSuccess)
         maybeManifest.get
