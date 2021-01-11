@@ -121,6 +121,16 @@ class FacebookRegexTest {
     assertEquals(true, actualResult)
   }
 
+  @Test
+  def customAster6Test(): Unit = {
+    val inputText = "hhat"
+    val inputReg = "bh*at"
+
+    val actualResult: Boolean = check(inputText, inputReg)
+
+    assertEquals(false, actualResult)
+  }
+
   abstract sealed class RegElement {
     def checkEl(input: Char): Boolean
   }
@@ -139,7 +149,7 @@ class FacebookRegexTest {
 
 
   private case class ElementChecker(superElements: Seq[RegElement], workingElements: Seq[RegElement], workingText: String) {
-    def isCompleted: Boolean = if (workingElements.isEmpty || workingText.isEmpty)
+    def isOver: Boolean = if (workingElements.isEmpty || workingText.isEmpty)
       true
     else
       false
@@ -149,6 +159,22 @@ class FacebookRegexTest {
     def proceedChar(): ElementChecker = copy(workingText = workingText.init)
 
     def move2super(): ElementChecker = copy(superElements = superElements :+ workingElements.last, workingElements = workingElements.init)
+
+    def isComplete: Boolean = {
+      if (workingElements.isEmpty && workingText.isEmpty)
+        return true
+      if (workingElements.nonEmpty && workingText.isEmpty)
+        return false
+
+      if (superElements.nonEmpty) {
+        superElements.foreach { superElement =>
+          val notMatched = workingText.filter(!superElement.checkEl(_))
+          if (notMatched.isEmpty)
+            return true
+        }
+      }
+      false
+    }
   }
 
   private def check(inputText: String, inputReg: String): Boolean = {
@@ -156,7 +182,7 @@ class FacebookRegexTest {
     val metaSeq: Seq[RegElement] = buildReqElements(inputReg)
     var checker = ElementChecker(Nil, metaSeq, inputText)
 
-    while (!checker.isCompleted) {
+    while (!checker.isOver) {
       val currentEl = checker.workingElements.last
       val currentChar = checker.workingText.last
       var currentElCheck = false
@@ -180,7 +206,7 @@ class FacebookRegexTest {
         }
       }
     }
-    true
+    checker.isComplete
   }
 
   private def buildReqElements(inputReg: String): Seq[RegElement] = {
