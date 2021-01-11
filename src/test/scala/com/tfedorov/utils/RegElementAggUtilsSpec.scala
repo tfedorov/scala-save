@@ -8,7 +8,7 @@ import org.scalatest.tagobjects.Disk
 
 import scala.util._
 
-class ElementAggUtilsSpec extends FlatSpec {
+class RegElementAggUtilsSpec extends FlatSpec {
 
   ".readAllFile" should "reads file content as string" in {
 

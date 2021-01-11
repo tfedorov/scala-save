@@ -121,63 +121,41 @@ class FacebookRegexTest {
     assertEquals(true, actualResult)
   }
 
-  abstract sealed class Element {
-    def begin: Int
-
+  abstract sealed class RegElement {
     def checkEl(input: Char): Boolean
   }
 
-  private case class Lit(value: Char, begin: Int) extends Element {
+  private case class Lit(value: Char) extends RegElement {
     override def checkEl(input: Char): Boolean = value.equals(input)
   }
 
-  private case class Point(begin: Int) extends Element {
+  private class Point() extends RegElement {
     override def checkEl(input: Char): Boolean = true
   }
 
-  private case class Aster(valueBefore: Element) extends Element {
-
+  private case class Aster(valueBefore: RegElement) extends RegElement {
     override def checkEl(input: Char): Boolean = valueBefore.checkEl(input)
-
-    override def begin: Int = valueBefore.begin
   }
 
-  private case class ElementConstructAgg(detectedEls: Seq[Element], isAster: Boolean = false)
 
-  private case class ElementChecker(superElements: Seq[Element], workingElements: Seq[Element], workingText: String) {
+  private case class ElementChecker(superElements: Seq[RegElement], workingElements: Seq[RegElement], workingText: String) {
     def isCompleted: Boolean = if (workingElements.isEmpty || workingText.isEmpty)
       true
     else
       false
 
-    def proceedEl(): ElementChecker = copy(workingElements = workingElements.init, workingText = workingText.init)
+    def proceedElAndChar(): ElementChecker = copy(workingElements = workingElements.init, workingText = workingText.init)
+
+    def proceedChar(): ElementChecker = copy(workingText = workingText.init)
 
     def move2super(): ElementChecker = copy(superElements = superElements :+ workingElements.last, workingElements = workingElements.init)
   }
 
   private def check(inputText: String, inputReg: String): Boolean = {
 
-    val splitReg = inputReg.zipWithIndex.foldRight(ElementConstructAgg(Nil)) { (charI: (Char, Int), agg: ElementConstructAgg) =>
-      var charResult = agg
-      if (agg.isAster) {
-        val detectedAsterEl = charI match {
-          case ('.', index) => Aster(Point(index))
-          case (ch, index) => Aster(Lit(ch, index))
-        }
-        charResult = charResult.copy(charResult.detectedEls :+ detectedAsterEl, false)
-      } else if (charI._1.equals('*'))
-        charResult = charResult.copy(isAster = true)
-      else {
-        val detectedEl = charI match {
-          case ('.', index) => Point(index)
-          case (ch, index) => Lit(ch, index)
-        }
-        charResult = charResult.copy(detectedEls = agg.detectedEls :+ detectedEl)
-      }
-      charResult
-    }
-    val metaSeq = splitReg.detectedEls.reverse
+    val metaSeq: Seq[RegElement] = buildReqElements(inputReg)
     var checker = ElementChecker(Nil, metaSeq, inputText)
+
     while (!checker.isCompleted) {
       val currentEl = checker.workingElements.last
       val currentChar = checker.workingText.last
@@ -193,15 +171,39 @@ class FacebookRegexTest {
 
         val validSuper = checker.superElements.filter(_.checkEl(currentChar))
         checker = checker.copy(superElements = validSuper)
-        (superElCheck, currentElCheck) match {
+
+        checker = (superElCheck, currentElCheck) match {
           case (false, false) => return false
-          case (false, true) => checker = checker.proceedEl()
-          case (true, false) => checker = checker.copy(workingText = checker.workingText.init)
-          case (true, true) => checker = checker.proceedEl()
+          case (false, true) => checker.proceedElAndChar()
+          case (true, false) => checker.proceedChar()
+          case (true, true) => checker.proceedElAndChar()
         }
       }
     }
     true
   }
 
+  private def buildReqElements(inputReg: String): Seq[RegElement] = {
+    case class ElementConstructAgg(detectedEls: Seq[RegElement], isAster: Boolean = false)
+    val splitReg = inputReg.foldRight(ElementConstructAgg(Nil)) { (charEl: Char, agg: ElementConstructAgg) =>
+      var charResult = agg
+      if (agg.isAster) {
+        val detectedAsterEl = charEl match {
+          case '.' => Aster(new Point())
+          case ch => Aster(Lit(ch))
+        }
+        charResult = charResult.copy(charResult.detectedEls :+ detectedAsterEl, false)
+      } else if (charEl.equals('*'))
+        charResult = charResult.copy(isAster = true)
+      else {
+        val detectedEl = charEl match {
+          case '.' => new Point()
+          case ch => Lit(ch)
+        }
+        charResult = charResult.copy(detectedEls = agg.detectedEls :+ detectedEl)
+      }
+      charResult
+    }
+    splitReg.detectedEls.reverse
+  }
 }
