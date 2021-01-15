@@ -1,7 +1,9 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.google
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+
+import scala.annotation.tailrec
 
 /*
 This problem was asked by Google.
@@ -41,7 +43,8 @@ class GoogleDirs {
 
   private case class PathMeta(level: Int, value: String)
 
-  private def buildAllPathes(agg: Seq[String], descr: Seq[PathMeta]): Seq[String] = {
+  @tailrec
+  private def buildAllPaths(agg: Seq[String], descr: Seq[PathMeta]): Seq[String] = {
     if (descr.length == 1)
       return agg :+ descr.head.value
 
@@ -56,12 +59,12 @@ class GoogleDirs {
     }
     val newAgg = agg :+ result
 
-    buildAllPathes(newAgg, descr.init)
+    buildAllPaths(newAgg, descr.init)
   }
 
   private def largestPath(workingText: String): String = {
     val allLevels: Seq[PathMeta] = buildLevelsPathes(workingText)
-    val allPathes: Seq[String] = buildAllPathes(Nil, allLevels)
+    val allPathes: Seq[String] = buildAllPaths(Nil, allLevels)
 
     allPathes.sortWith(_.length > _.length).head
   }

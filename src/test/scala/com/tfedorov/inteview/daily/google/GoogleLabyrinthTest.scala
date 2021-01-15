@@ -1,4 +1,4 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.google
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -25,8 +25,8 @@ since we would need to go through (1, 2) because there is a wall everywhere else
 class GoogleLabyrinthTest {
 
   private case class StepPosition(activeFields: Seq[Seq[Option[Boolean]]], step: (Int, Int), doneSteps: Int) {
-    lazy val maxX = activeFields.head.length
-    lazy val maxY = activeFields.length
+    lazy val maxX: Int = activeFields.head.length
+    lazy val maxY: Int = activeFields.length
 
     def newPosition(step: (Int, Int)): StepPosition = {
       val row = activeFields(step._1)

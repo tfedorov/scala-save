@@ -1,6 +1,6 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.facebook
 
-import org.junit.jupiter.api.Assertions.{assertEquals, fail}
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 /*
@@ -218,7 +218,7 @@ class FacebookRegexTest {
           case '.' => Aster(new Point())
           case ch => Aster(Lit(ch))
         }
-        charResult = charResult.copy(charResult.detectedEls :+ detectedAsterEl, false)
+        charResult = charResult.copy(charResult.detectedEls :+ detectedAsterEl, isAster = false)
       } else if (charEl.equals('*'))
         charResult = charResult.copy(isAster = true)
       else {

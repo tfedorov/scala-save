@@ -1,4 +1,4 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.google
 
 /*
 Google.

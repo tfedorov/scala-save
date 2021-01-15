@@ -1,10 +1,9 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.facebook
 
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 import scala.util.Random
-
-import org.junit.jupiter.api.Test
 /*
 This problem was asked by Facebook.
 

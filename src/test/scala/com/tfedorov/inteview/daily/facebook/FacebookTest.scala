@@ -1,9 +1,9 @@
-package com.tfedorov.inteview.daily
-
-import scala.collection.SortedMap
+package com.tfedorov.inteview.daily.facebook
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+
+import scala.collection.SortedMap
 
 /*
 This problem was asked by Facebook.
@@ -17,7 +17,7 @@ You can assume that the messages are decodable. For example, '001' is not allowe
 class FacebookTest {
 
 
-  val mapping = SortedMap(('a' to 'z').zipWithIndex.map(t => (t._1, t._2 + 1)): _*)
+  val mapping: SortedMap[Char, Int] = SortedMap(('a' to 'z').zipWithIndex.map(t => (t._1, t._2 + 1)): _*)
 
   @Test
   def mapintTest(): Unit = {

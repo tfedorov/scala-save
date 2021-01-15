@@ -1,4 +1,4 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.google
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -28,7 +28,7 @@ class GoogleTreeTest {
       case ValueNode(_, None, None) => true
       case ValueNode(root, None, Some(ValueNode(right, _, _))) => root == right
       case ValueNode(root, Some(ValueNode(left, _, _)), None) => root == left
-      case ValueNode(root, Some(ValueNode(left, _, _)), Some(ValueNode(right, _, _))) => (root == right && root == left)
+      case ValueNode(root, Some(ValueNode(left, _, _)), Some(ValueNode(right, _, _))) => root == right && root == left
     }
   }
 

@@ -1,9 +1,7 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.facebook
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import scala.collection.immutable
 
 class FacebookCollorsTest {
 

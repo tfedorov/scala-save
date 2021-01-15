@@ -1,4 +1,4 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.google
 
 /*
 This problem was asked by Google.
@@ -23,7 +23,7 @@ class GoogleCircleTest {
     var exist = 1
     while (counter < 10000000) {
       counter += 1
-      if (shots)
+      if (shots())
         exist += 1
     }
     val res = 4.0 * exist / counter
@@ -35,7 +35,7 @@ class GoogleCircleTest {
 
     val actualResult = equalPi()
 
-    val expectedResult = "3.141"
+    val expectedResult = "3.1412"
     assertEquals(expectedResult, actualResult)
   }
 

@@ -1,4 +1,4 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.google
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -11,7 +11,7 @@ Instead of each node holding next and prev fields, it holds a field named both, 
 If using a language that has no pointers (such as Python), you can assume you have access to get_pointer
 and dereference_pointer functions that converts between nodes and memory addresses.
  */
-class GoogleTest {
+class GoogleXORListTest {
 
   case class XorElement(value: Int, maybeLeft: Option[Int], maybeRight: Option[Int]) {
 
