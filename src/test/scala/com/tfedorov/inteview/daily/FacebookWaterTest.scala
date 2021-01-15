@@ -22,24 +22,21 @@ class FacebookWaterTest {
   private case class Wall(value: Int, index: Int)
 
   private case class InnerPool(left: Wall, right: Wall) {
-    lazy val height = Math.min(left.value, right.value)
+    lazy val height: Int = Math.min(left.value, right.value)
 
-    def poolIsHigher(wall: Wall): Boolean = height > wall.value
-
-    def divide(middle: Wall): Seq[InnerPool] = {
-      InnerPool(left, middle) :: InnerPool(middle, right) :: Nil
+    def divideIfHigher(middle: Wall): Seq[InnerPool] = {
+      if (height > middle.value)
+        this :: Nil
+      else
+        InnerPool(left, middle) :: InnerPool(middle, right) :: Nil
     }
   }
 
   def howMuchWater(input: Seq[Int]): Int = {
 
     val allPool = InnerPool(Wall(input.head, 0), Wall(input.last, input.length - 1))
-    val pools = input.zipWithIndex.map(t => Wall(t._1, t._2)).foldLeft(Seq(allPool)) { case (pools: Seq[InnerPool], wall) =>
-      if (pools.last poolIsHigher wall)
-        pools
-      else
-        pools.init ++ pools.last.divide(wall)
-    }
+    val pools = input.zipWithIndex.map(t => Wall(t._1, t._2))
+      .foldLeft(Seq(allPool)) { (pools, wall) => pools.init ++ (pools.last divideIfHigher wall) }
     pools.foldLeft(0) { (sumAgg, pool) =>
       val poolWallHeights = input.slice(pool.left.index, pool.right.index + 1)
       sumAgg + poolWallHeights.map { wallHeight =>
@@ -70,7 +67,7 @@ class FacebookWaterTest {
 
 
   @Test
-  def custome1Test(): Unit = {
+  def custom1Test(): Unit = {
     val input = Seq(3, 0, 4, 3, 6, 4, 5)
 
     val actualResult: Int = howMuchWater(input)
