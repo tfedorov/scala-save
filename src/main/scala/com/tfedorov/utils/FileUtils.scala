@@ -3,7 +3,7 @@ package com.tfedorov.utils
 import java.io.{File, PrintWriter}
 import java.lang.System._
 import java.nio.charset.{Charset, CodingErrorAction}
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Path, Paths}
 import java.util.jar.{JarFile, Manifest}
 import scala.collection.JavaConverters._
 import scala.io.{BufferedSource, Source}
@@ -137,4 +137,5 @@ object FileUtils {
     }
     Some(manifestContent.mkString)
   }
+
 }
