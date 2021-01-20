@@ -14,11 +14,11 @@ object SaveHDFSApp extends App {
 
   def mkPath(str: String): Path = new Path(str)
 
-  val localSource = mkPath("/Users/tfedorov/IdeaProjects/tmp/pod.yaml")
+  val localSource = mkPath("/Users/tfedorov/IdeaProjects/tmp/tmp.txt")
   val hdfsDest = mkPath("/Hdfs3SinkConnector")
-  // fs.copyFromLocalFile(localSource, hdfsDest)
+  fs.copyFromLocalFile(localSource, hdfsDest)
 
   val localDest = mkPath("/Users/tfedorov/IdeaProjects/tmp/")
   val hdfsSource = mkPath("/Hdfs3SinkConnector/pod.yaml")
-  fs.copyToLocalFile(hdfsSource, localDest)
+  //fs.copyToLocalFile(hdfsSource, localDest)
 }
