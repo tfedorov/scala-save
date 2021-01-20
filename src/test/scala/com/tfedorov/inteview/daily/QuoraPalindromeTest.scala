@@ -17,28 +17,34 @@ As another example, given the string "google", you should return "elgoogle".
 
  */
 class QuoraPalindromeTest {
-  private def isPalindrome(candidate: String) = candidate.equals(candidate.reverse)
+  private def isValidCandidate(candidate: String)(implicit input: String) = candidate.contains(input) && candidate.equals(candidate.reverse)
 
   private def allPalindromes(implicit input: String): Seq[String] = {
     val averseLetters = input +: input.inits.toList.filterNot(_.isEmpty)
     val reverseLetters = input +: input.reverse.inits.toList.filterNot(_.isEmpty)
-    val resultsAvers: Seq[Option[String]] = checkPalidrome(averseLetters, reverseLetters, (avers, revers) => avers + revers)
-    val resultsRevers: Seq[Option[String]] = checkPalidrome(averseLetters, reverseLetters, (avers, revers) => revers + avers)
-    (resultsAvers ++ resultsRevers).collect { case Some(palindrome) => palindrome }
+    val enhancedBefore = extraBefore(averseLetters, reverseLetters)
+    val enhancedAfter = extraAfter(averseLetters, reverseLetters)
+    enhancedBefore ++ enhancedAfter
   }
 
-  private def checkPalidrome(averseLetters: List[String], reverseLetters: List[String], composeF: (String, String) => String)(implicit input: String) = {
+  private def extraBefore(averseLetters: List[String], reverseLetters: List[String])
+                         (implicit input: String) = {
     for {
       avers <- averseLetters
       revers <- reverseLetters
+      candidate = avers + revers if isValidCandidate(candidate)
     }
-      yield {
-        val candidate = composeF(revers, avers)
-        if (candidate.contains(input) && isPalindrome(candidate))
-          Some(candidate)
-        else
-          None
-      }
+      yield candidate
+  }
+
+  private def extraAfter(averseLetters: List[String], reverseLetters: List[String])
+                        (implicit input: String) = {
+    for {
+      avers <- averseLetters
+      revers <- reverseLetters
+      candidate = revers + avers if isValidCandidate(candidate)
+    }
+      yield candidate
   }
 
   private def searchPalindrome(input: String): String = {
@@ -68,5 +74,23 @@ class QuoraPalindromeTest {
     val actualResult: String = searchPalindrome(input)
 
     assertEquals("elgoogle", actualResult)
+  }
+
+  @Test
+  def custom1Test(): Unit = {
+    val input = "za"
+
+    val actualResult: String = searchPalindrome(input)
+
+    assertEquals("aza", actualResult)
+  }
+
+  @Test
+  def custom2Test(): Unit = {
+    val input = "zzaz"
+
+    val actualResult: String = searchPalindrome(input)
+
+    assertEquals("zzazz", actualResult)
   }
 }
