@@ -8,15 +8,12 @@ class MatrixRotateTest {
   def rotateMatrix(input: Array[Array[String]]): Array[Array[String]] = {
 
     val width = input.head.length
-    val zero: Seq[Seq[String]] = Seq.fill(width)(Seq.empty[String])
-    val seq = input.foldLeft(zero) { (agg: Seq[Seq[String]], seq) =>
-      var res = agg
-      seq.reverse.zipWithIndex.foreach { case (el, i) =>
-        res = res.updated(i, agg(i) :+ el)
+    val zero: Seq[Seq[String]] = Seq.fill(width)(Nil)
+    input.foldLeft(zero) { (resultAgg, inputRow) =>
+      resultAgg.zip(inputRow.reverse).map { case (resultRow, inputRowEl) =>
+        resultRow :+ inputRowEl
       }
-      res
-    }
-    seq.map(_.toArray).toArray
+    }.map(_.toArray).toArray
   }
 
   @Test
