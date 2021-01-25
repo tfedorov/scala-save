@@ -3,7 +3,7 @@ package com.tfedorov.utils
 import java.io.{File, PrintWriter}
 import java.lang.System._
 import java.nio.charset.{Charset, CodingErrorAction}
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.{Files, Paths}
 import java.util.jar.{JarFile, Manifest}
 import scala.collection.JavaConverters._
 import scala.io.{BufferedSource, Source}
@@ -43,6 +43,10 @@ object FileUtils {
   }
 
   def resourceFullPath(path: String): String = this.getClass.getClassLoader.getResource(path).getPath
+
+  def readResourceBytes(resource: String): Try[Array[Byte]] = Try {
+    Files.readAllBytes(Paths.get(resourceFullPath(resource)))
+  }
 
   def readResource(path: String): Try[String] = readAllFile(resourceFullPath(path))
 
