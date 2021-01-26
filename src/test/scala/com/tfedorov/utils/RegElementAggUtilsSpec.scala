@@ -12,7 +12,7 @@ class RegElementAggUtilsSpec extends FlatSpec {
 
   ".readAllFile" should "reads file content as string" in {
 
-    val result = FileUtils.readAllFile("./src/test/resources/singleFileFolder/File2Read.txt")
+    val result = FileUtils.readAllFile("./src/test/resources/singleFileFolder/file2HDFS.txt")
 
     result should be(Success("7 bytes"))
   }
@@ -28,7 +28,7 @@ class RegElementAggUtilsSpec extends FlatSpec {
 
   ".readBytes" should "reads file's bytes" in {
 
-    val result = FileUtils.readBytes("./src/test/resources/singleFileFolder/File2Read.txt")
+    val result = FileUtils.readBytes("./src/test/resources/singleFileFolder/file2HDFS.txt")
 
     result.get should be(Array(55, 32, 98, 121, 116, 101, 115))
   }
@@ -48,7 +48,7 @@ class RegElementAggUtilsSpec extends FlatSpec {
 
   it should "returns file name for file" in {
 
-    val filesPath: Seq[String] = FileUtils.fileNames("./src/test/resources/singleFileFolder/File2Read.txt")
+    val filesPath: Seq[String] = FileUtils.fileNames("./src/test/resources/singleFileFolder/file2HDFS.txt")
 
     filesPath.size should be(1)
   }
@@ -62,7 +62,7 @@ class RegElementAggUtilsSpec extends FlatSpec {
 
   ".exist" should "checks existed file" in {
 
-    val result = FileUtils.exist("./src/test/resources/singleFileFolder/File2Read.txt")
+    val result = FileUtils.exist("./src/test/resources/singleFileFolder/file2HDFS.txt")
 
     result should be(true)
   }
@@ -76,9 +76,9 @@ class RegElementAggUtilsSpec extends FlatSpec {
 
   ".shortName" should "returns existed names" in {
 
-    val result = FileUtils.shortName("./src/test/resources/singleFileFolder/File2Read.txt")
+    val result = FileUtils.shortName("./src/test/resources/singleFileFolder/file2HDFS.txt")
 
-    result should be(Some("File2Read.txt"))
+    result should be(Some("file2HDFS.txt"))
   }
 
   it should "returns NOT existed names" in {
@@ -104,9 +104,9 @@ class RegElementAggUtilsSpec extends FlatSpec {
 
   ignore should "returns existed names" taggedAs Disk in {
 
-    val result = FileUtils.fullName("./src/test/resources/singleFileFolder/File2Read.txt")
+    val result = FileUtils.fullName("./src/test/resources/singleFileFolder/file2HDFS.txt")
 
-    result should be(Some("C:/work/workspace/private/scala-save/src/test/resources/File2Read.txt"))
+    result should be(Some("C:/work/workspace/private/scala-save/src/test/resources/file2HDFS.txt"))
   }
 
   ignore should "returns dir names" taggedAs Disk in {

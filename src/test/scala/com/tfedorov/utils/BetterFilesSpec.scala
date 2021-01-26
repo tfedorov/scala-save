@@ -48,7 +48,7 @@ class BetterFilesSpec extends FlatSpec {
   }
 
   ".contentAsString" should "reads file content as string" in {
-    val existedFile = "./src/test/resources/singleFileFolder/File2Read.txt".toFile
+    val existedFile = "./src/test/resources/singleFileFolder/file2HDFS.txt".toFile
 
     val actualContent = existedFile.contentAsString
 
@@ -64,7 +64,7 @@ class BetterFilesSpec extends FlatSpec {
   }
 
   ".byteArray" should "reads file's bytes" in {
-    val existedFile = "./src/test/resources/singleFileFolder/File2Read.txt".toFile
+    val existedFile = "./src/test/resources/singleFileFolder/file2HDFS.txt".toFile
 
     val actualContent = existedFile.byteArray
 
@@ -80,20 +80,20 @@ class BetterFilesSpec extends FlatSpec {
   }
 
   ".name" should "returns files name in directory" in {
-    val existedFile = "./src/test/resources/singleFileFolder/File2Read.txt".toFile
+    val existedFile = "./src/test/resources/singleFileFolder/file2HDFS.txt".toFile
 
     val actualContent = existedFile.name
 
-    actualContent should be("File2Read.txt")
+    actualContent should be("file2HDFS.txt")
   }
 
   ".path" should "returns existed names" in {
-    val existedFile = "./src/test/resources/singleFileFolder/File2Read.txt".toFile
+    val existedFile = "./src/test/resources/singleFileFolder/file2HDFS.txt".toFile
 
     val actualPath: String = existedFile.path.toString
 
     actualPath should be(
-      "/Users/tfedorov/IdeaProjects/scala-save/src/test/resources/singleFileFolder/File2Read.txt")
+      "/Users/tfedorov/IdeaProjects/scala-save/src/test/resources/singleFileFolder/file2HDFS.txt")
   }
 
   it should "returns NOT existed names" in {

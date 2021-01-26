@@ -1,23 +1,23 @@
 package com.tfedorov
 
 
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FileSystem, Path}
+import com.tfedorov.utils.FileUtils._
+import com.tfedorov.utils.HDFSUtils
+import com.tfedorov.utils.HDFSUtils._
+import org.apache.hadoop.fs.FileSystem
 
 object SaveHDFSApp extends App {
 
-  val conf = new Configuration()
-  conf.set("fs.defaultFS", "hdfs://localhost:9000")
-  conf.set("fs.hdfs.impl", "org.apache.hadoop.hdfs.DistributedFileSystem")
+  val conf = HDFSUtils.config(
+    "fs.defaultFS" -> "hdfs://localhost:9000"
+    , "fs.hdfs.impl" -> "org.apache.hadoop.hdfs.DistributedFileSystem")
   val fs = FileSystem.get(conf)
 
-  def mkPath(str: String): Path = new Path(str)
-
-  val localSource = mkPath("/Users/tfedorov/IdeaProjects/tmp/tmp.txt")
-  val hdfsDest = mkPath("/Hdfs3SinkConnector")
+  val localSource = resourceFullPath("fileSource/file2HDFS.txt").asHDFSPath
+  val hdfsDest = "/Hdfs3SinkConnector".asHDFSPath
   //fs.copyFromLocalFile(localSource, hdfsDest)
 
-  val localDest = mkPath("/Users/tfedorov/IdeaProjects/tmp/")
-  val hdfsSource = mkPath("/Hdfs3SinkConnector/tmp.txt")
+  val localDest = fullName("src/main/resources/fileDestination/").get.asHDFSPath
+  val hdfsSource = "/Hdfs3SinkConnector/file2HDFS.txt".asHDFSPath
   fs.copyToLocalFile(hdfsSource, localDest)
 }
