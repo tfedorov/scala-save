@@ -17,7 +17,8 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-free" % catsVersion % Test,
   "org.typelevel" %% "cats-mtl-core" % "0.2.1" % Test,
   "org.typelevel" %% "simulacrum" % "1.0.0" % Test,
-  "org.apache.parquet" % "parquet-common" % "1.11.1"
+  "org.apache.parquet" % "parquet-common" % "1.11.1",
+  "org.apache.parquet" % "parquet-avro" % "1.11.1"
 )
 
 scalacOptions += "-Ypartial-unification"

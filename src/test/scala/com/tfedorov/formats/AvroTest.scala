@@ -1,4 +1,4 @@
-package com.tfedorov.parquete
+package com.tfedorov.formats
 
 import com.tfedorov.utils.FileUtils
 import com.tfedorov.utils.FileUtils._
@@ -10,11 +10,12 @@ import org.scalatest.Matchers._
 
 import java.io.File
 
-class ParquetTest extends FlatSpec {
+//https://zymeworks.github.io/avro-viewer/
+class AvroTest extends FlatSpec {
 
   private case class DataR(left: String, right: String)
 
-  private def writeParquete(schemaVal: String, data: Seq[DataR], fileOut: String) = {
+  private def writeAvro(schemaVal: String, data: Seq[DataR], fileOut: String) = {
     val parser = new Parser()
     val schema = parser.parse(schemaVal)
 
@@ -32,7 +33,7 @@ class ParquetTest extends FlatSpec {
     dataFileWriter.close()
   }
 
-  "writeParquete" should "create a specific file" in {
+  "writeAvro" should "create a specific file" in {
     val file2Save = FileUtils.randomTempFile()
     val schemaVal: String =
       """
@@ -47,14 +48,14 @@ class ParquetTest extends FlatSpec {
         |}
         |""".stripMargin
 
-    writeParquete(schemaVal, DataR("left", "right") :: Nil, file2Save)
+    writeAvro(schemaVal, DataR("left", "right") :: Nil, file2Save)
     val actualResult = FileUtils.readBytes(file2Save).get
 
     val expectedFile = FileUtils.readResourceBytes("parquete/DataExample.avro").get
     actualResult.take(150) should be(expectedFile.take(150))
   }
 
-  private def readParquete(fileInput: String) = {
+  private def readAvro(fileInput: String) = {
     val file = new File(fileInput)
     val reader = new GenericDatumReader[GenericRecord]();
     val dataFileReader = new DataFileReader[GenericRecord](file, reader);
@@ -64,7 +65,7 @@ class ParquetTest extends FlatSpec {
 
   }
 
-  "readParquete" should "create a specific file" in {
-    readParquete(resourceFullPath("parquete/DataExample.avro"))
+  "readAvro" should "create a specific file" in {
+    readAvro(resourceFullPath("parquete/DataExample.avro"))
   }
 }
