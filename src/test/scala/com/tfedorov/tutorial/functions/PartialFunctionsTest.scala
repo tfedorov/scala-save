@@ -65,9 +65,11 @@ class PartialFunctionsTest {
 
     //val actual = list.collect(oneF.orElse(twoF))
     val actual = list.collect(oneF orElse twoF)
+    val actualComposed: PartialFunction[Int, String] = oneF orElse twoF
 
     assertEquals("one" :: "two" :: "one" :: Nil, actual)
-    assertEquals("one", (oneF orElse twoF) (1))
+    assertEquals("one", actualComposed(1))
+    assertEquals("one" :: "two" :: "one" :: Nil, list.collect(actualComposed))
   }
 
   @Test

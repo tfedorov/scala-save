@@ -28,7 +28,7 @@ class ForComprehensiveTest {
       a: String <- abc
       d: String <- deF
     }
-      yield (a, d)
+    yield (a, d)
 
     val actualResultFlat = abc.flatMap(abcEl => deF.map(defEl => (abcEl, defEl)))
     val expected =
@@ -48,7 +48,7 @@ class ForComprehensiveTest {
       a: String <- abc
       d: Int <- multiplier
     }
-      yield a * d
+    yield a * d
     val actualResultFlat = abc.flatMap(abcEl => multiplier.map(abcEl * _))
 
     val expected = "AA" :: "AAA" :: "BB" :: "BBB" :: "CC" :: "CCC" :: Nil
@@ -65,7 +65,7 @@ class ForComprehensiveTest {
       a: String <- abcd.flatten
       e: String <- efgh.flatten
     }
-      yield (a, e)
+    yield (a, e)
     val actualResultFlat = abcd.flatten.flatMap(abcdEl => efgh.flatten.map(efghEl => (abcdEl, efghEl)))
 
     val expected =
@@ -85,7 +85,7 @@ class ForComprehensiveTest {
       level1Seq: Seq[String] <- abcd
       level2El: String <- level1Seq
     }
-      yield level2El * 2
+    yield level2El * 2
     val actualResultFlat = abcd.flatMap((level1Seq: Seq[String]) => level1Seq.map(_ * 2))
 
     val expected = "AA" :: "BB" :: "CC" :: "11" :: Nil
@@ -101,7 +101,7 @@ class ForComprehensiveTest {
       level1Seq: Seq[String] <- abc
       level2El: String <- level1Seq
     }
-      yield level2El.length
+    yield level2El.length
     val actualResultFlat = abc.flatMap((level1Seq: Seq[String]) => level1Seq.map(_.length))
 
     val expected = 3 :: 2 :: 1 :: Nil
@@ -115,7 +115,7 @@ class ForComprehensiveTest {
 
     val actualResult = for {letter <- input
                             if letter % 3 == 0}
-      yield letter
+    yield letter
 
     assertEquals(Seq(3, 6, 9, 12, 15, 18, 21, 24, 27, 30), actualResult)
   }
@@ -140,13 +140,13 @@ class ForComprehensiveTest {
       for {entry: (Char, Int) <- mapping
            if "aoeui".contains(entry._1)
            }
-        yield entry._2
+      yield entry._2
 
-    val actualResultSimple: Unit =
-      for {entry: (Char, Int) <- mapping
-           if "aoeui".contains(entry._1)
-           }
-        entry._2
+
+    val actualResultSimple: Unit = for {entry: (Char, Int) <- mapping
+                                        if "aoeui".contains(entry._1)
+                                        } println(entry._2)
+
     assertEquals(4 :: 20 :: 0 :: 8 :: 14 :: Nil, actualResultYield)
     assertEquals((), actualResultSimple)
   }

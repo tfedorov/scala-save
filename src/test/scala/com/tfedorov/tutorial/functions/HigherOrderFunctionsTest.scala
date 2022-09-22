@@ -6,6 +6,21 @@ import org.junit.jupiter.api.Test
 class HigherOrderFunctionsTest {
 
   @Test
+  def testReturn(): Unit = {
+    val input = 1 to 10
+
+    def moreThan(check: Int): Int => Boolean = {
+      (i: Int) => i > check
+    }
+
+    val actual1 = input.filter(moreThan(8))
+    val actual2 = input.filter(moreThan(6))
+
+    assertEquals(Nil, actual1)
+    assertEquals(Nil, actual2)
+  }
+
+  @Test
   def testParamFunction(): Unit = {
     var iAmCalled = false
 
@@ -60,7 +75,9 @@ class HigherOrderFunctionsTest {
 
     def add(key: Int, value: String): String = key + value
 
-    def multiAddF = textBuilder((multi _) :: (add _) :: Nil)
+    def multiAddF2: Seq[(Int, String) => String] = (multi(_, _)) :: (add(_, _)) :: Nil
+
+    def multiAddF = textBuilder(multi _ :: add _ :: Nil)
 
     def multiAddMultiF = textBuilder(multi _ :: add _ :: multi _ :: Nil)
 
@@ -68,6 +85,7 @@ class HigherOrderFunctionsTest {
     val actualResult2 = multiAddMultiF(4, "b")
 
     assertEquals("aaa;3a", actualResult1)
+    //assertEquals("aaa;3a", textBuilder(multiAddF2)(3, "a"))
     assertEquals("bbbb;4b;bbbb", actualResult2)
   }
 

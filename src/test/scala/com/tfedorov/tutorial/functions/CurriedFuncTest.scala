@@ -3,7 +3,7 @@ package com.tfedorov.tutorial.functions
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.Test
 
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutor, Future}
 import scala.language.postfixOps
 
 class CurriedFuncTest {
@@ -19,9 +19,21 @@ class CurriedFuncTest {
   }
 
   @Test
+  def curriedF3_2(): Unit = {
+    val curriedFunc: (String, Int) => String => String = (a: String, b: Int) => a + " " + _ * b
+    val minusParam: String => String = curriedFunc("Hello", 3)
+
+    val actualResult: String = minusParam("World")
+
+    println(actualResult)
+    assertEquals("Hello WorldWorldWorld", actualResult)
+  }
+
+  @Test
   def curriedMethod(): Unit = {
     val func2: (String, String) => String = (s1: String, s2: String) => s1 + " " + s2
     val curriedFunc: String => String => String = func2.curried
+
     //val minusParam: String => String = func2("Hello",_)
     val minusParam: String => String = curriedFunc("Hello")
 
@@ -40,7 +52,7 @@ class CurriedFuncTest {
 
     assertTrue(actual1)
     assertFalse(actual2)
-    assertFalse(lessThenOneFunc(0))
+    assertTrue(lessThenOneFunc(0))
   }
 
   @Test
@@ -57,11 +69,11 @@ class CurriedFuncTest {
 
   @Test
   def curriedF3Future(): Unit = {
-    implicit val ec = ExecutionContext.global
+    implicit val ec: ExecutionContextExecutor = ExecutionContext.global
     val func2: (String, Int) => Future[Boolean] = (a: String, b: Int) => {
       Future {
         a.toInt > b
-      }
+      }(ec)
     }
     val curriedFunc: String => Int => Future[Boolean] = func2.curried
 

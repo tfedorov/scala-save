@@ -1,6 +1,6 @@
 package com.tfedorov.tutorial.collections
 
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class SeqAppendsTest {
@@ -50,6 +50,19 @@ class SeqAppendsTest {
     val actualResult = 0 +: Seq(1, 2)
 
     assertEquals(Seq(0, 1, 2), actualResult)
+  }
+
+  @Test
+  def appped(): Unit = {
+    val input: Seq[Int] = 0 +: (1 :: Nil)
+
+    //Bun not
+    // val actualResult = input +: 0
+    val actualResult = input.+:(0)
+    // The same us
+    // val actualResult = 0 +: input
+
+    assertEquals(Seq(0, 1, 2, 3, 4, 5), actualResult)
   }
 
   @Test

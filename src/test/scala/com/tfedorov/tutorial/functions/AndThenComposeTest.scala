@@ -13,6 +13,8 @@ class AndThenComposeTest {
 
     //   val f2Val: String => String = oneF
     //   val andThenedF = f2Val.andThen(twoF)
+    //val andThenedF: String => String = (oneF(_)).andThen(el => twoF(el))
+    //val andThenedF: String => String = (oneF(_)).andThen(el => twoF(el))
     //   val andThenedF: String => String = oneF _ andThen(el => twoF(el))
     //   val andThenedF: String => String = oneF _ andThen(twoF(_))
     //   val andThenedF: String => String = oneF _ andThen(twoF _)

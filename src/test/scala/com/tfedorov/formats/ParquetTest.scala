@@ -12,7 +12,7 @@ class ParquetTest extends FlatSpec {
 
   private case class DataR(left: String, right: String)
 
-  private def writeAvro(schemaVal: String, data: Seq[DataR], fileOut: String) = {
+  private def writeAvro(schemaVal: String, data: Seq[DataR], fileOut: String): Unit = {
     val parser = new Parser()
     val schema = parser.parse(schemaVal)
     val writer = AvroParquetWriter.builder[GenericRecord](new Path(fileOut))
@@ -43,10 +43,10 @@ class ParquetTest extends FlatSpec {
         |}
         |""".stripMargin
 
-    writeAvro(schemaVal, DataR("left", "right") :: Nil, file2Save)
+    writeAvro(schemaVal, DataR("left", "right") :: DataR("left2", "right2") :: Nil, file2Save)
 
     FileUtils.exist(file2Save) should be(true)
-    FileUtils.readBytes(file2Save).get.length should be(622)
+    FileUtils.readBytes(file2Save).get.length should be(621)
   }
 
 }

@@ -32,7 +32,8 @@ class SeqTest {
 
     val actualResult: Seq[Int] = input.padTo(input.length + 3, 2)
 
-    assertEquals(input.toList ::: (2 :: 2 :: 2 :: Nil), actualResult)
+    val expected = List(1, 2, 3, 4, 5, 2, 2, 2)
+    assertEquals(expected, actualResult)
   }
 
   @Test
@@ -111,9 +112,10 @@ class SeqTest {
   def span(): Unit = {
     val input: Seq[Int] = Seq(1, 2, 7, 13, 4, 2, 7, 5)
 
-    val actualResult = input.span(_ < input.max)
+    val actualResult: (Seq[Int], Seq[Int]) = input.span(_ < input.max)
 
-    assertEquals((1 :: 2 :: 7 :: Nil, input.drop(3)), actualResult)
+    val expected = (List(1, 2, 7), List(13, 4, 2, 7, 5))
+    assertEquals(expected, actualResult)
   }
 
   @Test
@@ -122,7 +124,8 @@ class SeqTest {
 
     val actualResult = input.partition(_ < 3)
 
-    assertEquals((1 :: 2 :: 2 :: Nil, 7 :: 3 :: 4 :: 7 :: 5 :: Nil), actualResult)
+    val expected = (1 :: 2 :: 2 :: Nil, 7 :: 3 :: 4 :: 7 :: 5 :: Nil)
+    assertEquals(expected, actualResult)
   }
 
   @Test
@@ -131,7 +134,8 @@ class SeqTest {
 
     val actualResult = input.dropWhile(_ < 3)
 
-    assertEquals(input.tail.tail, actualResult)
+    val expected = Seq(7, 3, 4, 2, 7, 5)
+    assertEquals(expected, actualResult)
   }
 
   @Test
@@ -225,6 +229,17 @@ class SeqTest {
     //val actualResult = input.sliding(3,3).toSeq
 
     assertEquals(Seq(1, 2, 7) :: Seq(3, 4, 2) :: Seq(7, 5) :: Nil, actualResult)
+  }
+
+  @Test
+  def sliding(): Unit = {
+    val input: Seq[Int] = Seq(1, 2, 7, 3, 4, 2, 7, 5)
+
+    val actualResult = input.sliding(3, 2).toSeq
+    //val actualResult = input.sliding(3,3).toSeq
+
+    val expected = Seq(1, 2, 7) :: Seq(7, 3, 4) :: Seq(4, 2, 7) :: Seq(7, 5) :: Nil
+    assertEquals(expected, actualResult)
   }
 
   @Test

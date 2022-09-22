@@ -52,6 +52,7 @@ class FunctionSugarTest {
     val container = Container(2)
 
     val actualResult = container + 4
+    //val actualResult = container.+(4)
 
     assertEquals(Container(6), actualResult)
   }
