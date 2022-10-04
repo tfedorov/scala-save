@@ -39,7 +39,7 @@ class GenericTest {
 
     val actualResult = myFct(new Bird, new Object)
 
-    assertEquals("class com.tfedorov.tutorial.type.GenericTest$Bird & class java.lang.Object", actualResult)
+    assertEquals("class com.tfedorov.tutorial.type.generics.GenericTest$Bird & class java.lang.Object", actualResult)
   }
 
   @Test
@@ -55,7 +55,7 @@ class GenericTest {
       override def sound: String = "uuu"
     })
 
-    assertEquals("class com.tfedorov.tutorial.type.GenericTest$Rooster & class com.tfedorov.tutorial.type.GenericTest$$anon$1", actualResult)
+    assertEquals("class com.tfedorov.tutorial.type.generics.GenericTest$Rooster & class com.tfedorov.tutorial.type.generics.GenericTest$$anon$1", actualResult)
   }
 
   //https://www.drmaciver.com/2008/03/existential-types-in-scala/

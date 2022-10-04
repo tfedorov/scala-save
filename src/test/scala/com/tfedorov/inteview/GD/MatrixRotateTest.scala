@@ -42,10 +42,10 @@ class MatrixRotateTest {
 
     val actualResult: Matrix = rotateMatrix(input)
 
-    val expectedResult = Array(
-      Array("c", "g"),
-      Array("b", "f"),
-      Array("a", "e"))
+    val expectedResult = Seq(
+      Seq("c", "g"),
+      Seq("b", "f"),
+      Seq("a", "e"))
     assertEquals(expectedResult, actualResult)
   }
 }

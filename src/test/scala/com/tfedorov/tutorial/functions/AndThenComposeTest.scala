@@ -21,6 +21,7 @@ class AndThenComposeTest {
     //   val andThenedF: String => String = oneF _ andThen twoF _
     val andThenedF = oneF _ andThen twoF
 
+
     assertEquals("test12", andThenedF("test"))
     assertEquals("test12", twoF(oneF("test")))
     assertEquals("test12", (oneF _ andThen twoF) ("test"))

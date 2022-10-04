@@ -28,7 +28,7 @@ class TypeAndGenericTest {
     }
 
 
-    assertEquals("Hello", new PureImpl().generateB)
+    assertEquals("Hello Pure", new PureImpl().generateB)
     assertEquals(0, new GenericIntImp().generateB)
   }
 }

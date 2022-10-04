@@ -6,36 +6,53 @@ import org.junit.jupiter.api.Test
 class HigherOrderFunctionsTest {
 
   @Test
-  def testReturn(): Unit = {
+  def methodReturnFunction(): Unit = {
     val input = 1 to 10
 
-    def moreThan(check: Int): Int => Boolean = {
-      (i: Int) => i > check
-    }
+    //    def moreThan(check: Int): Int => Boolean = {
+    //      (i: Int) => i > check
+    //    }
+    def moreThan(check: Int): Int => Boolean = _ > check
 
-    val actual1 = input.filter(moreThan(8))
-    val actual2 = input.filter(moreThan(6))
+    val actual9 = moreThan(8)(9)
+    //val actual8 = input.filter(el => moreThan(8)(el))
+    val actual8 = input.filter(moreThan(8))
+    val actual6 = input.filter(moreThan(6))
 
-    assertEquals(Nil, actual1)
-    assertEquals(Nil, actual2)
+    assertTrue(actual9)
+    assertEquals(9 :: 10 :: Nil, actual8)
+    assertEquals(7 :: 8 :: 9 :: 10 :: Nil, actual6)
   }
 
   @Test
-  def testParamFunction(): Unit = {
+  def methodWithParamFunction(): Unit = {
     var iAmCalled = false
 
-    //def innerF(f: Function0[_]): Unit = f()
-    def innerF(f: () => Any): Unit = f()
+    //def methodWithParam(innerFunc: Function0[_]): Unit = innerFunc()
+    def methodWithParam(innerFunc: () => Any): Unit = innerFunc()
 
-    innerF(() => {
+    //    def func(): Unit = iAmCalled = true
+    //    method(func)
+    //    method(() => {
+    //      iAmCalled = true
+    //    })
+    methodWithParam {
       iAmCalled = true
-    })
+      return
+    }
 
     assertTrue(iAmCalled)
   }
 
   @Test
-  def testReturnFunction(): Unit = {
+  def returnGetCurlFunction(): Unit = {
+    //    def curlBuilder(isGet: Boolean, domainName: String): (String, String) => String = {
+    //      val begin = if (isGet) "curl -XGET " else "curl -XPOST "
+    //      val returnFunc: (String, String) => String = (key: String, value: String) => {
+    //        s"$begin -H '$key: $value' $domainName"
+    //      }
+    //      returnFunc
+    //    }
     def curlBuilder(isGet: Boolean, domainName: String): (String, String) => String = {
       val begin = if (isGet) "curl -XGET " else "curl -XPOST "
       (key: String, value: String) => s"$begin -H '$key: $value' $domainName"
@@ -49,14 +66,14 @@ class HigherOrderFunctionsTest {
   }
 
   @Test
-  def testReturnFunction2(): Unit = {
+  def returnPostCurlFunction(): Unit = {
     def curlBuilder(isGet: Boolean, domainName: String): (String, String) => String = {
       val begin = if (isGet) "curl -XGET " else "curl -XPOST -d''"
       val result = (key: String, value: String) => s"$begin -H '$key: $value' $domainName"
       result
     }
 
-    def postBuilderF = curlBuilder(isGet = false, "www.example.com")
+    def postBuilderF: (String, String) => String = curlBuilder(isGet = false, "www.example.com")
 
     val actualResult = postBuilderF("Content-type", "application/json")
 
@@ -64,7 +81,7 @@ class HigherOrderFunctionsTest {
   }
 
   @Test
-  def testSeqOfFunctions(): Unit = {
+  def seqFunctions(): Unit = {
     def textBuilder(compose: Seq[(Int, String) => String]): (Int, String) => String = {
       compose.tail.foldLeft(compose.head) { (aggF, elF) =>
         (key: Int, value: String) => aggF(key, value) + ";" + elF(key, value)
@@ -75,7 +92,8 @@ class HigherOrderFunctionsTest {
 
     def add(key: Int, value: String): String = key + value
 
-    def multiAddF2: Seq[(Int, String) => String] = (multi(_, _)) :: (add(_, _)) :: Nil
+    //def multiAddFSeq: Seq[(Int, String) => String] = (multi(_, _)) :: (add(_, _)) :: Nil
+    def multiAddFSeq: Seq[(Int, String) => String] = multi _ :: (add(_, _)) :: Nil
 
     def multiAddF = textBuilder(multi _ :: add _ :: Nil)
 
@@ -85,12 +103,12 @@ class HigherOrderFunctionsTest {
     val actualResult2 = multiAddMultiF(4, "b")
 
     assertEquals("aaa;3a", actualResult1)
-    //assertEquals("aaa;3a", textBuilder(multiAddF2)(3, "a"))
+    assertEquals("aaa;3a", textBuilder(multiAddFSeq)(3, "a"))
     assertEquals("bbbb;4b;bbbb", actualResult2)
   }
 
   @Test
-  def testMultipleAndThen(): Unit = {
+  def seqFunctionsFoldLeft(): Unit = {
     def functionComposer(compose: Seq[String => String]): String => String = {
       compose.foldLeft(identity[String](_))((aggF, elF) => aggF.andThen(elF))
     }

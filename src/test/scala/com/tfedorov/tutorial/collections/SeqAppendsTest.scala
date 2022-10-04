@@ -53,19 +53,6 @@ class SeqAppendsTest {
   }
 
   @Test
-  def appped(): Unit = {
-    val input: Seq[Int] = 0 +: (1 :: Nil)
-
-    //Bun not
-    // val actualResult = input +: 0
-    val actualResult = input.+:(0)
-    // The same us
-    // val actualResult = 0 +: input
-
-    assertEquals(Seq(0, 1, 2, 3, 4, 5), actualResult)
-  }
-
-  @Test
   def prepend(): Unit = {
     val input: Seq[Int] = Seq(1, 2, 3, 4, 5)
 
