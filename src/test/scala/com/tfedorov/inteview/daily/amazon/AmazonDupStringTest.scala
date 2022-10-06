@@ -1,10 +1,7 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.amazon
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import scala.annotation.tailrec
-import scala.collection.immutable
 
 /*
 Given an integer k and a string s, find the length of the longest substring that contains at most k distinct characters.

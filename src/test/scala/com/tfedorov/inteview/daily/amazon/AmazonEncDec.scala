@@ -1,4 +1,4 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.amazon
 
 /*
 This problem was asked by Amazon.
