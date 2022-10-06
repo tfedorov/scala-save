@@ -34,7 +34,7 @@ class SeqAppendsTest {
   }
 
   @Test
-  def appendAll(): Unit = {
+  def appendAnotherSeq(): Unit = {
     val input: Seq[Int] = Seq(1, 2, 3, 4, 5)
 
     val actualResult1 = input ++ (6 :: 7 :: Nil)
@@ -94,7 +94,9 @@ class SeqAppendsTest {
 
     val actualId = input.indexOf(4)
     val actualResult = input.take(actualId) ++ input.drop(actualId + 1)
+    val actualResult2 = input diff Seq(4)
 
     assertEquals(2 :: 3 :: 5 :: 4 :: Nil, actualResult)
+    assertEquals(2 :: 3 :: 5 :: 4 :: Nil, actualResult2)
   }
 }

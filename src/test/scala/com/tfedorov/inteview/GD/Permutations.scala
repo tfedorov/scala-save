@@ -11,7 +11,7 @@ class Permutations {
 
     val actualResult = permutation(input)
 
-    val expectedResult = List("inp", "ipn", "nip", "npi", "pin", "pni")
+    val expectedResult = Seq("inp", "ipn", "nip", "npi", "pin", "pni")
     assertEquals(expectedResult, actualResult)
   }
 
@@ -21,13 +21,13 @@ class Permutations {
 
     val actualResult = permutation(input)
 
-    val expectedResult = List("inpi", "inip", "ipni", "ipin", "iinp", "iipn", "nipi", "niip", "npii", "npii", "nipi",
+    val expectedResult = Seq("inpi", "inip", "ipni", "ipin", "iinp", "iipn", "nipi", "niip", "npii", "npii", "nipi",
       "niip", "pini", "piin", "pnii", "pnii", "pini", "piin", "inpi", "inip", "ipni", "ipin", "iinp", "iipn")
     assertEquals(expectedResult, actualResult)
   }
 
   def permutation(input: String): Seq[String] = {
-    val dictionary: Seq[String] = input.toList.map(_.toString)
+    val dictionary: Seq[String] = input.toSeq.map(_.toString)
 
     permutationAll(dictionary, "")
   }

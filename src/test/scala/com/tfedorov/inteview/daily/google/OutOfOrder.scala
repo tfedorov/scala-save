@@ -46,7 +46,7 @@ class OutOfOrder {
 
   //  The array [2, 4, 1, 3, 5] has three inversions: (2, 1), (4, 1), and (4, 3).
   @tailrec
-  final def calcRecurs(input: Seq[Int], inverse: List[(Int, Int)]): List[(Int, Int)] = {
+  final def calcRecurs(input: Seq[Int], inverse: Seq[(Int, Int)]): Seq[(Int, Int)] = {
 
     if (input.size <= 1)
       return inverse
@@ -55,16 +55,16 @@ class OutOfOrder {
     val searchInverseInput = input.tail.toList
     val foundedInversePairs: List[(Int, Int)] = searchInverseInput
       .filter(_ <= checkedNum)
-      .flatMap { inversEl => List((checkedNum, inversEl)) }
+      .flatMap { inversEl => Seq(checkedNum -> inversEl) }
 
-    val allFounded = inverse ::: foundedInversePairs
+    val allFounded = inverse ++ foundedInversePairs
     calcRecurs(searchInverseInput, allFounded)
   }
 
   // Given an array, count the number of inversions it has. Do this faster than O(N^2) time.
   // The array [2, 4, 1, 3, 5] has three inversions: (2, 1), (4, 1), and (4, 3).
 
-  final def calcShort(input: Seq[Int], inverse: List[(Int, Int)]): List[(Int, Int)] = {
+  final def calcShort(input: Seq[Int], inverse: Seq[(Int, Int)]): Seq[(Int, Int)] = {
 
     if (input.size <= 1)
       return inverse
@@ -79,8 +79,8 @@ class OutOfOrder {
 
     }
 
-    val r: mutable.Iterable[List[(Int, Int)]] = inverseCandidates.filterNot(_._2.isEmpty).flatMap(kv => kv._2.map(end => List((kv._1, end))))
-    r.flatten.toList
+    inverseCandidates.filterNot(_._2.isEmpty).flatMap(startListEnds => startListEnds._2.map(end => Seq(startListEnds._1 -> end))).toSeq.flatten
+
   }
 
   // Given an array, count the number of inversions it has. Do this faster than O(N^2) time.
