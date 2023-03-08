@@ -37,7 +37,6 @@ class MapAppendsTest {
   def appendVar(): Unit = {
     var target: Map[Int, String] = Map(1 -> "one", 2 -> "two")
 
-    val inputAdd: Map[Int, String] = Map(3 -> "three", 4 -> "four")
     target += (3 -> "three")
 
     assertEquals(Map(1 -> "one", 2 -> "two", 3 -> "three"), target)
@@ -95,8 +94,37 @@ class MapAppendsTest {
     assertEquals(Map(2 -> "two"), actualResult)
   }
 
+
   @Test
   def deleteValues(): Unit = {
+    var input: Map[String, List[Long]] = Map(
+      "mz_wallet_200k__join__mz_account_avro_100m" -> List(
+        191062L,
+        24480L,
+        37799L,
+        20651L,
+        18946L
+      )
+    )
+
+    def results4Case(caseName: String): String = {
+      val caseResults = input.getOrElse(caseName, Nil)
+      if (caseResults.isEmpty)
+        return s"There are no test cases for '$caseName'. Please use: " + input.keys.mkString("\n")
+      val formatNumber = java.text.NumberFormat.getNumberInstance()
+      val max = formatNumber.format(caseResults.max)
+      val min = formatNumber.format(caseResults.min)
+      val average = formatNumber.format(caseResults.sum / caseResults.size)
+      val all = caseResults.map(formatNumber.format(_) + " milliseconds").mkString("\n")
+      s"Measurement results for '$caseName' : \n max     = $max milliseconds\n min     = $min milliseconds \n average = $average milliseconds\n\n All:\n$all"
+    }
+
+    println(results4Case("mz_wallet_200k__join__mz_account_avro_100m"))
+
+  }
+
+  @Test
+  def re(): Unit = {
     val input: Map[Int, String] = Map(1 -> "one", 2 -> "two", 3 -> "one")
 
     val actualResult = input -- input.filter(_._2.equals("one")).keys
