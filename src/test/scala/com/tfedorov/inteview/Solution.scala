@@ -1,7 +1,11 @@
+package com.tfedorov.inteview
 
+import org.scalatest.FlatSpec
 
-object Solution extends App {
+object Solution extends FlatSpec {
+
   import scala.collection.mutable
+
   /**
    * Merge Overlapping Ranges
    *
@@ -55,12 +59,14 @@ object Solution extends App {
   // tests
   def test(p: Boolean) = println(if (p) "Success" else "Failure")
 
-  test(merge(Set(Range(0, 2), Range(2, 3))) == Set(Range(0, 3)))
-  test(merge(Set(Range(0, 4))).toSet == Set(Range(0, 4)))
-  test(merge(Set(Range(0, 4))).toSet == Set(Range(0, 4)))
+  "test function " should "return" in {
+    test(merge(Set(Range(0, 2), Range(2, 3))) == Set(Range(0, 3)))
+    test(merge(Set(Range(0, 4))).toSet == Set(Range(0, 4)))
+    test(merge(Set(Range(0, 4))).toSet == Set(Range(0, 4)))
 
-  test(merge(Set(Range(0, 4), Range(2, 6), Range(8, 10))) == Set(Range(0, 6), Range(8, 10)))
-  test(merge(Set(Range(2, 3), Range(0, 4), Range(8, 10))) == Set(Range(0, 4), Range(8, 10)))
+    test(merge(Set(Range(0, 4), Range(2, 6), Range(8, 10))) == Set(Range(0, 6), Range(8, 10)))
+    test(merge(Set(Range(2, 3), Range(0, 4), Range(8, 10))) == Set(Range(0, 4), Range(8, 10)))
 
-  test(merge(Set(Range(2, 3), Range(0, 4), Range(8, 10), Range(9, 12))) == Set(Range(0, 4), Range(8, 12)))
+    test(merge(Set(Range(2, 3), Range(0, 4), Range(8, 10), Range(9, 12))) == Set(Range(0, 4), Range(8, 12)))
+  }
 }
