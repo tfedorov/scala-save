@@ -1,4 +1,4 @@
-package com.tfedorov.utils
+package com.tfedorov.tutorial.functions
 
 import cats.effect.IO
 import org.scalatest.FlatSpec
@@ -8,6 +8,9 @@ import java.util.Date
 import scala.concurrent.duration.{FiniteDuration, MINUTES}
 import scala.concurrent.{Await, Future}
 
+/**
+ * Referential Transparency
+ */
 class IORefTransparSpec extends FlatSpec {
 
   "IO flat map " should "executes twice. It is Referential Transparency." in {
