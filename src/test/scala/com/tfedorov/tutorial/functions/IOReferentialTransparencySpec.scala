@@ -8,15 +8,16 @@ import java.util.Date
 import scala.concurrent.duration.{FiniteDuration, MINUTES}
 import scala.concurrent.{Await, Future}
 
+
 /**
  * Referential Transparency
  */
-class IORefTransparSpec extends FlatSpec {
+class IOReferentialTransparencySpec extends FlatSpec {
 
   "IO flat map " should "executes twice. It is Referential Transparency." in {
     val io: IO[Long] = IO {
       val execTime = new Date().getTime
-      println("executed in" + execTime)
+      println("executed in " + execTime)
       Thread.sleep(100)
       execTime
     }
