@@ -64,7 +64,7 @@ class SelfTypeCakeTest {
     // val chocoCakeBacking = new Baking with CreamTop with ChocolateMiddle with BerryMiddle with CakeBottom
     val beriesCakeBacking = new Baking with CreamTop with BerryMiddle with CakeBottom
     val mixedBacking = new Baking with CherryTop with ChocolateMiddle with CakeBottom
-    val surpriseBacking = new Baking with SurpriseTop with ChocolateMiddle with CakeBottom {
+    val surpriseBacking = new Baking with ComponentTop with ChocolateMiddle with CakeBottom {
       override def comp3Value: String = " Strawberries top"
     }
     /*
