@@ -3,11 +3,19 @@ package com.tfedorov.tutorial.collections
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+/**
+ * Note: No v
+ */
 class MapAppendsTest {
 
 
   @Test
-  def appendElement(): Unit = {
+  def appendToElement(): Unit = {
+    // No present
+  }
+
+  @Test
+  def appendElementToMap(): Unit = {
     val input: Map[Int, String] = Map(1 -> "one", 2 -> "two")
 
     val actualResult = input + (3 -> "three")
@@ -16,7 +24,7 @@ class MapAppendsTest {
   }
 
   @Test
-  def appendRewrite(): Unit = {
+  def appendElementRewrite(): Unit = {
     val input: Map[Int, String] = Map(1 -> "one", 2 -> "two")
 
     val actualResult = input + (1 -> "uno")
@@ -25,12 +33,16 @@ class MapAppendsTest {
   }
 
   @Test
-  def appendElementsArray(): Unit = {
+  def appendElements(): Unit = {
     val input: Map[Int, String] = Map(1 -> "one", 2 -> "two")
 
-    val actualResult = input + (3 -> "three", 4 -> "four")
+    val actualResult1 = input + (3 -> "three", 4 -> "four")
+    val actualResult2 = input ++ Map(3 -> "three", 4 -> "four")
+    val actualResult3 = input ++: Map(3 -> "three", 4 -> "four")
 
-    assertEquals(Map(1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four"), actualResult)
+    assertEquals(Map(1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four"), actualResult1)
+    assertEquals(Map(1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four"), actualResult2)
+    assertEquals(Map(1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four"), actualResult3)
   }
 
   @Test
@@ -52,17 +64,6 @@ class MapAppendsTest {
     assertEquals(Map(1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four"), target)
   }
 
-  @Test
-  def appendAll(): Unit = {
-    val input: Map[Int, String] = Map(1 -> "one", 2 -> "two")
-    val inputAdd: Map[Int, String] = Map(3 -> "three", 4 -> "four")
-
-    val actualResult = input ++ inputAdd
-    // The same as
-    //val actualResult2 = input ++: inputAdd
-
-    assertEquals(Map(1 -> "one", 2 -> "two", 3 -> "three", 4 -> "four"), actualResult)
-  }
 
   @Test
   def appendAllRewrite(): Unit = {
@@ -120,16 +121,5 @@ class MapAppendsTest {
     }
 
     println(results4Case("mz_wallet_200k__join__mz_account_avro_100m"))
-
   }
-
-  @Test
-  def re(): Unit = {
-    val input: Map[Int, String] = Map(1 -> "one", 2 -> "two", 3 -> "one")
-
-    val actualResult = input -- input.filter(_._2.equals("one")).keys
-
-    assertEquals(Map(2 -> "two"), actualResult)
-  }
-
 }
