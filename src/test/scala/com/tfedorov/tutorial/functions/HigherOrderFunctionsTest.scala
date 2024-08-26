@@ -25,6 +25,25 @@ class HigherOrderFunctionsTest {
   }
 
   @Test
+  def methodReturnFunction2(): Unit = {
+    val input = 1 to 10
+
+    def moreThanMultipeCreator(check: Int, multiple: Int): Int => Boolean = {
+      val returnF = (i: Int) => {
+        i > check * multiple
+      }
+      println("before")
+      returnF
+    }
+
+    val moreThanTwice8 = moreThanMultipeCreator(8, 2)
+    println("after")
+
+    assertFalse(moreThanTwice8(9))
+    assertTrue(moreThanTwice8(17))
+  }
+
+  @Test
   def methodWithParamFunction(): Unit = {
     var iAmCalled = false
 
@@ -113,7 +132,7 @@ class HigherOrderFunctionsTest {
       compose.foldLeft(identity[String](_))((aggF, elF) => aggF.andThen(elF))
     }
 
-    val functions = ((_: String).toUpperCase) :: new (String => String) {
+    val functions = ((_: String).toUpperCase) :: new(String => String) {
       override def apply(v1: String): String = v1.reverse
     } :: Nil
     val builtF = functionComposer(functions)
