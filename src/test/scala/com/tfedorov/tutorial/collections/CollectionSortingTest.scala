@@ -3,7 +3,7 @@ package com.tfedorov.tutorial.collections
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class SeqSortTest {
+class CollectionSortingTest {
 
   /**
    * Tests the `sortWith` method, which sorts the sequence based on a comparator function.

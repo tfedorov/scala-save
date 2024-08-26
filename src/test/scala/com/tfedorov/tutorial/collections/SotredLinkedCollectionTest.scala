@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 import scala.collection.{SortedMap, immutable, mutable}
+
+//https://docs.scala-lang.org/overviews/collections/concrete-mutable-collection-classes.html
 //https://alvinalexander.com/scala/how-to-choose-map-implementation-class-sorted-scala-cookbook/
 /*
 +----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -23,7 +25,7 @@ import scala.collection.{SortedMap, immutable, mutable}
 
 
  */
-class SotredLinkedMapTest {
+class SotredLinkedCollectionTest {
 
   @Test
   def compareWithMap(): Unit = {

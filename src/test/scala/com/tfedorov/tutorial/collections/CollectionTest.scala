@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
  *
  * https://alvinalexander.com/scala/scala-collections-classes-methods-organized-category/
  */
-class SeqTest {
+class CollectionTest {
 
   //1) Filtering methods
 

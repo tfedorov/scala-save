@@ -19,12 +19,12 @@ class AndThenComposeTest {
     //   val andThenedF: String => String = oneF _ andThen(twoF(_))
     //   val andThenedF: String => String = oneF _ andThen(twoF _)
     //   val andThenedF: String => String = oneF _ andThen twoF _
-    val andThenedF = oneF _ andThen twoF
-
+    val andThenedF = oneF _ andThen twoF // For def it shoul be always argument
 
     assertEquals("test12", andThenedF("test"))
     assertEquals("test12", twoF(oneF("test")))
-    assertEquals("test12", (oneF _ andThen twoF) ("test"))
+    assertEquals("test12", (oneF _ andThen twoF)("test"))
+    assertEquals("test12", (twoF(oneF("test"))))
   }
 
   @Test
@@ -36,6 +36,7 @@ class AndThenComposeTest {
     val andThenedF = oneValF andThen twoValF
 
     assertEquals("test12", andThenedF("test"))
+    assertEquals("test12", (twoValF(oneValF("test"))))
   }
 
   @Test
@@ -46,8 +47,8 @@ class AndThenComposeTest {
 
     val andThenF: Int => Boolean = plus5F.andThen(isPositiveF)
 
-    val actualResult1 = andThenF(-5)
-    val actualResult2 = andThenF(-4)
+    val actualResult1: Boolean = andThenF(-5)
+    val actualResult2: Boolean = andThenF(-4)
 
     assertTrue(actualResult1)
     assertTrue(actualResult2)
@@ -70,7 +71,8 @@ class AndThenComposeTest {
 
     assertEquals("test21", composedF("test"))
     assertEquals("test21", oneF(twoF("test")))
-    assertEquals("test21", (oneF _ compose twoF) ("test"))
+    assertEquals("test21", (oneF _ compose twoF)("test"))
+    assertEquals("test21", (oneF(twoF("test"))))
   }
 
   @Test
