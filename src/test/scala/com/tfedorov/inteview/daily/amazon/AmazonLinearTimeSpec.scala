@@ -25,8 +25,8 @@ class AmazonLinearTimeSpec {
       case (_, _, last) if last == seek => return prefix + lastIdx
       case (first, middle, last) if (first < seek && seek < middle) => checkFunc(input.slice(0, checkMiddleIdx), seek, prefix)
       case (first, middle, last) if (middle < seek && seek < last) => checkFunc(input.slice(checkMiddleIdx, lastIdx + 1), seek, prefix + checkMiddleIdx)
-      case (first, middle, last) if (middle > seek && last > seek && first > middle) => checkFunc(input.slice(0, checkMiddleIdx), seek, prefix)
-      case (first, middle, last) if (middle > seek && last > seek && first < middle) => checkFunc(input.slice(checkMiddleIdx, lastIdx + 1), seek, prefix + checkMiddleIdx)
+      case (first, middle, last) if (middle > seek && first > middle) => checkFunc(input.slice(0, checkMiddleIdx), seek, prefix)
+      case (first, middle, last) if (middle > seek && first < middle) => checkFunc(input.slice(checkMiddleIdx, lastIdx + 1), seek, prefix + checkMiddleIdx)
     }
   }
 
