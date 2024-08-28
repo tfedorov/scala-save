@@ -22,7 +22,8 @@ class FunctionSugarTest {
 
   @Test
   def valFSugar(): Unit = {
-
+    //val actualFunction: Int => Int = _ * 3
+    //val actualResult = actualFunction(3)
     val actualResult = ((_: Int) * 3) (3)
 
     assertEquals(9, actualResult)
@@ -52,6 +53,7 @@ class FunctionSugarTest {
     val container = Container(2)
 
     val actualResult = container + 4
+    //val actualResult = container.+(4)
 
     assertEquals(Container(6), actualResult)
   }
@@ -109,10 +111,22 @@ class FunctionSugarTest {
 
     def checker[A](value: A)(f: A => Boolean): Boolean = f(value)
 
-    val yesNoChecker: String => Boolean = checker(_)({
+    //    val yesNoChecker: String => Boolean = checker(_)({ value =>
+    //      value match {
+    //
+    //        case "yes" => true
+    //        case "no" => false
+    //      }
+    //    })
+    //    val yesNoChecker: String => Boolean = checker(_)({
+    //      case "yes" => true
+    //      case "no" => false
+    //    })
+
+    val yesNoChecker: String => Boolean = checker(_) {
       case "yes" => true
       case "no" => false
-    })
+    }
     val actualResultYes = yesNoChecker("yes")
     val actualResultNo = yesNoChecker("no")
 
@@ -143,6 +157,7 @@ class FunctionSugarTest {
 
     def createContainer(value: Int): Container = Container(value)
 
+    //def addF(value: Int): Int => Int = createContainer(value).add(_)
     //def addF(value: Int): Int => Int = createContainer(value) add _
     def addF(value: Int): Int => Int = createContainer(value) add
 

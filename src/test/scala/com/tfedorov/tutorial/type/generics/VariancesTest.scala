@@ -54,7 +54,7 @@ A central question that comes up when mixing OO with polymorphism is:
     class AnimalDescriptor extends Descriptor[Animal] {
       def desc(anim: Animal): String = "The animal(" + anim.getClass.getSimpleName + ") on ground sounds: " + anim.sound
     }
-//[-A] is mean
+    //[-A] is mean
     class BirdDescriptor extends Descriptor[Bird] {
       def desc(bird: Bird): String = "The bird(" + bird.getClass.getSimpleName + ") on fly sounds: " + bird.soundOnFly
     }
@@ -101,36 +101,36 @@ A central question that comes up when mixing OO with polymorphism is:
     assertEquals("The bird(Rooster) on fly sounds: 'Oh my God, I can't fly!!!'", actualBirdChicken)
     assertEquals("The bird(Bird) on fly sounds: 'Zwiiiiiiiiiin-zwiiiiiiiiin'", actualBirdBird)
   }
-  /*
-    @Test
-    def contravariantHierarchyExp(): Unit = {
 
-      abstract class Descriptor[-A] {
-        def desc(value: A): String
-      }
+  @Test
+  def contravariantHierarchyExp(): Unit = {
 
-      class AnimalDescriptor extends Descriptor[Animal] {
-        def desc(anim: Animal): String = "The animal(" + anim.getClass.getSimpleName + ") on ground sounds: " + anim.sound
-      }
+    abstract class Descriptor[-A] {
+      def desc(value: A): String
+    }
 
-      class BirdDescriptor extends Descriptor[Bird] {
-        def desc(bird: Bird): String = "The bird(" + bird.getClass.getSimpleName + ") on fly sounds: " + bird.soundOnFly
-      }
+    class AnimalDescriptor extends Descriptor[Animal] {
+      def desc(anim: Animal): String = "The animal(" + anim.getClass.getSimpleName + ") on ground sounds: " + anim.sound
+    }
 
-      def printMyBird[B <: Animal](descriptor: Descriptor[B], bird: B): String = descriptor.desc(bird)
+    class BirdDescriptor extends Descriptor[Bird] {
+      def desc(bird: Bird): String = "The bird(" + bird.getClass.getSimpleName + ") on fly sounds: " + bird.soundOnFly
+    }
 
-      val bird: Bird = new Bird()
-      class Cat extends Animal {
-        override def sound: String = "'Meow'"
-      }
-      val cat = new Cat
+    def printMyBird[B <: Animal](descriptor: Descriptor[B], bird: B): String = descriptor.desc(bird)
 
-      val actualAnimalChicken = printMyBird(new AnimalDescriptor, cat)
-      val actualAnimalBird = printMyBird(new AnimalDescriptor, bird)
-      val actualBirdBird = printMyBird(new BirdDescriptor, bird)
+    val bird: Bird = new Bird()
+    class Cat extends Animal {
+      override def sound: String = "'Meow'"
+    }
+    val cat = new Cat
 
-      assertEquals("The animal(Cat$1) on ground sounds: 'Meow'", actualAnimalChicken)
-      assertEquals("The animal(Bird) on ground sounds: 'Zwin-zwin'", actualAnimalBird)
-      assertEquals("The bird(Bird) on fly sounds: 'Zwiiiiiiiiiin-zwiiiiiiiiin'", actualBirdBird)
-    }*/
+    val actualAnimalChicken = printMyBird(new AnimalDescriptor, cat)
+    val actualAnimalBird = printMyBird(new AnimalDescriptor, bird)
+    val actualBirdBird = printMyBird(new BirdDescriptor, bird)
+
+    assertEquals("The animal(Cat$1) on ground sounds: 'Meow'", actualAnimalChicken)
+    assertEquals("The animal(Bird) on ground sounds: 'Zwin-zwin'", actualAnimalBird)
+    assertEquals("The bird(Bird) on fly sounds: 'Zwiiiiiiiiiin-zwiiiiiiiiin'", actualBirdBird)
+  }
 }

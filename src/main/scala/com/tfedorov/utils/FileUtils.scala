@@ -44,6 +44,10 @@ object FileUtils {
 
   def resourceFullPath(path: String): String = this.getClass.getClassLoader.getResource(path).getPath
 
+  def readResourceBytes(resource: String): Try[Array[Byte]] = Try {
+    Files.readAllBytes(Paths.get(resourceFullPath(resource)))
+  }
+
   def readResource(path: String): Try[String] = readAllFile(resourceFullPath(path))
 
   def notExist(path: String): Boolean = !exist(path)
@@ -137,4 +141,5 @@ object FileUtils {
     }
     Some(manifestContent.mkString)
   }
+
 }

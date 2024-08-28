@@ -1,4 +1,4 @@
-package com.tfedorov.inteview.daily
+package com.tfedorov.inteview.daily.microsoft
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -15,9 +15,6 @@ For example, given the sequence [2, 1, 5, 7, 2, 0, 5], your algorithm should pri
 2, 1.5, 2, 3.5, 2, 2, 2
 
  */
-
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 
 class MicrosoftMedTest {
 

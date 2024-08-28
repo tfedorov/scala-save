@@ -3,7 +3,7 @@ package com.tfedorov.inteview.daily
 import org.junit.jupiter.api.Assertions._
 import org.junit.jupiter.api.Test
 
-import scala.collection.SortedSet
+import scala.annotation.tailrec
 
 /*
 Given a list of numbers and a number k, return whether any two numbers from the list add up to k.
@@ -15,7 +15,7 @@ Bonus: Can you do this in one pass?
  */
 
 //https://dev.to/awwsmm/scala-daily-coding-problem-001-fi2
-class Taks1 {
+class NuberK {
 
   private def recCheck(input: Seq[Int], neededSum: Int): Boolean = {
     if (input.isEmpty)
@@ -23,6 +23,7 @@ class Taks1 {
     recursiveCheck(input.head, input.tail)(neededSum)
   }
 
+  @tailrec
   private def recursiveCheck(checkingEl: Int, checkingSeq: Seq[Int])(implicit neededSum: Int): Boolean =
     checkingSeq match {
       case Nil => false

@@ -12,21 +12,23 @@ class TypeAndGenericTest {
 
       def generateB: B
     }
-
     class PureImpl extends Pure {
       override type B = String
 
-      override def generateB: B = "Hello"
+      override def generateB: B = "Hello Pure"
     }
-
     trait Generic[B] {
       def generateB: B
     }
-
     class GenericImpl extends Generic[String] {
-      override def generateB: String = "Hello"
+      override def generateB: String = "Hello Generic"
+    }
+    class GenericIntImp extends Generic[Int] {
+      override def generateB: Int = 0
     }
 
-    assertEquals(new GenericImpl().generateB, new PureImpl().generateB)
+
+    assertEquals("Hello Pure", new PureImpl().generateB)
+    assertEquals(0, new GenericIntImp().generateB)
   }
 }

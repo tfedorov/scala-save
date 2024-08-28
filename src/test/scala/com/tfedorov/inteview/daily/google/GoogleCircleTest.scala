@@ -35,7 +35,7 @@ class GoogleCircleTest {
 
     val actualResult = equalPi()
 
-    val expectedResult = "3.1412"
+    val expectedResult = "3.142"
     assertEquals(expectedResult, actualResult)
   }
 
