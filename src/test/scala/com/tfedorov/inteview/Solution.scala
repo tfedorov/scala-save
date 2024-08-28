@@ -69,4 +69,5 @@ object Solution extends FlatSpec {
 
     test(merge(Set(Range(2, 3), Range(0, 4), Range(8, 10), Range(9, 12))) == Set(Range(0, 4), Range(8, 12)))
   }
+
 }
