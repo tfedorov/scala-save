@@ -264,6 +264,25 @@ class CollectionTest {
     assertEquals(3, actualResult)
   }
 
+  @Test
+  def combinations(): Unit = {
+    val input: Seq[Int] = Seq(1, 2, 3, 4)
+
+    val result = input.combinations(3).toSeq
+    result.foreach(println)
+
+    assertEquals(List(List(1, 2, 3), List(1, 2, 4), List(1, 3, 4), List(2, 3, 4)), result)
+  }
+
+  @Test
+  def permutations(): Unit = {
+    val input: Seq[Int] = Seq(1, 2, 3)
+
+    val result = input.permutations.toSeq
+    result.foreach(println)
+
+    assertEquals(List(List(1, 2, 3), List(1, 3, 2), List(2, 1, 3), List(2, 3, 1), List(3, 1, 2), List(3, 2, 1)), result)
+  }
 
   /**
    * Tests the `indexOfSlice` method, which finds the starting index of the first occurrence
@@ -348,5 +367,6 @@ class CollectionTest {
 
     assertEquals(List(Seq(2, 7, 3)), actualResults.toList)
   }
+
 
 }
