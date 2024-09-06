@@ -16,31 +16,28 @@ import org.junit.jupiter.api.Test
 class FacebookMatrixMoveTest {
 
   def buildMatrix(n: Int, m: Int): Seq[Seq[Int]] =
-    (0 to m - 1).map(_ => (0 to m - 1).map(_ => 0))
+    (0 until n).map(_ => (0 until m).map(_ => 0))
 
 
-  def printMatrix(input: Seq[Seq[Int]]) {
+  def printMatrix(input: Seq[Seq[Int]]): Unit = {
     println("\n[")
     input.foreach(r => println(r.mkString(" ")))
     println("]\n")
   }
 
 
-  def matrixMove(input: Seq[Seq[Int]], current: (Int, Int) = (0, 0), agg: Int = 0): Int = {
-    if (current == (input.length - 1, input.head.length - 1))
-      return agg + 1
-    if (current._1 >= input.length)
-      return agg
-
-    if (current._2 >= input.head.length)
-      return agg
-    val (currentX, currentY) = current
-    val changed = input.updated(currentY, input(currentY).updated(currentX, 1))
-    printMatrix(changed)
-    val rightMove = matrixMove(changed, (current._1 + 1, current._2), agg)
-    val leftMove = matrixMove(changed, (current._1, current._2 + 1), agg)
-    rightMove + leftMove
-  }
+  private def matrixMove(inputMatrix: Seq[Seq[Int]], currentMove: (Int, Int) = (0, 0), agg: Int = 0): Int =
+    currentMove match {
+      case (currentX, _) if currentX >= inputMatrix.head.length => agg
+      case (_, currentY) if currentY >= inputMatrix.length => agg
+      case (currentX, currentY) if currentX >= inputMatrix.head.length - 1 && currentY >= inputMatrix.length - 1 => agg + 1
+      case (currentX, currentY) =>
+        val matrixWithMove = inputMatrix.updated(currentY, inputMatrix(currentY).updated(currentX, 1))
+        printMatrix(matrixWithMove)
+        val rightMove = matrixMove(matrixWithMove, (currentMove._1 + 1, currentMove._2), agg) + matrixMove(matrixWithMove, (currentMove._1, currentMove._2 + 1), agg)
+        val leftMove = matrixMove(matrixWithMove, (currentMove._1, currentMove._2 + 1), agg)
+        rightMove + leftMove
+    }
 
   @Test
   def matrixMoveTest(): Unit = {
