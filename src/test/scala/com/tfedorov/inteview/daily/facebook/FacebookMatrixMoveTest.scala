@@ -34,7 +34,7 @@ class FacebookMatrixMoveTest {
       case (currentX, currentY) =>
         val matrixWithMove = inputMatrix.updated(currentY, inputMatrix(currentY).updated(currentX, 1))
         printMatrix(matrixWithMove)
-        val rightMove = matrixMove(matrixWithMove, (currentMove._1 + 1, currentMove._2), agg) + matrixMove(matrixWithMove, (currentMove._1, currentMove._2 + 1), agg)
+        val rightMove = matrixMove(matrixWithMove, (currentMove._1 + 1, currentMove._2), agg)
         val leftMove = matrixMove(matrixWithMove, (currentMove._1, currentMove._2 + 1), agg)
         rightMove + leftMove
     }
