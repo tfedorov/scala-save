@@ -26,10 +26,9 @@ class HigherOrderFunctionsTest {
 
   @Test
   def methodReturnFunction2(): Unit = {
-    val input = 1 to 10
 
     def moreThanMultipeCreator(check: Int, multiple: Int): Int => Boolean = {
-      val returnF = (i: Int) => {
+      val returnF: Int => Boolean = (i: Int) => {
         i > check * multiple
       }
       println("before")
