@@ -141,4 +141,73 @@ public class HelloWorld {
     }
 }
    */
+
+  /*
+  import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoders;
+import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.Row;
+
+public class SparkSqlExample {
+    public static void main(String[] args) {
+        // Initialize SparkSession
+        SparkSession spark = SparkSession.builder()
+                .appName("Spark SQL Example")
+                .master("local[*]")  // Adjust for your environment
+                .getOrCreate();
+
+        spark.stop();
+    }
+
+    // Employee class for Dataset
+    public static class Employee {
+        private int id;
+        private String name;
+        private long salary;
+        private Integer managerId;
+
+        // Constructor
+        public Employee(int id, String name, long salary, Integer managerId) {
+            this.id = id;
+            this.name = name;
+            this.salary = salary;
+            this.managerId = managerId;
+        }
+
+        // Getters and Setters
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public long getSalary() {
+            return salary;
+        }
+
+        public void setSalary(long salary) {
+            this.salary = salary;
+        }
+
+        public Integer getManagerId() {
+            return managerId;
+        }
+
+        public void setManagerId(Integer managerId) {
+            this.managerId = managerId;
+        }
+    }
+}
+
+   */
 }
