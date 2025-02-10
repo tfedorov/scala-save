@@ -2,7 +2,7 @@
 /project/target/
 /.idea
 /project/project/target/config-classes/
-/src/test/resources/writeFileDirectory/desiredFile.txt
+/general/src/test/resources/writeFileDirectory/desiredFile.txt
 /out
 /build
 
@@ -13,3 +13,6 @@ scala-save.i??
 
 # Avoid ignore Gradle wrappper properties
 !gradle-wrapper.properties
+/**/*.iml
+
+/general/build
