@@ -16,3 +16,4 @@ scala-save.i??
 /**/*.iml
 
 /general/build
+/.gradle
