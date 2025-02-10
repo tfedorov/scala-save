@@ -3,3 +3,13 @@
 /.idea
 /project/project/target/config-classes/
 /src/test/resources/writeFileDirectory/desiredFile.txt
+/out
+/build
+
+scala-save.i??
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties

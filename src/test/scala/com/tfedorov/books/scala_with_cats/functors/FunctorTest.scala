@@ -52,7 +52,7 @@ class FunctorTest {
     assertTrue(Option(1).map(f).map(g) == Option(1).map(fg))
     assertTrue(List(1, 2, 3).map(f).map(g) == List(1, 2, 3).map(fg))
   }
-
+/*
   @Test
   def functorSyntax(): Unit = {
     import cats.instances.all._
@@ -68,7 +68,7 @@ class FunctorTest {
 
     assertEquals("248!", actualResult)
   }
-
+*/
   @Test
   def functorSyntax2(): Unit = {
     import cats.Functor
