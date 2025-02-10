@@ -46,6 +46,8 @@ fun String.runCommand(): String =
 
 
 tasks.withType<Test> {
+    minHeapSize = "512m"  // Minimum heap size
+    maxHeapSize = "2g"    // Maximum heap size
     useJUnitPlatform() // Use JUnit 5 platform
     testLogging {
         events("PASSED", "FAILED", "SKIPPED")
