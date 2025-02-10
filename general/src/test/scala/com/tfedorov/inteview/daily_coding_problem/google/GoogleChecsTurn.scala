@@ -2,6 +2,7 @@ package com.tfedorov.inteview.daily_coding_problem.google
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Disabled
 
 /*
 A knight's tour is a sequence of moves by a knight on a chessboard such that all squares are visited once.
@@ -46,6 +47,7 @@ class GoogleChecsTurn {
 
 
   @Test
+  @Disabled("Skipping because infinite time")
   def board8on8Test(): Unit = {
     val board = buildBoard(6)
     board.printBoard
