@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.GD.SoftwareTestingHelp" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:43:56" hostname="C12075" time="0.021">
+  <properties/>
+  <testcase name="syntaxTest()" classname="com.tfedorov.inteview.GD.SoftwareTestingHelp" time="0.021"/>
+  <system-out><![CDATA[s
+f
+a
+b
+g
+c
+First letter = 
+z
+First letter = zv
+z
+v
+s
+g
+f
+c
+b
+a
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

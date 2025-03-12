@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.DeletionsInsertionsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:43:41" hostname="C12075" time="0.261">
+  <properties/>
+  <testcase name="insert0Delete8()" classname="com.tfedorov.inteview.DeletionsInsertionsTest" time="0.235"/>
+  <testcase name="insert1Delete0()" classname="com.tfedorov.inteview.DeletionsInsertionsTest" time="0.004"/>
+  <testcase name="insert2Delete0()" classname="com.tfedorov.inteview.DeletionsInsertionsTest" time="0.001"/>
+  <testcase name="insert2Delete1()" classname="com.tfedorov.inteview.DeletionsInsertionsTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

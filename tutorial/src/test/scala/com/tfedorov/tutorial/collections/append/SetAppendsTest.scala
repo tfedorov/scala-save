@@ -3,10 +3,10 @@ package com.tfedorov.tutorial.collections.append
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
+
 /**
  * Note - no appendPrepend neither not :: nor ::: . But presence --
  */
-import scala.collection.mutable.Set
 
 class SetAppendsTest {
 
@@ -85,13 +85,14 @@ class SetAppendsTest {
 
   @Test
   def appendAllHierarchy(): Unit = {
-    val input: Set[Int] = Set(1, 2, 3, 4, 5)
+    val input: Set[Any] = Set(1, 2, 3, 4, 5)
+    // But not  val input: Set[Int]
 
     //reverse command
-    val actualResult = input ++ Set(6, 7)
-    //val actualResult = input :: 6 :: 7 :: Nil
+    val actualResult: Set[Any] = input + Set(6, 7)
 
-    assertEquals(List(List(1, 2, 3, 4, 5), 6, 7), actualResult)
+
+    assertEquals(Set(1, 2, 3, 4, 5, Set(6, 7)), actualResult)
   }
 
   @Test
@@ -127,7 +128,7 @@ class SetAppendsTest {
 
   @Test
   def deleteElement(): Unit = {
-    val input: Set[Int] = Set(1, 2)
+    val input: scala.collection.mutable.Set[Int] = scala.collection.mutable.Set(1, 2)
 
     val actualResult1 = input -= 2
     val actualResult2 = input - 2
@@ -138,7 +139,7 @@ class SetAppendsTest {
 
   @Test
   def deleteElements(): Unit = {
-    val input: Set[Int] = Set(1, 2)
+    val input: scala.collection.mutable.Set[Int] = scala.collection.mutable.Set(1, 2)
 
     val actualResult1 = input --= Set(2)
     val actualResult2 = input -- Set(2)

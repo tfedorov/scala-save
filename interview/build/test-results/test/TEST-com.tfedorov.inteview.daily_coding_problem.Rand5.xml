@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.Rand5" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:44:16" hostname="C12075" time="0.051">
+  <properties/>
+  <testcase name="rand7Test()" classname="com.tfedorov.inteview.daily_coding_problem.Rand5" time="0.041"/>
+  <testcase name="rand9Test()" classname="com.tfedorov.inteview.daily_coding_problem.Rand5" time="0.009"/>
+  <system-out><![CDATA[Map(5 -> 1153, 1 -> 1232, 6 -> 1608, 2 -> 1204, 7 -> 2426, 3 -> 1181, 4 -> 1196)
+Map(5 -> 780, 1 -> 828, 6 -> 1206, 9 -> 2300, 2 -> 799, 7 -> 1278, 3 -> 776, 8 -> 1261, 4 -> 772)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

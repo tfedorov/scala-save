@@ -61,8 +61,8 @@ class AuxPatternTest {
 
     val expected = "Inp param=Integer;knownValue=Int -> String;UnknownElement unknownValue =UnknownElement[String]"
     assertEquals(expected, actualResultInt)
-    assertEquals("Inp param=Cat$3;knownValue=1;UnknownElement unknownValue =UnknownElement[Int]", actualResultCat)
-    assertEquals("Inp param=Dog$3;knownValue=Dog -> String;UnknownElement unknownValue =UnknownElement[String]", actualResultDog)
+    assertEquals("Inp param=Cat$1;knownValue=1;UnknownElement unknownValue =UnknownElement[Int]", actualResultCat)
+    assertEquals("Inp param=Dog$1;knownValue=Dog -> String;UnknownElement unknownValue =UnknownElement[String]", actualResultDog)
   }
 
   //https://gigiigig.github.io/posts/2015/09/13/aux-pattern.html

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.GD.LakshmiTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:43:56" hostname="C12075" time="0.03">
+  <properties/>
+  <testcase name="taskTest()" classname="com.tfedorov.inteview.GD.LakshmiTest" time="0.024"/>
+  <testcase name="taskTest2()" classname="com.tfedorov.inteview.GD.LakshmiTest" time="0.003"/>
+  <testcase name="taskTest3()" classname="com.tfedorov.inteview.GD.LakshmiTest" time="0.001"/>
+  <system-out><![CDATA[
+Result for abacaba
+List(a, ba, ca, ba)
+List(a, ba, cab, a)
+List(a, bac, a, ba)
+
+Result for abdcafa
+List(a, bdca, fa)
+List(a, bdcaf, a)
+List(ab, dca, fa)
+
+Result for ssssss
+List(s, s, s, s, s, s)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

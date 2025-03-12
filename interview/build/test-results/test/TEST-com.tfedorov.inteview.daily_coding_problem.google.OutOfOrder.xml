@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.google.OutOfOrder" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:45:27" hostname="C12075" time="0.011">
+  <properties/>
+  <testcase name="rangeTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.OutOfOrder" time="0.001"/>
+  <testcase name="def1Test()" classname="com.tfedorov.inteview.daily_coding_problem.google.OutOfOrder" time="0.001"/>
+  <testcase name="def1ShortTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.OutOfOrder" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

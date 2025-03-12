@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.amazon.Palindrome" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:45:26" hostname="C12075" time="0.002">
+  <properties/>
+  <testcase name="pallindromebBananasTest()" classname="com.tfedorov.inteview.daily_coding_problem.amazon.Palindrome" time="0.001"/>
+  <testcase name="pallindromebBanunisTest()" classname="com.tfedorov.inteview.daily_coding_problem.amazon.Palindrome" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

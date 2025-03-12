@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.SquareTossBiasedTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:44:16" hostname="C12075" time="69.456">
+  <properties/>
+  <testcase name="tossBiasedTestTest()" classname="com.tfedorov.inteview.daily_coding_problem.SquareTossBiasedTest" time="69.456"/>
+  <system-out><![CDATA[(false,53)
+(true,47)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

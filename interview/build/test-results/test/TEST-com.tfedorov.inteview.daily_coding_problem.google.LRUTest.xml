@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.google.LRUTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:45:27" hostname="C12075" time="0.007">
+  <properties/>
+  <testcase name="limitTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.LRUTest" time="0.007"/>
+  <system-out><![CDATA[(one,(key=one, 1, two, No next,oneVal))
+(three,(key=three, 1, four, two,threeVal))
+(six,(key=six, 1, no prev, four,sixVal))
+(four,(key=four, 1, six, three,fourVal))
+(two,(key=two, 1, three, one,twoVal))
+-------
+(one,(key=one, 1, two, four,oneVal))
+(three,(key=three, 1, six, two,threeVal))
+(six,(key=six, 1, no prev, three,sixVal))
+(four,(key=four, 2, one, No next,fourVal))
+(two,(key=two, 1, three, one,twoVal))
+-------
+(one,(key=one, 1, two, six,oneVal))
+(three,(key=three, 1, no prev, two,threeVal))
+(six,(key=six, 2, one, four,sixVal))
+(four,(key=four, 2, six, No next,fourVal))
+(two,(key=two, 1, three, one,twoVal))
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.BootomViewBinary" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:44:16" hostname="C12075" time="0.009">
+  <properties/>
+  <testcase name="defaultTest()" classname="com.tfedorov.inteview.daily_coding_problem.BootomViewBinary" time="0.009"/>
+  <system-out><![CDATA[Some(-3)
+Some(-2)
+Some(-1)
+Some(0)
+Some(1)
+Some(2)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

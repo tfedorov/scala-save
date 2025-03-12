@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.GD.SyntaxTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:43:56" hostname="C12075" time="0.011">
+  <properties/>
+  <testcase name="syntaxTest()" classname="com.tfedorov.inteview.GD.SyntaxTest" time="0.011"/>
+  <system-out><![CDATA[Node(1.0,+,Node(Node(2.0,*,4.0),/,3.0))
+3.6666667
+Node(2.0,+,Node(Node(2.0,*,2.0),+,3.0))
+9.0
+Node(Node(Node(2.0,*,2.0),-,2.0),+,Node(3.0,*,2.0))
+8.0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

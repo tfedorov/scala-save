@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.facebook.FacebookCurlTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:45:26" hostname="C12075" time="0.003">
+  <properties/>
+  <testcase name="defaultFalse1Test()" classname="com.tfedorov.inteview.daily_coding_problem.facebook.FacebookCurlTest" time="0.001"/>
+  <testcase name="defaultFalse2Test()" classname="com.tfedorov.inteview.daily_coding_problem.facebook.FacebookCurlTest" time="0.0"/>
+  <testcase name="defaultTrueTest()" classname="com.tfedorov.inteview.daily_coding_problem.facebook.FacebookCurlTest" time="0.0"/>
+  <testcase name="changedFalseTest()" classname="com.tfedorov.inteview.daily_coding_problem.facebook.FacebookCurlTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

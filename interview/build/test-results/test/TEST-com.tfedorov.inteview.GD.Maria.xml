@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.GD.Maria" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:43:56" hostname="C12075" time="0.016">
+  <properties/>
+  <testcase name="rotateTest()" classname="com.tfedorov.inteview.GD.Maria" time="0.007"/>
+  <testcase name="partialTest()" classname="com.tfedorov.inteview.GD.Maria" time="0.008"/>
+  <system-out><![CDATA[List(a, b, c)
+List(e, f, g)
+List(h, i, j)
+output
+List(c, g, j)
+List(b, f, i)
+List(a, e, h)
+5
+6
+-----
+11
+*****
+3
+5
+4
+-----
+12
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

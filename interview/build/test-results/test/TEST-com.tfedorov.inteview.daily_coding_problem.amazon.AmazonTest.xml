@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.amazon.AmazonTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:45:26" hostname="C12075" time="0.015">
+  <properties/>
+  <testcase name="amazonTaskTest()" classname="com.tfedorov.inteview.daily_coding_problem.amazon.AmazonTest" time="0.007"/>
+  <testcase name="amazonChangedTest()" classname="com.tfedorov.inteview.daily_coding_problem.amazon.AmazonTest" time="0.003"/>
+  <testcase name="amazonExtraTest()" classname="com.tfedorov.inteview.daily_coding_problem.amazon.AmazonTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

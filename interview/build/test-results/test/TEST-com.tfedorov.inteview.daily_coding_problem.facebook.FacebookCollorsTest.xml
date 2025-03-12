@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.facebook.FacebookCollorsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:45:26" hostname="C12075" time="0.016">
+  <properties/>
+  <testcase name="taskTest()" classname="com.tfedorov.inteview.daily_coding_problem.facebook.FacebookCollorsTest" time="0.016"/>
+  <system-out><![CDATA[6
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

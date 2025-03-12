@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:45:27" hostname="C12075" time="0.015">
+  <properties/>
+  <testcase name="lockAncTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.004"/>
+  <testcase name="unlockAnc2Test()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.0"/>
+  <testcase name="lock2Test()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.001"/>
+  <testcase name="lock3Test()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.0"/>
+  <testcase name="isLockedTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.004"/>
+  <testcase name="couldNotLockTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.0"/>
+  <testcase name="lock3lTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.0"/>
+  <testcase name="lockAnc2Test()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.0"/>
+  <testcase name="lockTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.0"/>
+  <testcase name="unlock3lTest()" classname="com.tfedorov.inteview.daily_coding_problem.google.GoogleLockTreeTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

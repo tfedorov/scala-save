@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tfedorov.inteview.HasherTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-12T10:43:48" hostname="C12075" time="7.106">
+  <properties/>
+  <testcase name="testSum8()" classname="com.tfedorov.inteview.HasherTest" time="7.106"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

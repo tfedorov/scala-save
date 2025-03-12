@@ -13,11 +13,15 @@ repositories {
 dependencies {
     implementation("org.scala-lang:scala-library:$scalaVersion")
 
+    testImplementation("org.typelevel:cats-effect_2.12:3.4.8")
     testImplementation("org.scalatest:scalatest_2.12:3.0.5")
     testImplementation("com.github.pathikrit:better-files_2.12:3.8.0")
-    testImplementation("org.typelevel:cats-mtl-core_2.12:0.2.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation("org.typelevel:cats-core_2.12:$catsVersion")
+    testImplementation("org.typelevel:cats-free_2.12:$catsVersion")
+    testImplementation("org.typelevel:cats-mtl-core_2.12:0.2.1")
+    testImplementation("org.typelevel:simulacrum_2.12:1.0.0")
 
 }
 
