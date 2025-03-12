@@ -17,3 +17,5 @@ scala-save.i??
 
 /general/build
 /.gradle
+/interview/build
+/tutorial/build/
