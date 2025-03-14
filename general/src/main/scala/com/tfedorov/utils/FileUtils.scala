@@ -125,6 +125,8 @@ object FileUtils {
     file.exists && file.isDirectory
   }
 
+  def readAllManifests(): Option[String] = readManifest("")
+
   def readManifest(jarFragment: String): Option[String] = {
     val manifests = Thread.currentThread.getContextClassLoader.getResources(JarFile.MANIFEST_NAME).asScala.toSeq
     val foundedJars = manifests.filter(_.getPath.contains(jarFragment))
