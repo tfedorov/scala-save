@@ -56,10 +56,18 @@ A central question that comes up when mixing OO with polymorphism is:
     val chicken = new Rooster()
 
     //val getTweet: Function1[Bird, String] = (a: Animal) => a.sound
-    val animalF: Animal => String = (a: Animal) => a.sound
-    val getTweet: Bird => String = animalF
+    val animalF: Function1[Animal, String] = (a: Animal) => a.sound
+    // Function1[Animal, String] is subtype of Function1[Bird, String]
+    val getTweet: Function1[Bird, String] = animalF
+    // ‼️ ERROR
+    //val animal2F: Function1[Animal, String] = getTweet
 
     assertEquals("'Cuckoo-ri-coo'", getTweet(chicken))
+    // ‼️ ERROR
+    //    class Tiger extends Animal {
+    //      override val sound = "'Whrrr'"
+    //    }
+    //    assertEquals("'Cuckoo-ri-coo'", getTweet(new Tiger()))
   }
 
   @Test
@@ -74,6 +82,8 @@ A central question that comes up when mixing OO with polymorphism is:
     //    - This means that `Descriptor[Animal]` can be used where `Descriptor[Bird]` is expected
     //    - Allows flexibility in defining behavior for broader categories
     abstract class Descriptor[-A] {
+      // ‼️ ️Error - Contravariant type A occurs in covariant position in type A of value get
+      //def get: A
       def desc(value: A): String
     }
 
