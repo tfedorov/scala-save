@@ -3,6 +3,37 @@ package com.tfedorov.tutorial.`type`.generics
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.{assertEquals, assertNotEquals, assertSame}
 
+/**
+ * 🧠 Mnemonic to Remember Variance
+ *
+ * 🔹 **"COVariant = COntains Variants"** (Producers)
+ *  - If something **returns values**, it can be **covariant** (`[+A]`). e.g., **Containers** (e.g., `List[+A]`, `Option[+A]`).
+ *  - ✅ **Example**: `List[+A]` → Can use `List[Bird]` where `List[Animal]` is expected.
+ *  - **Analogy**:
+ *    *"I have a container of Animals behind a curtain, but inside, it's actually a container of Birds (but I don’t know that).
+ *     I can safely reach under the curtain and take a Bird out, because I expect an Animal,
+ *     and a Bird **is** an Animal.
+ *     However, I **cannot** put an Animal (e.g., a Tiger) into this container,
+ *     because I don’t know exactly what kind of container it is (Birds-only or something else)."*
+ *
+ * 🔻 **"CONTravariant = CONTrast Variants"** (Consumers)
+ *  - If something **accepts input**, it can be **contravariant** (`[-A]`). e.g., **Processors, Loggers, Function Parameters**.
+ *  - ✅ **Example**: `Function1[-A, B]` → A function that accepts `Animal` can be used where `Bird` is expected.
+ *  - **Analogy**:
+ *    *"I have a container labeled 'Bird Container', but in reality, it might be container with Tiger.
+ *    Both 'Bird Container' & 'Tiger Container' are 'Animal Container' and 'Animal Container' can process Animal.
+ *    Since a Bird **is** an Animal, I can safely put a Bird in and process it.
+ *     But I **cannot** take an Animal in container out of it, because it could be a Tiger processor,
+ *     and I was expecting only Birds!"*
+ *
+ * ⚖️ **"INvariant = Identical types only"** (Strict Matching)
+ *  - If something **both reads & writes**, it must be **invariant** (`[A]`).
+ *  - ✅ **Example**: `Array[A]` → `Array[Bird]` is NOT `Array[Animal]`.
+ *  - **Analogy**:
+ *    *"I am a strict container. If I hold Birds, I ONLY work with Birds.
+ *     I won’t accept Animals, and I won’t return anything but Birds!
+ *     No Tigers allowed, no matter how similar they might be."*
+ */
 
 class VariantContainerTest {
 
@@ -89,6 +120,8 @@ class VariantContainerTest {
         "BirdContainer$1 contains Duck that sounds 'Gal-gal-gal'" ::
         Nil
     assertEquals(expectedAfterSet, birdsContainers.map(_.toString))
+    //   birdsContainers.foreach(_.setA(new Tiger))
+    // ‼️  expected bird
 
     //val animalContainers: Seq[Container[Animal]] = new AnimalContainer(chicky) :: new BirdContainer(pigeon) :: Nil
     // ERROR Expected Container[Animal]
@@ -134,6 +167,9 @@ class VariantContainerTest {
     // Container[Animal] subclass Container[Bird]
     // if    trait Container[A] { fails
     val animalsContainers: Seq[Container[Animal]] = new AnimalContainer(new Tiger) :: new BirdContainer(chicky) :: new AnimalContainer(pigeon) :: Nil
+    // ‼️ Error , no assign to BirdContainer[Bird]  AnimalContainer
+    //val animalsContainers: Seq[BirdContainer[Bird]] = new AnimalContainer(new Tiger) :: new BirdContainer(chicky) :: new AnimalContainer(pigeon) :: Nil
+
     // ‼️ Error can't setup new AnimalContainer here
     //val birdsContainers: Seq[Container[Bird]] = new AnimalContainer(new Tiger) :: new BirdContainer(chicky) :: new AnimalContainer(pigeon) :: Nil
 
