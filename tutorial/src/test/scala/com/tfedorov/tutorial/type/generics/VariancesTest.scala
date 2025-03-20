@@ -55,19 +55,52 @@ A central question that comes up when mixing OO with polymorphism is:
      */
     val chicken = new Rooster()
 
-    //val getTweet: Function1[Bird, String] = (a: Animal) => a.sound
-    val animalF: Function1[Animal, String] = (a: Animal) => a.sound
+    val animalF: Function1[Animal, String] = (a: Animal) => "I am Animal sound like " + a.sound
     // Function1[Animal, String] is subtype of Function1[Bird, String]
-    val getTweet: Function1[Bird, String] = animalF
-    // ‼️ ERROR
-    //val animal2F: Function1[Animal, String] = getTweet
+    val birdF: Function1[Bird, String] = (b: Bird) => "I am Bird sound like" + b.sound
 
-    assertEquals("'Cuckoo-ri-coo'", getTweet(chicken))
-    // ‼️ ERROR
-    //    class Tiger extends Animal {
-    //      override val sound = "'Whrrr'"
-    //    }
-    //    assertEquals("'Cuckoo-ri-coo'", getTweet(new Tiger()))
+    val birdFunctions: Seq[Function1[Bird, String]] = animalF :: birdF :: Nil
+
+    val expected =
+      """I am Animal sound like 'Cuckoo-ri-coo'
+        |I am Bird sound like'Cuckoo-ri-coo'""".stripMargin
+    assertEquals(expected, birdFunctions.map(func => func(chicken)).mkString("\n"))
+    // ‼️ ️Error: animalFunctions has Bird
+    //animalFunctions.map(func => func(new Animal {def sound() = "" })).mkString("\n")
+
+    // ‼️ ️Error: getTweet Function1[Bird, String] is not subclass of  Function1[Animal, String]
+    //val animalFunctions: Seq[Function1[Animal, String]] = animalF :: birdF :: Nil
+  }
+
+  @Test
+  def covariantFunction(): Unit = {
+
+    val animalF: Function1[String, Animal] = {
+      case sound if "Any bird".equals(sound) => new Bird()
+      case sound if "Any Rooster".equals(sound) => new Rooster
+      case _ => new Animal {
+        override def sound: String = "Rrrhhhhr"
+      }
+    }
+
+    val birdF: Function1[String, Bird] = {
+      case sound if "Any Rooster".equals(sound) => new Rooster
+      case _ => new Bird()
+    }
+
+    val animalFunctions: Seq[Function[String, Animal]] = animalF :: birdF :: Nil
+
+    val expectedAnyBird =
+      """'Zwin-zwin'
+        |'Zwin-zwin'""".stripMargin
+    assertEquals(expectedAnyBird, animalFunctions.map(func => func("Any bird").sound).mkString("\n"))
+    val expectedAnimal =
+      """Rrrhhhhr
+        |'Zwin-zwin'""".stripMargin
+    assertEquals(expectedAnimal, animalFunctions.map(func => func("ANIMAL").sound).mkString("\n"))
+    // ‼️ ️Error: expected all birdF
+    //val errorsFunctions: Seq[Function[String, Bird]] = animalF :: birdF :: Nil
+
   }
 
   @Test

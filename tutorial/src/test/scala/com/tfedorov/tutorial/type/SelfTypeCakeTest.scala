@@ -42,6 +42,8 @@ class SelfTypeCakeTest {
       override def comp3Value: String = " Cream top"
     }
 
+    // The same as
+    //trait Baking extends ComponentTop with CreamTop{
     trait Baking extends ComponentTop {
       this: ComponentTop =>
 
