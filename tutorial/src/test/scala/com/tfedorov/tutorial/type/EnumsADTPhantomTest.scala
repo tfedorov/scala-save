@@ -62,6 +62,9 @@ class EnumsADTPhantomTest {
     final class Started extends ServiceState
     final class Stopped extends ServiceState
 
+    // 'State' <: ServiceState → Upper type bound constraint: (The <: symbol means "is a subtype of" (upper bound constraint).)
+    // - 'State' must be a subtype (or exactly the same type) as 'ServiceState'.
+    // - class Service[State <: ServiceState]  State can be ServiceState, Started, or Stopped.
     class Service[State <: ServiceState] private() {
       def start[T >: State <: Stopped](): Service[Started] = this.asInstanceOf[Service[Started]]
 

@@ -15,9 +15,7 @@ object HelloWorld {
                       val managerId: Option[Int])
 
   // Method to modify
-  def findEmployeesWithHigherSalaryThanManager(employees: List[Employee]): List[Employee] = {
-    employees.filter(emp => emp.salary > employees.filter(man => man.id == emp.managerId.getOrElse(0)).headOption.map(_.salary).getOrElse(0L))
-  }
+  def findEmployeesWithHigherSalaryThanManager(employees: List[Employee]): List[Employee] = ???
 
 
   def main(args: Array[String]): Unit = {
@@ -43,8 +41,10 @@ object HelloWorld {
         import spark.implicits._
          //Register DataFrame as a temporary table
         employeeDF.createOrReplaceTempView("employees")
-        spark.sql(" select * from (select name, max('salary') as max_salary from employees e group by managerId) as A  where e.max_salary > A.salary")
+        spark.sql("")
 
     */
+
+    findEmployeesWithHigherSalaryThanManager(employees)
   }
 }
