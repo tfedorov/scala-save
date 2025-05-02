@@ -42,6 +42,7 @@ class MyCode {
         employees.add(new Employee(3, "Carol", 800, Optional.of(1))); // Carol reports to Alice
         employees.add(new Employee(5, "Eve", 900, Optional.of(2))); // Eve reports to Bob
         employees.add(new Employee(6, "Frank", 950, Optional.of(3))); // Frank reports to Carol
+        employees.add(new Employee(7, "John", 950, Optional.of(2))); // Frank reports to Carol
 
         List<Employee> higherSalaryThanManager = findEmployeesWithHigherSalaryThanManager(employees);
         System.out.println(higherSalaryThanManager);
