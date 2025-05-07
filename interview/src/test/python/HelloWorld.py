@@ -41,7 +41,7 @@ def main():
   employees_df = spark.createDataFrame(employees)
   employees_df.createOrReplaceTempView("employees")
 
-  spark.sql("???")
+  spark.sql("???").show(false)
  """
 +------------+-------------+------+
 |manager_name|employee_name|salary|
@@ -53,9 +53,9 @@ def main():
 +-----+---------------------+
 | name|count_of_subordinates|
 +-----+---------------------+
-|Carol|                    1|
-|  Bob|                    3|
 |Alice|                    2|
+|  Bob|                    3|
+|Carol|                    1|
 +-----+---------------------+
 
 +------------+-------------+------+--------------------------+
@@ -78,6 +78,18 @@ def main():
 
 if __name__ == '__main__':
   main()
+
+
+
+
+
+
+
+
+
+
+
+
 
   """
   spark.sql("SELECT m.name as manager_name,e.name as employee_name, m.salary FROM employees e JOIN employees m ON e.managerId = m.id WHERE e.salary > m.salary ORDER BY e.salary - m.salary").show()

@@ -23,7 +23,7 @@ class AuxPatternTest {
         val value = "Int -> String"
       }
 
-      implicit def _fCat: Known[Cat] {type B = Int} = new Known[Cat] {
+      implicit def _fCat = new Known[Cat] {
         type B = Int
         val value = 1
       }
@@ -77,12 +77,13 @@ class AuxPatternTest {
     object Foo {
       type Aux[A0, B0] = Foo[A0] {type B = B0}
 
-      implicit def fi = new Foo[Int] {
+      implicit def fooInt: Foo[Int] {type B = String
+      } = new Foo[Int] {
         type B = String
         val value = "Foo"
       }
 
-      implicit def fs = new Foo[String] {
+      implicit def fooString: Foo[String] {type B = Boolean} = new Foo[String] {
         type B = Boolean
         val value = false
       }
@@ -106,8 +107,8 @@ class AuxPatternTest {
     }
 
     //Error:(35, 32) illegal dependent method type: parameter may only be referenced in a subsequent parameter section
-    //def fooError[T](t: T)(implicit f: Foo[T], m: Monoid[f.B]): f.B = m.empty
-    def emptier[T, R](t: T)(implicit f: Foo.Aux[T, R], m: Monoid[R]): R = m.empty
+    //    def fooError[T](t: T)(implicit f: Foo[T], m: Monoid[f.B]): f.B = m.empty
+    def emptier[T, R](t: T)(implicit aux: Foo.Aux[T, R], m: Monoid[R]): R = m.empty
 
     //val actualResult: String = foo[Int, String](3)(Foo.fi, m)
     //val actualResult: String = foo[Int, String](3)
