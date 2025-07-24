@@ -1,0 +1,64 @@
+@startuml
+!include <logos/postgresql>
+!include <logos/mysql>
+!include <logos/google-cloud-platform>
+!include <logos/airflow>
+
+!include <cloudinsight/java>
+!include <cloudinsight/python>
+!include <cloudinsight/bi>
+!include <cloudinsight/hdfs>
+!include <cloudinsight/file>
+
+' Силовий напрямок зверху вниз
+left to right direction
+
+' SOURCES вертикально
+rectangle "Sources" as source{
+  database "CRM PostgreSQL" as CRM
+
+  database "<$mysql>\n Sales" as MySQL
+  file "CSV Uploads" as CSV
+  cloud "Google Sheets" as Sheets
+}
+
+node "<$google-cloud-platform> Google Cloud Platform" {
+  [<$airflow>] as Airflow
+  [Cloud Composer] as Composer
+  component "<$java>    <$python>\nSpark ETL" as Spark {
+   rectangle "Schema validation"
+   rectangle "DQM"
+  }
+
+  [BigQuery \nCurated/Aggregated] as BigQuery
+  [Looker Studio  <$bi>] as BI
+  database "GoogleStorage<$hdfs>" as GSO{
+    rectangle "Raw Zone (Bronze)\nGCS Buckets" as T0 #CD7F32
+    rectangle "<$file>" as snap #CD7F32
+    rectangle "Cleansed Zone (Silver)" as T1 #C0C0C0
+    rectangle "Aggregated Zone (Gold)" as T2 #FFD700
+    rectangle "data catalog/meta"
+ }
+  [Data governance] as datagov
+}
+
+CRM --> Composer : (SLA) Weekly
+MySQL --> Composer : (SLA) Hourly
+CSV --> Composer: (SLA) Weekly
+Sheets --> Composer: (SLA) Weekly
+
+Airflow ..> Composer  : (1)\nCall ingestion
+Composer --> T0  : Load to GCS
+
+Airflow ..> Spark  : (2)\nCall enrichment jobs
+T0 --> Spark  : Read row data
+Spark --> T1  : Write enriched
+T0 ..> snap  : Snapshots
+
+Airflow ..> BigQuery : (3)\nCall preparation
+T1 --> BigQuery  : Load to BigQuery
+BigQuery --> T2  : Write aggregates
+T2 --> BI  : BI Dashboards
+datagov ..up..> GSO
+datagov ..up..> Composer
+@enduml
