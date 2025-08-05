@@ -9,6 +9,7 @@
 !include <cloudinsight/apache>
 !include <cloudinsight/cassandra>
 !include <cloudinsight/kafka>
+!include <cloudinsight/docker>
  'https://github.com/plantuml-stdlib/cicon-plantuml-sprites/blob/master/sprites-list.md
 
 rectangle "<$java>"
@@ -19,5 +20,6 @@ rectangle "<$apache>"
 rectangle "<$cassandra>"
 'rectangle "<$kafka>"
 rectangle "<$python>"
+rectangle "<$docker,color=#7EBDE7>"
 
 @enduml
