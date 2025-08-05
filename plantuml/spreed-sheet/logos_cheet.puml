@@ -1,0 +1,38 @@
+@startuml
+'https://github.com/plantuml-stdlib/gilbarbara-plantuml-sprites/tree/master/pngs
+!include <logos/airflow>
+!include <logos/cassandra>
+!include <logos/java>
+!include <logos/hadoop>
+!include <logos/aws-s3>
+!include <logos/bash>
+!include <logos/batch>
+!include <logos/git>
+!include <logos/jenkins>
+!include <logos/kafka>
+!include <logos/docker>
+!include <logos/gradle>
+!include <logos/jupyter>
+!include <logos/scala>
+!include <logos/splunk>
+!include <logos/tableau>
+!include <logos/terminal>
+!include <logos/apple-pay>
+
+rectangle "<$airflow>"
+rectangle "<$cassandra>"
+rectangle "<$hadoop>"
+rectangle "<$aws-s3>"
+rectangle "<$batch>"
+rectangle "<$git>"
+rectangle "<$jenkins>"
+rectangle "<$kafka>"
+rectangle "<$docker>"
+rectangle "<$gradle>"
+rectangle "<$jupyter>"
+rectangle "<$scala>"
+rectangle "<$splunk>"
+rectangle "<$tableau>"
+rectangle "<$terminal>"
+rectangle "<$apple-pay>"
+@enduml
