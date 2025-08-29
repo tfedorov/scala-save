@@ -1,5 +1,8 @@
 @startuml
 'https://github.com/plantuml-stdlib/gilbarbara-plantuml-sprites/tree/master/pngs
+
+!include <office/users/call_center_agent>
+
 !include <logos/airflow>
 !include <logos/cassandra>
 !include <logos/java>
@@ -19,6 +22,25 @@
 !include <logos/terminal>
 !include <logos/apple-pay>
 
+!include <cloudogu/tools/k8s>
+!include <cloudogu/tools/react>
+!include <cloudogu/tools/junit>
+!include <cloudogu/tools/elastic>
+!include <cloudogu/tools/prometheus>
+
+!include <cloudinsight/java>
+!include <cloudinsight/python>
+!include <cloudinsight/bi>
+!include <cloudinsight/hdfs>
+!include <cloudinsight/file>
+!include <cloudinsight/ai>
+!include <cloudinsight/apache>
+!include <cloudinsight/cassandra>
+!include <cloudinsight/kafka>
+!include <cloudinsight/docker>
+ 'https://github.com/plantuml-stdlib/cicon-plantuml-sprites/blob/master/sprites-list.md
+
+node logos {
 rectangle "<$airflow>"
 rectangle "<$cassandra>"
 rectangle "<$hadoop>"
@@ -35,4 +57,28 @@ rectangle "<$splunk>"
 rectangle "<$tableau>"
 rectangle "<$terminal>"
 rectangle "<$apple-pay>"
+}
+node cloudogu{
+rectangle "<$k8s,color=blue>"
+rectangle "<$react,color=blue>react"
+rectangle "<$junit,color=blue>"
+rectangle "<$elastic>"
+
+rectangle "<$prometheus,color=#7EBDE7>"
+
+}
+node cloudinsight {
+rectangle "<$java>"
+rectangle "<$hdfs>"
+rectangle "<$ai>"
+rectangle "<$bi>"
+rectangle "<$apache>"
+rectangle "<$cassandra>"
+'rectangle "<$kafka>"
+rectangle "<$python>"
+rectangle "<$docker,color=#7EBDE7>"
+}
+node office {
+rectangle "<$call_center_agent>"
+}
 @enduml
