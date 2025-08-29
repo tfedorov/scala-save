@@ -1,0 +1,41 @@
+@startuml
+!include <logos/postgresql>
+!include <logos/mysql>
+!include <logos/google-cloud-platform>
+!include <logos/airflow>
+
+!include <cloudinsight/java>
+!include <cloudinsight/python>
+!include <cloudinsight/bi>
+!include <cloudinsight/hdfs>
+!include <cloudinsight/file>
+!include <cloudinsight/kafka>
+
+cloud "Sources" as source{
+ component "Web/Mobile"
+ component "Messaging/IVR"
+}
+
+node "Chat bot" {
+ component "Chat API gateway" as chat_api
+ component "Chat Agent" as chat_agent
+ chat_api --> chat_agent
+ chat_agent --> chat_api
+ component "LLM" as llm
+ chat_agent --> llm
+ component "bi"
+}
+source --> chat_api : request
+chat_api --> source : notification
+
+node "Enterpize" {
+ component "Enterpize API" as ent_api
+ chat_agent --> ent_api
+ database "Data Warehouse" as dw
+ ent_api --> dw
+ database "Data lake" as dl
+ ent_api --> dl
+ file "FAQ" as file
+ llm ..> file
+}
+@enduml
