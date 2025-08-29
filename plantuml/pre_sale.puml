@@ -10,32 +10,50 @@
 !include <cloudinsight/hdfs>
 !include <cloudinsight/file>
 !include <cloudinsight/kafka>
+!include <cloudinsight/hdfs>
 
-cloud "Sources" as source{
+cloud "Clients" as source{
  component "Web/Mobile"
  component "Messaging/IVR"
 }
 
 node "Chat bot" {
  component "Chat API gateway" as chat_api
- component "Chat Agent" as chat_agent
+note right of chat_api
+Authenticates the user (JWT, OAuth2)
+Chat security rules.
+1st security level.
+end note
+ component "<$python>Chat Agent" as chat_agent
+note right of chat_agent
+Dialog manager. 
+Ineterpretie conversation to action
+end note
  chat_api --> chat_agent
  chat_agent --> chat_api
- component "LLM" as llm
- chat_agent --> llm
- component "bi"
+ component "<$python>LLM" as llm
+note left of llm
+LLM model for language processing.
+2nd security level.
+end note
+ chat_agent --left--> llm
+ component "<$bi>Monitoring"
 }
-source --> chat_api : request
+source --down--> chat_api : request
 chat_api --> source : notification
 
 node "Enterpize" {
  component "Enterpize API" as ent_api
+note right of ent_api
+Enterpize security rules.
+3rd security level.
+end note
  chat_agent --> ent_api
  database "Data Warehouse" as dw
  ent_api --> dw
- database "Data lake" as dl
+ database "<$hdfs>Data lake" as dl
  ent_api --> dl
- file "FAQ" as file
- llm ..> file
+ file "<$file>FAQ\n Internal knowledge base" as file
+ llm ..> file: trained on
 }
 @enduml
