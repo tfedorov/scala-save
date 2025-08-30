@@ -3,7 +3,7 @@
 !include <logos/mysql>
 !include <logos/google-cloud-platform>
 !include <logos/airflow>
-
+!include <cloudinsight/ai>
 !include <cloudinsight/java>
 !include <cloudinsight/python>
 !include <cloudinsight/bi>
@@ -11,7 +11,7 @@
 !include <cloudinsight/file>
 !include <cloudinsight/kafka>
 !include <cloudinsight/hdfs>
-
+!include <office/users/call_center_agent>
 
 cloud "Clients" as source{
  component "Web/Mobile"
@@ -19,43 +19,48 @@ cloud "Clients" as source{
 }
 
 node "Chat bot" {
- component "Chat API gateway" as chat_api
+
+ component "Chat API gateway" as chat_api 
 note left of chat_api
-Authenticates the user (JWT, OAuth2)
-Chat security rules.
-1st security level.
+AuthN/AuthZ (JWT, OAuth2).
+Rate limiting, DoS protection.
+Payload normalization & audit.
+1st security boundary.
 end note
- component "<$java>Chat Agent" as chat_agent
 
-component "Escalation Manager" as em
-chat_agent --> em
 
-note right of chat_agent
-Dialog manager. 
-Ineterpretie conversation to action
-end note
- chat_api --> chat_agent
- chat_agent --> chat_api
- component "<$python><$java>LLM" as llm {
-component "Llama Guard"
+ component "  <$java,color=blue>\nChat Agent\n\nInterprets intent → turns into actions\nDialog manager + context store." as chat_agent #87ceeb {
+ rectangle Redis
+ }
+
+ component "Escalation Manager" as em
+ chat_agent --right--> em
+
+
+ chat_api <--> chat_agent
+component "<$ai>LLM" as llm {
+ rectangle "<$python,color=orange>Llama Guard"
+ rectangle "Vector Store"
 }
-note left of llm
-LLM model for language processing.
-2nd security level.
+note bottom of llm
+NLU/NLG with PII redaction & guardrails.
+Uses Vector Store (RAG) for facts.
+Never calls enterprise APIs directly.
+2nd security boundary.
 end note
- chat_agent --down--> llm
- component "<$bi>Monitoring"
+ chat_agent <--right--> llm
+ component "<$bi>\nMonitoring" 
 }
-source --down--> chat_api : request
-chat_api --> source : notification
+source <--down--> chat_api :request & \nnotification
 
-node "Enterpize" {
- component "<$hdfs>ET/Enterpize API" as ent_api
-note right of ent_api
-Enterpize security rules.
-3rd security level.
+node "Enterprise" {
+ component "  <$hdfs,color=blue>\nETL Streaming" as ent_api #87ceeb 
+note bottom of ent_api
+Facade for Core Banking, CRM, Ticketing.
+Enforce least-privilege scopes.
+3rd security boundary.
 end note
- chat_agent --> ent_api
+ chat_agent --down--> ent_api
 
 
 
@@ -63,7 +68,9 @@ end note
  ent_api --> dw
  database "<$hdfs>Data lake" as dl
  ent_api --> dl
- file "<$file>Internal knowledge base" as file
- llm ..> file: trained on
+ file "  <$file>\nInternal knowledge base" as file
+ llm ..> file: trained on\nRAG
 }
+rectangle "<$call_center_agent>\noperator" as operator
+em --right--> operator : X \n break the chat
 @enduml
