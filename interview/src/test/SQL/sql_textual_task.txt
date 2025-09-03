@@ -1,0 +1,64 @@
+
+=====================================================================================================================
+Task #1
+
+We have Input table, how to achieve output table?
+Input Table:
++--------+------------+-------+
+| Region |    Date    | Sales |
++--------+------------+-------+
+| East   | 2024-11-01 |   100 |
+| East   | 2024-11-02 |   150 |
+| East   | 2024-11-03 |   200 |
+| West   | 2024-11-01 |    50 |
+| West   | 2024-11-02 |    75 |
++--------+------------+-------+
+
+Output: Add two new columns:
+
+- MaxSalesForRegion: The maximum sales value for each region.
+- SalesDifference: The difference between the maximum sales for the region and the current sales value.
+
++--------+------------+-------+-----------------+-----------------+
+| Region |    Date    | Sales | MaxSalesForRegion | SalesDifference |
++--------+------------+-------+-----------------+-----------------+
+| East   | 2024-11-01 |   100 |              200 |             100 |
+| East   | 2024-11-02 |   150 |              200 |              50 |
+| East   | 2024-11-03 |   200 |              200 |               0 |
+| West   | 2024-11-01 |    50 |               75 |              25 |
+| West   | 2024-11-02 |    75 |               75 |               0 |
++--------+------------+-------+-----------------+-----------------+
+
+=====================================================================================================================
+Task #2
+We have 2 table which would be joined.
+- Where could be data skew during the join?
+- What is a possible solution to fix data skew?
+- Write a Spark query to join the two tables, ensuring the skew is mitigated.
+
+Input tables =
+
++---------+---------+--------+
+| OrderID | Region  | Amount |
+|---------|---------|--------|
+|    1    | East    | 100    |
+|    2    | East    | 200    |
+|    3    | West    | 150    |
+|    4    | North   | 300    |
+|    5    | East    | 50     |
+|    6    | East    | 80     |
++---------+---------+--------+
+
+
++---------+---------+
+| Region  | Manager |
+|---------|---------|
+| East    | John    |
+| West    | Alice   |
+| North   | Bob     |
++---------+---------+
+
+=====================================================================================================================
+
+
+
