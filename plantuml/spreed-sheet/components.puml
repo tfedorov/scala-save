@@ -12,14 +12,16 @@ package "package" {
   remove $tag2
   [Tagged Removed Component] -- [Tagged Component]
   [unlinked component]
- note bottom of [unlinked component]
+ note bottom of [unlinked component] $note
 hide @unlinked
+Not work because of note
+....
 hide $tag1
 remove $tag2
  end note
 }
-
-node "Node" {
+hide @unlinked
+node "Node" $node {
   FTP - [Second Component]
   component "First Component"
 

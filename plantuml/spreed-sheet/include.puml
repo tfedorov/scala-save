@@ -1,0 +1,7 @@
+@startuml
+!include components.puml
+
+remove $note
+remove $node
+hide @unlinked
+@enduml
