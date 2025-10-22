@@ -1,0 +1,56 @@
+@startuml
+
+title cheat sheet components
+
+package "package" {
+  HTTP - [First Component]
+  rectangle "rectangle" as 2ndComponent
+  [Tagged Component] $tag1
+  hide $tag1
+
+  [Tagged Removed Component] $tag2
+  remove $tag2
+  [Tagged Removed Component] -- [Tagged Component]
+  [unlinked component]
+ note bottom of [unlinked component]
+hide @unlinked
+hide $tag1
+remove $tag2
+ end note
+}
+
+node "Node" {
+  FTP - [Second Component]
+  component "First Component"
+
+}
+
+cloud Cloud{
+   portin Portin as port1
+  [Example 1]
+  portout Portout as port2
+}
+
+
+database "database" {
+  folder "This is my folder" {
+    [Folder 3]
+  }
+  frame "frame" {
+     json JSON {
+        "fruit":"Apple",
+        "size":"Large",
+        "color": ["Red", "Green"]
+     }
+  }
+}
+
+
+[First Component] --> FTP
+2ndComponent ..> port1
+port1 ..>   [Example 1]
+[Example 1] --> port2
+port2 -> [Folder 3] : Horizontal link by 1 -
+[Folder 3] --> [frame]
+
+@enduml
