@@ -3,6 +3,10 @@
 title cheat sheet components
 
 package "package" {
+/'
+Comment 1
+'/
+' comment 2
   HTTP - [First Component]
   rectangle "rectangle" as 2ndComponent
   [Tagged Component] $tag1
@@ -23,7 +27,7 @@ remove $tag2
 hide @unlinked
 node "Node" $node {
   FTP - [Second Component]
-  component "First Component"
+  component "First Component"  /' Comment inside'/
 
 }
 

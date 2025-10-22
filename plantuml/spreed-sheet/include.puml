@@ -1,5 +1,7 @@
 @startuml
+
 !include components.puml
+title This is included diagram
 
 remove $note
 remove $node
