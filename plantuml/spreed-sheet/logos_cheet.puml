@@ -40,6 +40,9 @@
 !include <cloudinsight/docker>
  'https://github.com/plantuml-stdlib/cicon-plantuml-sprites/blob/master/sprites-list.md
 
+!include <tupadr3/font-awesome-5/project_diagram>
+!include <tupadr3/font-awesome-5/network_wired>
+
 node logos {
 rectangle "<$airflow>"
 rectangle "<$cassandra>"
@@ -80,5 +83,10 @@ rectangle "<$docker,color=#7EBDE7>"
 }
 node office {
 rectangle "<$call_center_agent>"
+}
+
+node tupadr3 {
+rectangle "<$project_diagram>\nLogical grpah" as Graph
+rectangle "<$network_wired>\nTopology net" as Net
 }
 @enduml
