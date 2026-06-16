@@ -42,6 +42,10 @@
 
 !include <tupadr3/font-awesome-5/project_diagram>
 !include <tupadr3/font-awesome-5/network_wired>
+!include <tupadr3/font-awesome-5/desktop>
+!include <tupadr3/font-awesome-5/safari>
+!include <tupadr3/font-awesome-5/exclamation_triangle>
+!include <tupadr3/font-awesome-5/bolt>
 
 node logos {
 rectangle "<$airflow>"
@@ -88,5 +92,9 @@ rectangle "<$call_center_agent>"
 node tupadr3 {
 rectangle "<$project_diagram>\nLogical grpah" as Graph
 rectangle "<$network_wired>\nTopology net" as Net
+rectangle "<$desktop>\ndesktop" as desktop
+rectangle "<$safari>\nsafari" as safari
+rectangle "<$exclamation_triangle>\nexclamation_triangle" as exclamation_triangle
+rectangle "<$bolt>\nbolt" as bolt
 }
 @enduml
