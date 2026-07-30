@@ -1,0 +1,81 @@
+@startuml BigDataHighLevel
+title Big Data System - High-Level Architecture
+!include <logos/airflow>
+!include <logos/hadoop>
+!include <logos/aws-s3>
+!include <logos/jupyter>
+!include <cloudinsight/kafka>
+!include <cloudinsight/bi>
+!include <cloudinsight/hdfs>
+!include <cloudinsight/file>
+!include <cloudinsight/ai>
+!include <logos/tableau>
+!include <cloudogu/tools/elastic>
+
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam defaultTextAlignment center
+skinparam package {
+    BorderColor #green
+    FontStyle bold
+}
+skinparam rectangle {
+    BorderColor #6B7280
+    BackgroundColor white
+    MinimumWidth 130
+    MinimumHeight 55
+}
+skinparam ArrowColor #1F2937
+skinparam ArrowThickness 2
+together {
+    rectangle "Data Ingestion" as INGESTION {
+        database "<$aws-s3>\nAWS S3" as S3 {
+            file "csv"
+            file "parquet"
+        }
+        queue "<$kafka>"  as KAFKA
+
+    }
+    rectangle "<$hadoop>Data Storage" as STORAGE {
+        database "HDFS\nbronze\nraw data" as HDFS
+        database "Iceberg\nsilver\nenriched data" as I1
+        database "Iceberg\ngold\naggregate" as I2
+        database "DWH\nSnow Flake" as DWH
+        rectangle "<$elastic>"
+    }
+    package "PROCESSING LAYER" as PROCESSING_LAYER #F3E8FF {
+        rectangle "Streaming Processing" as STREAM {
+           component "Spark Streaming" as SPARK_STREAMING
+           component "Flink"
+        }
+
+        rectangle "Batch Processing" as BATCH {
+            component "Snow Flake"
+            component Spark as SPARK
+            component Beam as BEAM
+        }
+
+    }
+    rectangle "Data Consumption" as CONSUMPTION {
+        rectangle "<$bi>" as BI
+        rectangle "<$jupyter>" as ML
+        rectangle "<$ai>"
+        rectangle "<$tableau>"
+
+    }
+
+    INGESTION --right--> HDFS : raw data
+    STORAGE --right--> CONSUMPTION : Business data
+    BEAM --[hidden]right--> SPARK :asdas
+}
+
+HDFS -up-> SPARK #CD7F32
+I1 <-up- SPARK #silver
+I2 <-up-> SPARK #gold
+STREAM -[hidden]right-> BATCH
+
+@enduml
